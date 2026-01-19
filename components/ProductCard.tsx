@@ -40,7 +40,7 @@ export default function ProductCard({ image, title, price, category, slug }: IPr
                             Add to Cart
                         </button>
                         <button
-                            className="p-2 cursor-pointer border border-zinc-400 text-zinc-100 text-sm py-2 rounded-md bg-zinc-900 hover:bg-zinc-800"
+                            className="p-2 cursor-pointer text-zinc-100 text-sm py-2 rounded-md bg-zinc-900 hover:bg-zinc-800"
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
@@ -50,9 +50,11 @@ export default function ProductCard({ image, title, price, category, slug }: IPr
                         </button>
                     </div>
                 </div>
-                <p className="mt-1 uppercase text-xs text-zinc-400">{category}</p>
-                <h6 className="text-sm font-medium">{title}</h6>
-                <p className="font-bold text-sm">${price}</p>
+                <div className="mt-3 flex flex-col gap-1.5">
+                    <p className="uppercase text-xs text-zinc-400">{category}</p>
+                    <h6 className="text-sm font-medium">{title}</h6>
+                    <p className="font-bold text-sm">${price}</p>
+                </div>
             </div>
         </Link>
     )

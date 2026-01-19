@@ -80,7 +80,7 @@ export default function Home() {
           </div>
           <ProductCard
             image="/item-1.png"
-            tags={["running"]}
+            category={"running"}
             title="MOKE"
             price={0}
             slug="/categories/collections/mock/mock"

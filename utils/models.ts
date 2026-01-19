@@ -8,7 +8,7 @@ export interface IShortedCollection {
   slug: string
 }
 
-export interface ICollection {
+export interface ICollectionProduct {
   id: string
   images: string[]
   title: string

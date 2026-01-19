@@ -11,7 +11,7 @@ export async function GET(
             return Response.json({ message: "Invalid gender." }, { status: 400 })
         }
 
-        const rawCollection = await prisma.collection.findMany({
+        const rawCollections = await prisma.collection.findMany({
             where: {
                 gender: gender.toUpperCase() as "MEN" | "WOMEN",
             },
@@ -26,11 +26,11 @@ export async function GET(
             }
         })
 
-        if (!rawCollection.length) {
+        if (!rawCollections.length) {
             return Response.json({ message: "No collections found." }, { status: 404 })
         }
 
-        const collections = rawCollection.map((product) => ({
+        const collections = rawCollections.map((product) => ({
             id: product.id,
             image: product.images[0],
             title: product.title,
