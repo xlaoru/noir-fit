@@ -1,5 +1,5 @@
 import ProductCard from "@/components/ProductCard"
-import { IProduct } from "@/utils/models"
+import { IShortedCollection } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
@@ -19,22 +19,21 @@ export default async function Collection({ params, }: { params: Promise<{ gender
         return <div>Error!</div>
     }
 
-    const { products }: { products: IProduct[] } = await reponse.json()
-    console.log(products)
+    const { collections }: { collections: IShortedCollection[] } = await reponse.json()
 
     return (
         <section>
             <div className="section-container">
                 Collection for {gender}
                 <br />
-                {products.map((p) => (
+                {collections.map((collection) => (
                     <ProductCard
-                        key={p.id}
-                        image={p.images[0]}
-                        tags={p.tags}
-                        title={p.title}
-                        price={p.price}
-                        slug={`/categories/collections/${p.gender.toLowerCase()}/${p.slug}`}
+                        key={collection.id}
+                        image={collection.image}
+                        title={collection.title}
+                        price={collection.price}
+                        category={collection.category}
+                        slug={`/categories/collections/${collection.gender.toLowerCase()}/${collection.slug}`}
                     />
                 ))}
             </div>

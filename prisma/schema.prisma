@@ -7,22 +7,21 @@ datasource db {
   provider = "postgresql"
 }
 
-model Product {
+model Collection {
   id             String   @id @default(cuid())
   images         String[]
-  tags           String[]
   title          String
   price          Float
   description    String
   colors         String[]
   sizes          String[]
   slug           String   @unique
-  gender         Gender?
-  category       Category
-  material       String?
-  fit            String?
-  care           String?
-  origin         String?
+  gender         Gender
+  category       CollectionCategories
+  material       String
+  fit            String
+  care           String
+  origin         String
 }
 
 enum Gender {
@@ -30,68 +29,94 @@ enum Gender {
   WOMEN
 }
 
-enum Category {
-  MEN_TSHIRT
-  MEN_TANK
-  MEN_HOODIE
-  MEN_SWEATSHIRT
-  MEN_JOGGERS
-  MEN_SHORTS
-  MEN_COMPRESSION
-  MEN_LEGGINGS
-  MEN_OUTERWEAR
-  MEN_SEAMLESS
-  MEN_OVERSIZE
-  MEN_TRAINING
-  MEN_RUNNING
-  MEN_POWERLIFTING
-  MEN_CROSSFIT
-  MEN_RECOVERY
-  WOMEN_SPORT_BRA
-  WOMEN_TSHIRT
-  WOMEN_TANK
-  WOMEN_HOODIE
-  WOMEN_CROP
-  WOMEN_LEGGINGS
-  WOMEN_SHORTS
-  WOMEN_SEAMLESS
-  WOMEN_HIGHWAIST
-  WOMEN_GYM_SET
-  WOMEN_RUNNING
-  WOMEN_YOGA
-  WOMEN_COMPRESSION
-  WOMEN_RECOVERY
-  ACC_BAG
-  ACC_GLOVES
-  ACC_STRAPS
-  ACC_WRAPS
-  ACC_BELT
-  ACC_SHAKER
-  ACC_BOTTLE
-  ACC_CAP
-  ACC_BEANIE
-  ACC_TOWEL
-  ACC_WATCH
-  ACC_SOCKS
-  ACC_KNEE_SLEEVES
-  ACC_WRIST_SLEEVES
-  ACC_BACKPACK
-  ACC_GYM_ESSENTIAL
-  NUT_PROTEIN
-  NUT_WHEY
-  NUT_ISOLATE
-  NUT_CASEIN
-  NUT_BCAA
-  NUT_EAA
-  NUT_PREWORKOUT
-  NUT_FATBURNER
-  NUT_VITAMINS
-  NUT_TESTOSTERONE
-  NUT_CREATINE
-  NUT_ENERGY
-  NUT_RECOVERY
-  NUT_WEIGHT_GAINER
-  NUT_SHRED
-  NUT_HEALTH
-  NUT_SUPPLEMENT
+enum CollectionCategories {
+  TSHIRT
+  TANK
+  HOODIE
+  SWEATSHIRT
+  JOGGERS
+  SHORTS
+  COMPRESSION
+  LEGGINGS
+  OUTERWEAR
+  SEAMLESS
+  OVERSIZE
+  TRAINING
+  RUNNING
+  POWERLIFTING
+  CROSSFIT
+  RECOVERY
+  SPORT_BRA
+  CROP
+  HIGHWAIST
+  GYM_SET
+  YOGA
+}
+
+model Accessory {
+  id             String   @id @default(cuid())
+  images         String[]
+  title          String
+  price          Float
+  description    String
+  colors         String[]
+  slug           String   @unique
+  category       AccessoryCategories
+  material       String
+  fit            String
+  care           String
+  origin         String
+}
+
+enum AccessoryCategories {
+  BAG
+  GLOVES
+  STRAPS
+  WRAPS
+  BELT
+  SHAKER
+  BOTTLE
+  CAP
+  BEANIE
+  TOWEL
+  WATCH
+  SOCKS
+  KNEE_SLEEVES
+  WRIST_SLEEVES
+  BACKPACK
+  ESSENTIAL
+}
+
+model Nutrition {
+  id             String   @id @default(cuid())
+  images         String[]
+  title          String
+  price          Float
+  description    String
+  slug           String   @unique
+  category       NutritionCategories
+  material       String
+  fit            String
+  care           String
+  origin         String
+}
+
+enum NutritionCategories {
+  PROTEIN
+  WHEY
+  ISOLATE
+  CASEIN
+  BCAA
+  EAA
+  PREWORKOUT
+  FATBURNER
+  VITAMINS
+  TESTOSTERONE
+  CREATINE
+  ENERGY
+  RECOVERY
+  WEIGHT_GAINER
+  SHRED
+  HEALTH
+  SUPPLEMENT
 }

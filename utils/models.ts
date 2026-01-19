@@ -1,7 +1,16 @@
-export interface IProduct {
+export interface IShortedCollection {
+  id: string;
+  image: string;
+  title: string;
+  price: number;
+  category: string;
+  gender: "MEN" | "WOMEN"
+  slug: string
+}
+
+export interface ICollection {
   id: string
   images: string[]
-  tags: string[]
   title: string
   price: number
   description: string
@@ -10,72 +19,38 @@ export interface IProduct {
   slug: string
   gender: "MEN" | "WOMEN"
   category:
-    | "MEN_TSHIRT"
-    | "MEN_TANK"
-    | "MEN_HOODIE"
-    | "MEN_SWEATSHIRT"
-    | "MEN_JOGGERS"
-    | "MEN_SHORTS"
-    | "MEN_COMPRESSION"
-    | "MEN_LEGGINGS"
-    | "MEN_OUTERWEAR"
-    | "MEN_SEAMLESS"
-    | "MEN_OVERSIZE"
-    | "MEN_TRAINING"
-    | "MEN_RUNNING"
-    | "MEN_POWERLIFTING"
-    | "MEN_CROSSFIT"
-    | "MEN_RECOVERY"
-    | "WOMEN_SPORT_BRA"
-    | "WOMEN_TSHIRT"
-    | "WOMEN_TANK"
-    | "WOMEN_HOODIE"
-    | "WOMEN_CROP"
-    | "WOMEN_LEGGINGS"
-    | "WOMEN_SHORTS"
-    | "WOMEN_SEAMLESS"
-    | "WOMEN_HIGHWAIST"
-    | "WOMEN_GYM_SET"
-    | "WOMEN_RUNNING"
-    | "WOMEN_YOGA"
-    | "WOMEN_COMPRESSION"
-    | "WOMEN_RECOVERY"
-    | "ACC_BAG"
-    | "ACC_GLOVES"
-    | "ACC_STRAPS"
-    | "ACC_WRAPS"
-    | "ACC_BELT"
-    | "ACC_SHAKER"
-    | "ACC_BOTTLE"
-    | "ACC_CAP"
-    | "ACC_BEANIE"
-    | "ACC_TOWEL"
-    | "ACC_WATCH"
-    | "ACC_SOCKS"
-    | "ACC_KNEE_SLEEVES"
-    | "ACC_WRIST_SLEEVES"
-    | "ACC_BACKPACK"
-    | "ACC_GYM_ESSENTIAL"
-    | "NUT_PROTEIN"
-    | "NUT_WHEY"
-    | "NUT_ISOLATE"
-    | "NUT_CASEIN"
-    | "NUT_BCAA"
-    | "NUT_EAA"
-    | "NUT_PREWORKOUT"
-    | "NUT_FATBURNER"
-    | "NUT_VITAMINS"
-    | "NUT_TESTOSTERONE"
-    | "NUT_CREATINE"
-    | "NUT_ENERGY"
-    | "NUT_RECOVERY"
-    | "NUT_WEIGHT_GAINER"
-    | "NUT_SHRED"
-    | "NUT_HEALTH"
-    | "NUT_SUPPLEMENT"
-
-  material?: string
-  fit?: string
-  care?: string
-  origin?: string
+    | "TSHIRT"
+    | "TANK"
+    | "HOODIE"
+    | "SWEATSHIRT"
+    | "JOGGERS"
+    | "SHORTS"
+    | "COMPRESSION"
+    | "LEGGINGS"
+    | "OUTERWEAR"
+    | "SEAMLESS"
+    | "OVERSIZE"
+    | "TRAINING"
+    | "RUNNING"
+    | "POWERLIFTING"
+    | "CROSSFIT"
+    | "RECOVERY"
+    | "SPORT_BRA"
+    | "TSHIRT"
+    | "TANK"
+    | "HOODIE"
+    | "CROP"
+    | "LEGGINGS"
+    | "SHORTS"
+    | "SEAMLESS"
+    | "HIGHWAIST"
+    | "GYM_SET"
+    | "RUNNING"
+    | "YOGA"
+    | "COMPRESSION"
+    | "RECOVERY"
+  material: string
+  fit: string
+  care: string
+  origin: string
 }

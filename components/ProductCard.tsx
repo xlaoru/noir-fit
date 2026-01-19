@@ -6,13 +6,13 @@ import Link from "next/link";
 
 interface IProductCardProps {
     image: string;
-    tags: string[];
     title: string;
     price: number
+    category: string;
     slug: string
 }
 
-export default function ProductCard({ image, tags, title, price, slug }: IProductCardProps) {
+export default function ProductCard({ image, title, price, category, slug }: IProductCardProps) {
     return (
         <Link href={slug}>
             <div className="group flex flex-col gap-1 w-[286px]">
@@ -50,7 +50,7 @@ export default function ProductCard({ image, tags, title, price, slug }: IProduc
                         </button>
                     </div>
                 </div>
-                <p className="mt-1 uppercase text-xs text-zinc-400">{tags.join("")}</p>
+                <p className="mt-1 uppercase text-xs text-zinc-400">{category}</p>
                 <h6 className="text-sm font-medium">{title}</h6>
                 <p className="font-bold text-sm">${price}</p>
             </div>
