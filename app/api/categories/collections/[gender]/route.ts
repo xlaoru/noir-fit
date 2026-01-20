@@ -1,4 +1,5 @@
 import prisma from "@/lib/seed";
+import { Prisma, Gender, CollectionCategories } from "@/app/generated/prisma"
 
 export async function GET(
     request: Request,
@@ -11,10 +12,36 @@ export async function GET(
             return Response.json({ message: "Invalid gender." }, { status: 400 })
         }
 
+        const { searchParams } = new URL(request.url)
+
+        const categoryFilter = searchParams.get("category") 
+        const sortFilter = searchParams.get("sort") ?? "newest"
+
+
+        const where: Prisma.CollectionWhereInput = {
+            gender: gender.toLowerCase() === "men" ? Gender.MEN : Gender.WOMEN,
+        }
+
+
+        if (categoryFilter && Object.values(CollectionCategories).includes(categoryFilter as CollectionCategories)) {
+            where.category = categoryFilter as CollectionCategories
+        }
+
+        let orderBy: { createdAt: "desc"  } | { price: "asc"  | "desc"  } = { 
+            createdAt: "desc" 
+        }
+
+        if (sortFilter === "price_asc") {
+            orderBy = { price: "asc" }
+        }
+
+        if (sortFilter === "price_desc") {
+            orderBy = { price: "desc" }
+        }
+
         const rawCollections = await prisma.collection.findMany({
-            where: {
-                gender: gender.toUpperCase() as "MEN" | "WOMEN",
-            },
+            where,
+            orderBy,
             select: {
                 images: true,
                 title: true,
@@ -25,10 +52,6 @@ export async function GET(
             }
         })
 
-        if (!rawCollections.length) {
-            return Response.json({ message: "No collections found." }, { status: 404 })
-        }
-
         const collections = rawCollections.map((product) => ({
             image: product.images[0],
             title: product.title,
@@ -38,8 +61,17 @@ export async function GET(
             slug: product.slug
         }))
 
+        const rawCategories = await prisma.collection.findMany({
+            select: {
+                category: true
+            },
+            distinct: ["category"]
+        })
+
+        const categories = rawCategories.map(item => item.category)
+
         return Response.json(
-            { message: `Collections for ${gender} were fetched successfully.`, collections }, 
+            { message: `Collections for ${gender} were fetched successfully.`, collections, categories }, 
             { status: 200 }
         )
     } catch (e) {

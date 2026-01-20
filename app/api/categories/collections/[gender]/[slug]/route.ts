@@ -25,8 +25,28 @@ export async function GET(
             return Response.json({ message: "No cloth found." }, { status: 404 })
         }
 
+        const rawRecommended = await prisma.collection.findMany({
+            where: {
+                category: cloth.category,
+                id: {
+                    not: cloth.id,
+                },
+            },
+            take: 4,
+        })
+
+        const recommended = rawRecommended.map((r) => ({
+            title: r.title,
+            price: r.price,
+            image: r.images[0] ?? null,
+            category: r.category,
+            gender: r.gender,
+            slug: r.slug,
+            type: "COLLECTIONS",
+        }))
+
         return Response.json(
-            { message: `Cloth for ${gender} was fetched successfully.`, cloth }, 
+            { message: `Cloth for ${gender} was fetched successfully.`, cloth, recommended }, 
             { status: 200 }
         )
     } catch (e) {

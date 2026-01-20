@@ -21,8 +21,27 @@ export async function GET(
             return Response.json({ message: "No nutrition found." }, { status: 404 })
         }
 
+        const rawRecommended = await prisma.nutrition.findMany({
+            where: {
+                category: nutrition.category,
+                id: {
+                    not: nutrition.id
+                }
+            },
+            take: 4
+        })
+
+        const recommended = rawRecommended.map((r) => ({
+            title: r.title,
+            price: r.price,
+            image: r.images[0] ?? null,
+            category: r.category,
+            slug: r.slug,
+            type: "NUTRITION",
+        }))
+
         return Response.json(
-            { message: "Nutrition was fetched successfully.", nutrition }, 
+            { message: "Nutrition was fetched successfully.", nutrition, recommended }, 
             { status: 200 }
         )
     } catch (e) {

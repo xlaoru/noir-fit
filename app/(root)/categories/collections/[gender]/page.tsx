@@ -1,5 +1,5 @@
-import ProductCard from "@/components/ProductCard"
-import { IShortedCollection } from "@/utils/models"
+import CollectionClient from "@/components/CollectionClient"
+import { IShortedCloth } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
@@ -19,24 +19,21 @@ export default async function Collection({ params, }: { params: Promise<{ gender
         return <div>Error!</div>
     }
 
-    const { collections }: { collections: IShortedCollection[] } = await reponse.json()
+    const { collections, categories }: { collections: IShortedCloth[], categories: string[] } = await reponse.json()
 
     return (
-        <section>
-            <div className="section-container">
-                Collection for {gender}
-                <br />
-                {collections.map((collection) => (
-                    <ProductCard
-                        key={collection.title}
-                        image={collection.image}
-                        title={collection.title}
-                        price={collection.price}
-                        category={collection.category}
-                        route={`/categories/collections/${collection.gender.toLowerCase()}/${collection.slug}`}
-                    />
-                ))}
-            </div>
-        </section>
+        <>
+            <section className="border-b border-zinc-900">
+                <div className="section-container py-0 flex flex-col gap-3">
+                    <h2 className="text-left capitalize">{gender.toLowerCase()}&apos;s Collection</h2>
+                    <p className="text-sm">Training apparel and running gear engineered for peak performance.</p>
+                </div>
+            </section>
+            <CollectionClient
+                gender={gender}
+                initialCollections={collections}
+                categories={categories}
+            />
+        </>
     )
 }

@@ -1,4 +1,4 @@
-export interface IShortedCollection {
+export interface IShortedCloth {
   image: string;
   title: string;
   price: number;
@@ -17,37 +17,7 @@ export interface ICloth {
   sizes: string[]
   slug: string
   gender: "MEN" | "WOMEN"
-  category:
-    | "TSHIRT"
-    | "TANK"
-    | "HOODIE"
-    | "SWEATSHIRT"
-    | "JOGGERS"
-    | "SHORTS"
-    | "COMPRESSION"
-    | "LEGGINGS"
-    | "OUTERWEAR"
-    | "SEAMLESS"
-    | "OVERSIZE"
-    | "TRAINING"
-    | "RUNNING"
-    | "POWERLIFTING"
-    | "CROSSFIT"
-    | "RECOVERY"
-    | "SPORT_BRA"
-    | "TSHIRT"
-    | "TANK"
-    | "HOODIE"
-    | "CROP"
-    | "LEGGINGS"
-    | "SHORTS"
-    | "SEAMLESS"
-    | "HIGHWAIST"
-    | "GYM_SET"
-    | "RUNNING"
-    | "YOGA"
-    | "COMPRESSION"
-    | "RECOVERY"
+  category: string
   material: string
   fit: string
   care: string
@@ -70,23 +40,7 @@ export interface IAccessory {
   description: string
   colors: string[]
   slug: string
-  category:
-    | "BAG"
-    | "GLOVES"
-    | "STRAPS"
-    | "WRAPS"
-    | "BELT"
-    | "SHAKER"
-    | "BOTTLE"
-    | "CAP"
-    | "BEANIE"
-    | "TOWEL"
-    | "WATCH"
-    | "SOCKS"
-    | "KNEE_SLEEVES"
-    | "WRIST_SLEEVES"
-    | "BACKPACK"
-    | "ESSENTIAL"
+  category: string
   material: string
   fit: string
   care: string
@@ -108,24 +62,7 @@ export interface INutrition {
   price: number
   description: string
   slug: string
-  category:
-    | "PROTEIN"
-    | "WHEY"
-    | "ISOLATE"
-    | "CASEIN"
-    | "BCAA"
-    | "EAA"
-    | "PREWORKOUT"
-    | "FATBURNER"
-    | "VITAMINS"
-    | "TESTOSTERONE"
-    | "CREATINE"
-    | "ENERGY"
-    | "RECOVERY"
-    | "WEIGHT_GAINER"
-    | "SHRED"
-    | "HEALTH"
-    | "SUPPLEMENT"
+  category: string
   material: string
   fit: string
   care: string
