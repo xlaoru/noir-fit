@@ -20,26 +20,26 @@ interface ICollectionClientProps {
 }
 
 export default function CollectionClient({ title, body, type, gender, initialProducts, categories }: ICollectionClientProps) {
-    const [products, setProducts] = useState(initialProducts)
-    const [activeCategory, setActiveCategory] = useState<string | null>(null)
-    const [sort, setSort] = useState<string>("newest")
-
-    const router = useRouter()
     const searchParams = useSearchParams()
 
+    const initialCategory = searchParams.get("category")
+    const initialSort = searchParams.get("sort") ?? "newest"
+
+    const [products, setProducts] = useState(initialProducts)
+    const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory)
+    const [sort, setSort] = useState<string>(initialSort)
+
+    const router = useRouter()
+
     useEffect(() => {
-        const params = new URLSearchParams(searchParams.toString())
+        const params = new URLSearchParams()
 
         if (activeCategory) {
             params.set("category", activeCategory)
-        } else {
-            params.delete("category")
         }
 
         if (sort) {
             params.set("sort", sort)
-        } else {
-            params.delete("sort")
         }
 
         fetch(`http://localhost:3000/api/categories/${type}/${gender ? gender : ""}?${params.toString()}`)
