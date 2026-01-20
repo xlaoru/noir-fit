@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import Client from "@/components/Client";
 import { IShortedAccessory } from "@/utils/models";
 import type { Metadata } from "next";
 
@@ -14,23 +14,15 @@ export default async function Accessories() {
         return <div>!Error</div>
     }
 
-    const { accessories }: { accessories: IShortedAccessory[] } = await reponse.json()
+    const { accessories, categories }: { accessories: IShortedAccessory[], categories: string[] } = await reponse.json()
 
     return (
-        <section>
-            <div className="section-container">
-                Accessories
-                {accessories.map((accessory) => (
-                    <ProductCard
-                        key={accessory.title}
-                        image={accessory.image}
-                        title={accessory.title}
-                        price={accessory.price}
-                        category={accessory.category}
-                        route={`/categories/accessories/${accessory.slug}`}
-                    />
-                ))}
-            </div>
-        </section>
+        <Client
+            title="Accessories"
+            body="Recovery tools, equipment, and essentials to complement your training."
+            type="accessories"
+            initialProducts={accessories}
+            categories={categories}
+        />
     )
 }

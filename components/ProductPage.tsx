@@ -106,7 +106,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 title={recommendedItem.title}
                                 price={recommendedItem.price}
                                 category={recommendedItem.category}
-                                route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender}/` : ""}${recommendedItem.slug}`}
+                                route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
                             />
                         ))}
                     </div>

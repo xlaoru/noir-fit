@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import Client from "@/components/Client";
 import { IShortedNutrition } from "@/utils/models";
 import type { Metadata } from "next";
 
@@ -14,23 +14,15 @@ export default async function Nutrition() {
         return <div>Error!</div>
     }
 
-    const { nutrition }: { nutrition: IShortedNutrition[] } = await response.json()
+    const { nutrition, categories }: { nutrition: IShortedNutrition[], categories: string[] } = await response.json()
 
     return (
-        <section>
-            <div className="section-container">
-                Nutrition
-                {nutrition.map((nutritionItem) => (
-                    <ProductCard
-                        key={nutritionItem.title}
-                        image={nutritionItem.image}
-                        title={nutritionItem.title}
-                        price={nutritionItem.price}
-                        category={nutritionItem.category}
-                        route={`/categories/nutrition/${nutritionItem.slug}`}
-                    />
-                ))}
-            </div>
-        </section>
+        <Client
+            title="Nutrition"
+            body="Sports nutrition to fuel your performance and accelerate recovery."
+            type="nutrition"
+            initialProducts={nutrition}
+            categories={categories}
+        />
     )
 }

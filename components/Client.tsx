@@ -1,45 +1,65 @@
 "use client"
 
+import { useRouter, useSearchParams } from "next/navigation"
+
 import { useState, useEffect } from "react"
 
-import { IShortedCloth } from "@/utils/models";
+import { IShortedAccessory, IShortedCloth, IShortedNutrition } from "@/utils/models";
 import Filters from "./Filters";
 import ProductCard from "./ProductCard";
 
 import { X } from 'lucide-react';
 
 interface ICollectionClientProps {
-    gender: string;
-    initialCollections: IShortedCloth[];
+    title: string;
+    body: string;
+    type: "collections" | "accessories" | "nutrition"
+    gender?: string;
+    initialProducts: (IShortedCloth | IShortedAccessory | IShortedNutrition)[];
     categories: string[]
 }
 
-export default function CollectionClient({ gender, initialCollections, categories }: ICollectionClientProps) {
-    const [collections, setCollections] = useState(initialCollections)
+export default function CollectionClient({ title, body, type, gender, initialProducts, categories }: ICollectionClientProps) {
+    const [products, setProducts] = useState(initialProducts)
     const [activeCategory, setActiveCategory] = useState<string | null>(null)
     const [sort, setSort] = useState<string>("newest")
 
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
     useEffect(() => {
-        const params = new URLSearchParams()
+        const params = new URLSearchParams(searchParams.toString())
 
         if (activeCategory) {
             params.set("category", activeCategory)
+        } else {
+            params.delete("category")
         }
 
         if (sort) {
             params.set("sort", sort)
+        } else {
+            params.delete("sort")
         }
 
-        fetch(`http://localhost:3000/api/categories/collections/${gender}/?${params.toString()}`)
+        fetch(`http://localhost:3000/api/categories/${type}/${gender ? gender : ""}?${params.toString()}`)
             .then(response => response.json())
-            .then(data => setCollections(data.collections))
+            .then(data => setProducts(data[type]))
             .catch((e) => {
                 console.error("Something went wrong:", e);
             })
-    }, [gender, activeCategory, sort])
+
+        router.push(`?${params.toString()}`, { scroll: false })
+    }, [type, gender, activeCategory, sort])
 
     return (
         <>
+            <section className="border-b border-zinc-900">
+                <div className="section-container py-0 flex flex-col gap-3">
+                    <h2 className="text-left capitalize">{title}</h2>
+                    <p className="text-sm">{body}</p>
+                </div>
+            </section>
             <section>
                 <div className="section-container py-0 flex flex-col gap-6">
                     <Filters
@@ -60,17 +80,17 @@ export default function CollectionClient({ gender, initialCollections, categorie
                             : null
                     }
                     <div>
-                        <p className="text-sm">{collections.length} products</p>
+                        <p className="text-sm">{products.length} products</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {collections.map((collection) => (
+                        {products.map((collection) => (
                             <ProductCard
                                 key={collection.title}
                                 image={collection.image}
                                 title={collection.title}
                                 price={collection.price}
                                 category={collection.category}
-                                route={`/categories/collections/${collection.gender.toLowerCase()}/${collection.slug}`}
+                                route={`/categories/${type}/${"gender" in collection ? `${collection.gender.toLowerCase()}/` : ""}${collection.slug}`}
                             />
                         ))}
                     </div>

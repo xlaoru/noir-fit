@@ -1,12 +1,15 @@
 import { INutrition, IShortedNutrition } from "@/utils/models"
 import ProductPage from "@/components/ProductPage"
+import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
 
+    const title = formatSlugToTitle(slug)
+
     return {
-        title: slug,
-        description: `Here you can see more info about ${slug}.`
+        title,
+        description: `Here you can see more info about ${title}.`
     }
 }
 

@@ -1,4 +1,4 @@
-import CollectionClient from "@/components/CollectionClient"
+import Client from "@/components/Client"
 import { IShortedCloth } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
@@ -23,15 +23,12 @@ export default async function Collection({ params, }: { params: Promise<{ gender
 
     return (
         <>
-            <section className="border-b border-zinc-900">
-                <div className="section-container py-0 flex flex-col gap-3">
-                    <h2 className="text-left capitalize">{gender.toLowerCase()}&apos;s Collection</h2>
-                    <p className="text-sm">Training apparel and running gear engineered for peak performance.</p>
-                </div>
-            </section>
-            <CollectionClient
+            <Client
+                title={`${gender.toLowerCase()}'s Collection`}
+                body="Training apparel and running gear engineered for peak performance."
+                type="collections"
                 gender={gender}
-                initialCollections={collections}
+                initialProducts={collections}
                 categories={categories}
             />
         </>

@@ -1,8 +1,34 @@
 import prisma from "@/lib/seed";
+import { Prisma, AccessoryCategories } from "@/app/generated/prisma"
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        const { searchParams } = new URL(request.url)
+
+        const categoryFilter = searchParams.get("category") 
+        const sortFilter = searchParams.get("sort") ?? "newest" 
+
+        const where: Prisma.AccessoryWhereInput = {}
+
+        if (categoryFilter && Object.values(AccessoryCategories).includes(categoryFilter as AccessoryCategories)) {
+            where.category = categoryFilter as AccessoryCategories
+        }
+
+        let orderBy: { createdAt: "desc"  } | { price: "asc"  | "desc"  } = { 
+            createdAt: "desc" 
+        }
+
+        if (sortFilter === "price_asc") {
+            orderBy = { price: "asc" }
+        }
+
+        if (sortFilter === "price_desc") {
+            orderBy = { price: "desc" }
+        }
+
         const rawAccessories = await prisma.accessory.findMany({
+            where,
+            orderBy,
             select: {
                 images: true,
                 title: true,
@@ -24,8 +50,17 @@ export async function GET() {
             slug: a.slug
         }))
 
+        const rawCategories = await prisma.accessory.findMany({
+            select: {
+                category: true
+            },
+            distinct: ["category"]
+        })
+
+        const categories = rawCategories.map(item => item.category)
+
         return Response.json(
-            {message: "Accessories were fetched successfully.", accessories},
+            { message: "Accessories were fetched successfully.", accessories, categories },
             { status: 200 }
         )
     } catch (e) {

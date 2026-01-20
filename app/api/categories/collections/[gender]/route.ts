@@ -17,11 +17,9 @@ export async function GET(
         const categoryFilter = searchParams.get("category") 
         const sortFilter = searchParams.get("sort") ?? "newest"
 
-
         const where: Prisma.CollectionWhereInput = {
             gender: gender.toLowerCase() === "men" ? Gender.MEN : Gender.WOMEN,
         }
-
 
         if (categoryFilter && Object.values(CollectionCategories).includes(categoryFilter as CollectionCategories)) {
             where.category = categoryFilter as CollectionCategories
