@@ -9,12 +9,12 @@ interface IProductCardProps {
     title: string;
     price: number
     category: string;
-    slug: string
+    route: string
 }
 
-export default function ProductCard({ image, title, price, category, slug }: IProductCardProps) {
+export default function ProductCard({ image, title, price, category, route }: IProductCardProps) {
     return (
-        <Link href={slug}>
+        <Link href={route}>
             <div className="group flex flex-col gap-1 w-[286px]">
                 <div className="relative w-[286px] h-[381px] overflow-hidden rounded-xl">
                     <Image

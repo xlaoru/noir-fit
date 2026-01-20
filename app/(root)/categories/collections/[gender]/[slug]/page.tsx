@@ -106,7 +106,7 @@ export default async function Product({ params, }: { params: Promise<{ gender: s
                             title={product.title}
                             price={product.price}
                             category={product.category}
-                            slug={product.slug}
+                            route={`/categories/collections/${product.gender.toLocaleLowerCase()}/${product.slug}`}
                         />
                     </div>
                 </div>

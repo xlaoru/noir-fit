@@ -1,15 +1,14 @@
 export interface IShortedCollection {
-  id: string;
   image: string;
   title: string;
   price: number;
   category: string;
-  gender: "MEN" | "WOMEN"
-  slug: string
+  type: "COLLECTIONS" | "ACCESSORIES" | "NUTRITION"
+  gender: "MEN" | "WOMEN";
+  slug: string;
 }
 
 export interface ICollectionProduct {
-  id: string
   images: string[]
   title: string
   price: number
@@ -49,6 +48,84 @@ export interface ICollectionProduct {
     | "YOGA"
     | "COMPRESSION"
     | "RECOVERY"
+  material: string
+  fit: string
+  care: string
+  origin: string
+}
+
+export interface IShortedAccessory {
+  image: string;
+  title: string;
+  price: number;
+  category: string;
+  type: "COLLECTIONS" | "ACCESSORIES" | "NUTRITION"
+  slug: string;
+}
+
+export interface IAccessoryProduct {
+  images: string[]
+  title: string
+  price: number
+  description: string
+  colors: string[]
+  slug: string
+  category:
+    | "BAG"
+    | "GLOVES"
+    | "STRAPS"
+    | "WRAPS"
+    | "BELT"
+    | "SHAKER"
+    | "BOTTLE"
+    | "CAP"
+    | "BEANIE"
+    | "TOWEL"
+    | "WATCH"
+    | "SOCKS"
+    | "KNEE_SLEEVES"
+    | "WRIST_SLEEVES"
+    | "BACKPACK"
+    | "ESSENTIAL"
+  material: string
+  fit: string
+  care: string
+  origin: string
+}
+
+export interface IShortedNutrition {
+  image: string
+  title: string
+  price: number
+  category: string
+  type: "COLLECTIONS" | "ACCESSORIES" | "NUTRITION"
+  slug: string
+}
+
+export interface INutritionProduct {
+  images: string[]
+  title: string
+  price: number
+  description: string
+  slug: string
+  category:
+    | "PROTEIN"
+    | "WHEY"
+    | "ISOLATE"
+    | "CASEIN"
+    | "BCAA"
+    | "EAA"
+    | "PREWORKOUT"
+    | "FATBURNER"
+    | "VITAMINS"
+    | "TESTOSTERONE"
+    | "CREATINE"
+    | "ENERGY"
+    | "RECOVERY"
+    | "WEIGHT_GAINER"
+    | "SHRED"
+    | "HEALTH"
+    | "SUPPLEMENT"
   material: string
   fit: string
   care: string

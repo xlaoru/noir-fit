@@ -28,12 +28,12 @@ export default async function Collection({ params, }: { params: Promise<{ gender
                 <br />
                 {collections.map((collection) => (
                     <ProductCard
-                        key={collection.id}
+                        key={collection.title}
                         image={collection.image}
                         title={collection.title}
                         price={collection.price}
                         category={collection.category}
-                        slug={`/categories/collections/${collection.gender.toLowerCase()}/${collection.slug}`}
+                        route={`/categories/collections/${collection.gender.toLowerCase()}/${collection.slug}`}
                     />
                 ))}
             </div>

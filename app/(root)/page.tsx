@@ -1,9 +1,20 @@
 import CategoryCard from "@/components/CategoryCard";
 import DescriptionCard from "@/components/DescriptionCard"
 import ProductCard from "@/components/ProductCard";
+import { IShortedAccessory, IShortedCollection, IShortedNutrition } from "@/utils/models";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const reponse = await fetch(`${process.env.URL}/api/categories`)
+
+  if (!reponse.ok) {
+    return <div>Error!</div>
+  }
+
+  const { products }: {
+    products: (IShortedCollection | IShortedAccessory | IShortedNutrition)[]
+  } = await reponse.json()
+
   return (
     <>
       <header className="min-h-[calc(100vh-64px)] w-full flex flex-col justify-center items-center text-zinc-100 flex flex-col gap-6 bg-[url('/bg-hero.png')] bg-cover bg-center mb-12">
@@ -78,13 +89,18 @@ export default function Home() {
             <h3>Featured Gear</h3>
             <p>Top picks across all collections</p>
           </div>
-          <ProductCard
-            image="/item-1.png"
-            category={"running"}
-            title="MOKE"
-            price={0}
-            slug="/categories/collections/mock/mock"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <ProductCard
+                key={product.title}
+                image={product.image}
+                category={product.category}
+                title={product.title}
+                price={product.price}
+                route={`/categories/${product.type.toLocaleLowerCase()}/${"gender" in product && `${product.gender.toLocaleLowerCase()}/`}${product.slug}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
       <section>
