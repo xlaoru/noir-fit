@@ -17,7 +17,7 @@ export default async function Home() {
 
   return (
     <>
-      <header className="min-h-[calc(100vh-64px)] w-full flex flex-col justify-center items-center text-zinc-100 flex flex-col gap-6 bg-[url('/bg-hero.png')] bg-cover bg-center mb-12">
+      <header className="relative min-h-[calc(100vh-64px)] w-full flex flex-col justify-center items-center text-zinc-100 flex flex-col gap-6 bg-[url('/bg-hero.png')] bg-cover bg-center mb-12">
         <h1>
           Performance
           <br />
@@ -26,7 +26,7 @@ export default async function Home() {
           </span>
         </h1>
         <p className="text-center text-base">Premium sports apparel and gear engineered for athletes who train with purpose.</p>
-        <Link href="#categories">
+        <Link href="#categories" className="absolute bottom-10">
           <div className="w-fit flex flex-col items-center gap-3 cursor-pointer group">
             <span className="text-xs tracking-widest text-zinc-400 group-hover:text-zinc-100 transition-colors">
               SCROLL
