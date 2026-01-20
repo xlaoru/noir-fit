@@ -8,7 +8,7 @@ export interface IShortedCollection {
   slug: string;
 }
 
-export interface ICollectionProduct {
+export interface ICloth {
   images: string[]
   title: string
   price: number
@@ -63,7 +63,7 @@ export interface IShortedAccessory {
   slug: string;
 }
 
-export interface IAccessoryProduct {
+export interface IAccessory {
   images: string[]
   title: string
   price: number
@@ -102,7 +102,7 @@ export interface IShortedNutrition {
   slug: string
 }
 
-export interface INutritionProduct {
+export interface INutrition {
   images: string[]
   title: string
   price: number

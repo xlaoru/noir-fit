@@ -36,7 +36,7 @@ export async function GET() {
             }),
         ])
 
-        if (!collections || !accessories || !nutrition) {
+        if (!collections.length || !accessories.length || !nutrition.length) {
             return Response.json({ message: "Something went wrong with data getting" }, { status: 404 })
         }
 

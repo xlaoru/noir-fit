@@ -1,5 +1,5 @@
 import ProductCard from "@/components/ProductCard";
-import { ICollectionProduct } from "@/utils/models"
+import { ICloth } from "@/utils/models"
 
 import { ChevronLeft, Heart } from 'lucide-react';
 import Image from "next/image";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 }
 
-export default async function Product({ params, }: { params: Promise<{ gender: string, slug: string }> }) {
+export default async function Cloth({ params, }: { params: Promise<{ gender: string, slug: string }> }) {
     const { gender, slug } = await params
 
     const response = await fetch(`${process.env.URL}/api/categories/collections/${gender}/${slug}`)
@@ -23,7 +23,7 @@ export default async function Product({ params, }: { params: Promise<{ gender: s
         return <div>Error!</div>
     }
 
-    const { product }: { product: ICollectionProduct } = await response.json()
+    const { cloth }: { cloth: ICloth } = await response.json()
 
     return (
         <>
@@ -32,27 +32,27 @@ export default async function Product({ params, }: { params: Promise<{ gender: s
                     <Link href={`/categories/collections/${gender}`}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> <span>Back to <span className="lowercase">{gender}&apos;s</span> collection</span></p></Link>
                     <div className="pt-12 flex gap-20">
                         <Image
-                            src={product.images[0]}
-                            alt={product.title}
+                            src={cloth.images[0]}
+                            alt={cloth.title}
                             width={1025}
                             height={700}
                             className="rounded-xl"
                         />
                         <div>
                             <div className="pt-6 pb-10 flex flex-col gap-6 border-b border-zinc-900">
-                                <p>{product.category}</p>
-                                <h2 className="font-normal text-left">{product.title}</h2>
-                                <h3>${product.price}</h3>
-                                <p className="text-zinc-400">{product.description}</p>
+                                <p>{cloth.category}</p>
+                                <h2 className="font-normal text-left">{cloth.title}</h2>
+                                <h3>${cloth.price}</h3>
+                                <p className="text-zinc-400">{cloth.description}</p>
                                 <p className="text-zinc-400">Color</p>
                                 <div className="flex gap-2">
-                                    {product.colors.map((color, index) => (
+                                    {cloth.colors.map((color, index) => (
                                         <div key={index} className={`w-8 h-8 rounded-full border border-transparent hover:border-zinc-500 cursor-pointer transition-border`} style={{ backgroundColor: color }}></div>
                                     ))}
                                 </div>
                                 <p className="text-zinc-400">Size</p>
                                 <div className="flex gap-2">
-                                    {product.sizes.map((size, index) => (
+                                    {cloth.sizes.map((size, index) => (
                                         <div key={index} className="flex justify-center items-center w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-500 cursor-pointer hover:bg-zinc-800 transition-colors">{size}</div>
                                     ))}
                                 </div>
@@ -78,19 +78,19 @@ export default async function Product({ params, }: { params: Promise<{ gender: s
                                 <h6 className="uppercase">Specifications</h6>
                                 <div className="flex justify-between">
                                     <p>Material</p>
-                                    <p className="text-zinc-100">{product.material}</p>
+                                    <p className="text-zinc-100">{cloth.material}</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Fit</p>
-                                    <p className="text-zinc-100">{product.fit}</p>
+                                    <p className="text-zinc-100">{cloth.fit}</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Care</p>
-                                    <p className="text-zinc-100">{product.care}</p>
+                                    <p className="text-zinc-100">{cloth.care}</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Origin</p>
-                                    <p className="text-zinc-100">{product.origin}</p>
+                                    <p className="text-zinc-100">{cloth.origin}</p>
                                 </div>
                             </div>
                         </div>
@@ -102,11 +102,11 @@ export default async function Product({ params, }: { params: Promise<{ gender: s
                     <h4 className="font-normal">You might also like</h4>
                     <div className="flex gap-5">
                         <ProductCard
-                            image={product.images[0]}
-                            title={product.title}
-                            price={product.price}
-                            category={product.category}
-                            route={`/categories/collections/${product.gender.toLocaleLowerCase()}/${product.slug}`}
+                            image={cloth.images[0]}
+                            title={cloth.title}
+                            price={cloth.price}
+                            category={cloth.category}
+                            route={`/categories/collections/${cloth.gender.toLocaleLowerCase()}/${cloth.slug}`}
                         />
                     </div>
                 </div>

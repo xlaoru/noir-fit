@@ -15,18 +15,18 @@ export async function GET(
             return Response.json({ message: "There are no slug." }, { status: 400 })
         }
 
-        const product = await prisma.collection.findUnique({
+        const cloth = await prisma.collection.findUnique({
             where: {
                 slug
             }
         })
 
-        if (!product) {
-            return Response.json({ message: "No product found." }, { status: 404 })
+        if (!cloth) {
+            return Response.json({ message: "No cloth found." }, { status: 404 })
         }
 
         return Response.json(
-            { message: `Product for ${gender} was fetched successfully.`, product }, 
+            { message: `Cloth for ${gender} was fetched successfully.`, cloth }, 
             { status: 200 }
         )
     } catch (e) {

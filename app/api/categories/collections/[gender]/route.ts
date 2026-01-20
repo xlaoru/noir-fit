@@ -16,7 +16,6 @@ export async function GET(
                 gender: gender.toUpperCase() as "MEN" | "WOMEN",
             },
             select: {
-                id: true,
                 images: true,
                 title: true,
                 price: true,
@@ -31,7 +30,6 @@ export async function GET(
         }
 
         const collections = rawCollections.map((product) => ({
-            id: product.id,
             image: product.images[0],
             title: product.title,
             price: product.price,
