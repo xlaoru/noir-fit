@@ -10,7 +10,7 @@ import ProductCard from "./ProductCard";
 
 import { X } from 'lucide-react';
 
-interface ICollectionClientProps {
+interface IProductsPageProps {
     title: string;
     body: string;
     type: "collections" | "accessories" | "nutrition"
@@ -19,7 +19,7 @@ interface ICollectionClientProps {
     categories: string[]
 }
 
-export default function CollectionClient({ title, body, type, gender, initialProducts, categories }: ICollectionClientProps) {
+export default function ProductsPage({ title, body, type, gender, initialProducts, categories }: IProductsPageProps) {
     const searchParams = useSearchParams()
 
     const initialCategory = searchParams.get("category")

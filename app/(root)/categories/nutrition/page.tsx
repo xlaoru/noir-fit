@@ -1,4 +1,4 @@
-import Client from "@/components/Client";
+import ProductsPage from "@/components/ProductsPage";
 import { IShortedNutrition } from "@/utils/models";
 import type { Metadata } from "next";
 
@@ -17,7 +17,7 @@ export default async function Nutrition() {
     const { nutrition, categories }: { nutrition: IShortedNutrition[], categories: string[] } = await response.json()
 
     return (
-        <Client
+        <ProductsPage
             title="Nutrition"
             body="Sports nutrition to fuel your performance and accelerate recovery."
             type="nutrition"

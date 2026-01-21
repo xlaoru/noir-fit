@@ -1,4 +1,4 @@
-import Client from "@/components/Client"
+import ProductsPage from "@/components/ProductsPage"
 import { IShortedCloth } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
@@ -22,15 +22,13 @@ export default async function Collection({ params, }: { params: Promise<{ gender
     const { collections, categories }: { collections: IShortedCloth[], categories: string[] } = await reponse.json()
 
     return (
-        <>
-            <Client
-                title={`${gender.toLowerCase()}'s Collection`}
-                body="Training apparel and running gear engineered for peak performance."
-                type="collections"
-                gender={gender}
-                initialProducts={collections}
-                categories={categories}
-            />
-        </>
+        <ProductsPage
+            title={`${gender.toLowerCase()}'s Collection`}
+            body="Training apparel and running gear engineered for peak performance."
+            type="collections"
+            gender={gender}
+            initialProducts={collections}
+            categories={categories}
+        />
     )
 }

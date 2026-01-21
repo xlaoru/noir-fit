@@ -1,4 +1,4 @@
-import Client from "@/components/Client";
+import ProductsPage from "@/components/ProductsPage";
 import { IShortedAccessory } from "@/utils/models";
 import type { Metadata } from "next";
 
@@ -17,7 +17,7 @@ export default async function Accessories() {
     const { accessories, categories }: { accessories: IShortedAccessory[], categories: string[] } = await reponse.json()
 
     return (
-        <Client
+        <ProductsPage
             title="Accessories"
             body="Recovery tools, equipment, and essentials to complement your training."
             type="accessories"
