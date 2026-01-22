@@ -8,13 +8,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Accessories() {
-    const reponse = await fetch(`${process.env.URL}/api/categories/accessories`)
+    const response = await fetch(`${process.env.URL}/api/categories/accessories`)
 
-    if (!reponse.ok) {
-        return <div>!Error</div>
+    if (!response.ok) {
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
-    const { accessories, categories }: { accessories: IShortedAccessory[], categories: string[] } = await reponse.json()
+    const { accessories, categories }: { accessories: IShortedAccessory[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage

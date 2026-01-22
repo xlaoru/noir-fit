@@ -19,7 +19,8 @@ export default async function Cloth({ params, }: { params: Promise<{ gender: str
     const response = await fetch(`${process.env.URL}/api/categories/collections/${gender}/${slug}`)
 
     if (!response.ok) {
-        return <div>Error!</div>
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
     const { cloth, recommended }: { cloth: ICloth, recommended: IShortedCloth[] } = await response.json()

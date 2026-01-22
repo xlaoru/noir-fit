@@ -19,7 +19,8 @@ export default async function Accessory({ params, }: { params: Promise<{ slug: s
     const response = await fetch(`${process.env.URL}/api/categories/accessories/${slug}`)
 
     if (!response.ok) {
-        return <div>Error!</div>
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
     const { accessory, recommended }: { accessory: IAccessory, recommended: IShortedAccessory[] } = await response.json()

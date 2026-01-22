@@ -11,7 +11,8 @@ export default async function Nutrition() {
     const response = await fetch(`${process.env.URL}/api/categories/nutrition`)
 
     if (!response.ok) {
-        return <div>Error!</div>
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
     const { nutrition, categories }: { nutrition: IShortedNutrition[], categories: string[] } = await response.json()

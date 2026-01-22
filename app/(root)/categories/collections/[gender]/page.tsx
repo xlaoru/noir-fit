@@ -13,13 +13,14 @@ export async function generateMetadata({ params }: { params: Promise<{ gender: s
 export default async function Collection({ params, }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
 
-    const reponse = await fetch(`${process.env.URL}/api/categories/collections/${gender}`)
+    const response = await fetch(`${process.env.URL}/api/categories/collections/${gender}`)
 
-    if (!reponse.ok) {
-        return <div>Error!</div>
+    if (!response.ok) {
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
-    const { collections, categories }: { collections: IShortedCloth[], categories: string[] } = await reponse.json()
+    const { collections, categories }: { collections: IShortedCloth[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage

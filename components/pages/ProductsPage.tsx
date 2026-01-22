@@ -73,22 +73,30 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                     <div>
                         <p className="text-sm">{products.length} products</p>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {products.map((product) => (
-                            <ProductCard
-                                key={product.title}
-                                id={product.id}
-                                title={product.title}
-                                price={product.price}
-                                image={product.image}
-                                category={product.category}
-                                slug={product.slug}
-                                type={product.type}
-                                route={`/categories/${type}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
-                                {...("gender" in product ? { gender: product.gender } : {})}
-                            />
-                        ))}
-                    </div>
+                    {
+                        products.length === 0
+                            ? (
+                                <h3>Oops! Seems like we have not any <span className="capitalize">{activeCategory?.toLowerCase()}</span> positions for <span>{gender}</span>.</h3>
+                            )
+                            : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                    {products.map((product) => (
+                                        <ProductCard
+                                            key={product.title}
+                                            id={product.id}
+                                            title={product.title}
+                                            price={product.price}
+                                            image={product.image}
+                                            category={product.category}
+                                            slug={product.slug}
+                                            type={product.type}
+                                            route={`/categories/${type}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                                            {...("gender" in product ? { gender: product.gender } : {})}
+                                        />
+                                    ))}
+                                </div>
+                            )
+                    }
                 </div>
             </section>
         </>

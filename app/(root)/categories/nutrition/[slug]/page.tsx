@@ -19,7 +19,8 @@ export default async function Nutration({ params, }: { params: Promise<{ slug: s
     const response = await fetch(`${process.env.URL}/api/categories/nutrition/${slug}`)
 
     if (!response.ok) {
-        return <div>Error!</div>
+        const { message }: { message: string } = await response.json()
+        throw new Error(message)
     }
 
     const { nutrition, recommended }: { nutrition: INutrition, recommended: IShortedNutrition[] } = await response.json()

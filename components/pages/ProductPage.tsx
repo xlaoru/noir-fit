@@ -16,7 +16,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
             <section>
                 <div className="section-container pt-0 pb-25 border-b border-zinc-900">
                     <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> <span>Back to <span className="lowercase">{type}&apos;s</span> collection</span></p></Link>
-                    <div className="pt-12 flex">
+                    <div className="pt-12 grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-16">
                         <Image
                             src={product.images[0]}
                             alt={product.title}
@@ -105,22 +105,33 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
             <section>
                 <div className="section-container pt-0 flex flex-col gap-10">
                     <h4 className="font-normal">You might also like</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                        {recommended.map((recommendedItem) => (
-                            <ProductCard
-                                key={recommendedItem.title}
-                                id={recommendedItem.id}
-                                title={recommendedItem.title}
-                                price={recommendedItem.price}
-                                image={recommendedItem.image}
-                                category={recommendedItem.category}
-                                slug={recommendedItem.slug}
-                                type={recommendedItem.type}
-                                route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
-                                {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}
-                            />
-                        ))}
-                    </div>
+
+                    {
+                        recommended.length === 0
+                            ? (
+                                <h3>Oops! Seems like we have not any <span className="capitalize">{product.category.toLowerCase()}</span> positions{"gender" in product ? <span> {product.gender.toLowerCase()}</span> : ""}.</h3>
+                            )
+                            : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                                    {
+                                        recommended.map((recommendedItem) => (
+                                            <ProductCard
+                                                key={recommendedItem.title}
+                                                id={recommendedItem.id}
+                                                title={recommendedItem.title}
+                                                price={recommendedItem.price}
+                                                image={recommendedItem.image}
+                                                category={recommendedItem.category}
+                                                slug={recommendedItem.slug}
+                                                type={recommendedItem.type}
+                                                route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
+                                                {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}
+                                            />
+                                        ))
+                                    }
+                                </div>
+                            )
+                    }
                 </div>
             </section>
         </>
