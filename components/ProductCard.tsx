@@ -22,11 +22,10 @@ export default function ProductCard({ id, title, price, image, category, gender,
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
                     <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                         <button
-                            className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300"
+                            className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300 transition-colors"
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-
                                 add({
                                     id,
                                     type,

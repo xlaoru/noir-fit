@@ -1,5 +1,6 @@
 "use client"
 
+import { useCart } from "@/context/cart-context"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useRef } from "react"
@@ -7,6 +8,8 @@ import { useState, useRef } from "react"
 export default function Header() {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
+
+    const { amount } = useCart()
 
     const closeMenu = () => setOpen(false)
 
@@ -36,14 +39,7 @@ export default function Header() {
                         <li key={item.name}>
                             <Link
                                 href={item.href}
-                                className="
-                  relative text-zinc-400 transition-colors duration-200
-                  hover:text-zinc-100
-                  after:absolute after:left-0 after:-bottom-1
-                  after:h-[1px] after:w-0 after:bg-zinc-100
-                  after:transition-all after:duration-200
-                  hover:after:w-full
-                "
+                                className="text-zinc-400 transition-colors duration-200 hover:text-zinc-100"
                             >
                                 {item.name}
                             </Link>
@@ -62,7 +58,7 @@ export default function Header() {
                     </Link>
                     <Link
                         href="/cart"
-                        className="flex h-9 w-9 items-center justify-center text-zinc-400 hover:text-zinc-100 transition-colors"
+                        className="relative flex h-9 w-9 items-center justify-center text-zinc-400 hover:text-zinc-100 transition-colors"
                         aria-label="Cart"
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -70,6 +66,7 @@ export default function Header() {
                             <circle cx="20" cy="21" r="1" />
                             <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
                         </svg>
+                        <div className={`${amount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{amount > 99 ? 99 : amount}</div>
                     </Link>
                     <Link
                         href="/account"

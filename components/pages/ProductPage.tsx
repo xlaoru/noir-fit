@@ -10,7 +10,6 @@ import { useCart } from "@/context/cart-context";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
     const { add } = useCart()
-
     return (
         <>
             <section>

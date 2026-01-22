@@ -1,21 +1,13 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState } from "react"
 import { CartItem, ICartContext, StoreItem } from "@/utils/models"
 import { getProductKey } from "@/utils/getProductKey"
 
 const CartContext = createContext<ICartContext | null>(null)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-    const [items, setItems] = useState<CartItem[]>(() => {
-        if (typeof window === "undefined") return []
-        const stored = localStorage.getItem("cart")
-        return stored ? JSON.parse(stored) : []
-    })
-
-    useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(items))
-    }, [items])
+    const [items, setItems] = useState<CartItem[]>([])
 
     function add(product: StoreItem) {
         const key = getProductKey(product)
@@ -61,8 +53,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
+    const amount = items.reduce((sum, item) => sum + item.quantity, 0)
+
     return (
-        <CartContext.Provider value={{ items, add, remove, increase, decrease, total }}>
+        <CartContext.Provider value={{ items, add, remove, increase, decrease, total, amount }}>
             {children}
         </CartContext.Provider>
     )

@@ -85,6 +85,7 @@ export interface ICartContext {
     increase: (key: string) => void
     decrease: (key: string) => void
     total: number
+    amount: number
 }
 
 export interface StoreItem {
@@ -148,4 +149,15 @@ export interface IProductPageProps {
   recommended: IShortedCloth[] | IShortedAccessory[] | IShortedNutrition[]
   type: ("men" | "women") | "accessories" | "nutrition"
   backRoute: string
+}
+
+export interface ICardCardProps {
+  title: string
+  price: number
+  image: string
+  gender?: "MEN" | "WOMEN"
+  slug: string
+  type: "collections" | "accessories" | "nutrition"
+  cartKey: string
+  quantity: number
 }
