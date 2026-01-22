@@ -41,6 +41,7 @@ export async function GET(
             where,
             orderBy,
             select: {
+                id: true,
                 images: true,
                 title: true,
                 price: true,
@@ -50,13 +51,15 @@ export async function GET(
             }
         })
 
-        const collections = rawCollections.map((product) => ({
-            image: product.images[0],
-            title: product.title,
-            price: product.price,
-            category: product.category,
-            gender: product.gender,
-            slug: product.slug
+        const collections = rawCollections.map((c) => ({
+            id: c.id,
+            image: c.images[0],
+            title: c.title,
+            price: c.price,
+            category: c.category,
+            gender: c.gender,
+            slug: c.slug,
+            type: "collections"
         }))
 
         const rawCategories = await prisma.collection.findMany({

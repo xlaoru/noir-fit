@@ -1,8 +1,4 @@
-interface IDescriptionCardProps {
-    svgIcon: React.ReactNode;
-    title: string;
-    body: string
-}
+import { IDescriptionCardProps } from "@/utils/models";
 
 export default function DescriptionCard({ svgIcon, title, body }: IDescriptionCardProps) {
     return (

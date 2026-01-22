@@ -1,12 +1,7 @@
+import { ICategoryCardProps } from "@/utils/models";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-interface ICategoryCardProps {
-    backgroundImageUrl: string;
-    title: string;
-    slug: string
-}
 
 export default function CategoryCard({ backgroundImageUrl, title, slug }: ICategoryCardProps) {
     return (

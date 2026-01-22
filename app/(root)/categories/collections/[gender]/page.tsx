@@ -1,4 +1,4 @@
-import ProductsPage from "@/components/ProductsPage"
+import ProductsPage from "@/components/pages/ProductsPage"
 import { IShortedCloth } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {

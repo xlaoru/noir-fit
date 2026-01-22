@@ -1,10 +1,4 @@
-interface IFiltersProps {
-    categories: string[]
-    activeCategory: string | null
-    setActiveCategory: (activeCategory: string | null) => void
-    sort: string
-    setSort: (sort: string) => void
-}
+import { IFiltersProps } from "@/utils/models"
 
 export default function Filters({ categories, activeCategory, setActiveCategory, sort, setSort }: IFiltersProps) {
     return (

@@ -93,11 +93,15 @@ export default async function Home() {
             {products.map((product) => (
               <ProductCard
                 key={product.title}
-                image={product.image}
-                category={product.category}
+                id={product.id}
+                type={product.type}
                 title={product.title}
                 price={product.price}
+                image={product.image}
+                category={product.category}
+                slug={product.slug}
                 route={`/categories/${product.type.toLowerCase()}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                {...("gender" in product ? { gender: product.gender } : {})}
               />
             ))}
           </div>

@@ -1,5 +1,5 @@
 import { IAccessory, IShortedAccessory } from "@/utils/models"
-import ProductPage from "@/components/ProductPage"
+import ProductPage from "@/components/pages/ProductPage"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

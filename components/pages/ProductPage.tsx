@@ -3,24 +3,20 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "../ProductCard";
 import { ChevronLeft, Heart } from "lucide-react";
-import { IAccessory, ICloth, INutrition, IShortedAccessory, IShortedCloth, IShortedNutrition } from "@/utils/models";
-
-interface IProductPageProps {
-    product: ICloth | IAccessory | INutrition
-    recommended: IShortedCloth[] | IShortedAccessory[] | IShortedNutrition[]
-    type: string
-    backRoute: string
-}
+import { IProductPageProps } from "@/utils/models";
+import { useCart } from "@/context/cart-context";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
+    const { add } = useCart()
+
     return (
         <>
             <section>
                 <div className="section-container pt-0 pb-25 border-b border-zinc-900">
                     <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> <span>Back to <span className="lowercase">{type}&apos;s</span> collection</span></p></Link>
-                    <div className="pt-12 flex gap-20">
+                    <div className="pt-12 flex">
                         <Image
                             src={product.images[0]}
                             alt={product.title}
@@ -56,6 +52,17 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 }
                                 <div className="flex gap-3">
                                     <button
+                                        onClick={() => {
+                                            add({
+                                                id: product.id,
+                                                title: product.title,
+                                                price: product.price,
+                                                image: product.images[0],
+                                                slug: product.slug,
+                                                ...((type === "men" || type === "women") && { gender: type === "men" ? "MEN" : "WOMEN" }),
+                                                type: (type === "men" || type === "women") ? "collections" : type
+                                            })
+                                        }}
                                         className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300"
                                     >
                                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -102,11 +109,15 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                         {recommended.map((recommendedItem) => (
                             <ProductCard
                                 key={recommendedItem.title}
-                                image={recommendedItem.image}
+                                id={recommendedItem.id}
                                 title={recommendedItem.title}
                                 price={recommendedItem.price}
+                                image={recommendedItem.image}
                                 category={recommendedItem.category}
+                                slug={recommendedItem.slug}
+                                type={recommendedItem.type}
                                 route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
+                                {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}
                             />
                         ))}
                     </div>

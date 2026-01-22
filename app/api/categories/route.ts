@@ -5,6 +5,7 @@ export async function GET() {
         const [collections, accessories, nutrition] = await Promise.all([
             prisma.collection.findMany({
                 select: {
+                    id: true,
                     title: true,
                     price: true,
                     images: true,
@@ -16,6 +17,7 @@ export async function GET() {
             }),
             prisma.accessory.findMany({
                 select: {
+                    id: true,
                     title: true,
                     price: true,
                     images: true,
@@ -26,6 +28,7 @@ export async function GET() {
             }),
             prisma.nutrition.findMany({
                 select: {
+                    id: true,
                     title: true,
                     price: true,
                     images: true,
@@ -41,33 +44,36 @@ export async function GET() {
         }
 
         const products = [
-            ...collections.map(p => ({
-                title: p.title,
-                price: p.price,
-                image: p.images[0] ?? null,
-                category: p.category,
-                gender: p.gender,
-                slug: p.slug,
-                type: "COLLECTIONS",
-                createdAt: p.createdAt,
+            ...collections.map(c => ({
+                id: c.id,
+                title: c.title,
+                price: c.price,
+                image: c.images[0] ?? null,
+                category: c.category,
+                gender: c.gender,
+                slug: c.slug,
+                type: "collections",
+                createdAt: c.createdAt,
             })),
-            ...accessories.map(p => ({
-                title: p.title,
-                price: p.price,
-                image: p.images[0] ?? null,
-                category: p.category,
-                slug: p.slug,
-                type: "ACCESSORIES",
-                createdAt: p.createdAt,
+            ...accessories.map(a => ({
+                id: a.id,
+                title: a.title,
+                price: a.price,
+                image: a.images[0] ?? null,
+                category: a.category,
+                slug: a.slug,
+                type: "accessories",
+                createdAt: a.createdAt,
             })),
-            ...nutrition.map(p => ({
-                title: p.title,
-                price: p.price,
-                image: p.images[0] ?? null,
-                category: p.category,
-                slug: p.slug,
-                type: "NUTRITION",
-                createdAt: p.createdAt,
+            ...nutrition.map(n => ({
+                id: n.id,
+                title: n.title,
+                price: n.price,
+                image: n.images[0] ?? null,
+                category: n.category,
+                slug: n.slug,
+                type: "nutrition",
+                createdAt: n.createdAt,
             })),
         ]
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())

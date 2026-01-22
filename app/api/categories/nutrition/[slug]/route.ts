@@ -32,12 +32,13 @@ export async function GET(
         })
 
         const recommended = rawRecommended.map((r) => ({
+            id: r.id,
             title: r.title,
             price: r.price,
             image: r.images[0] ?? null,
             category: r.category,
             slug: r.slug,
-            type: "NUTRITION",
+            type: "nutrition",
         }))
 
         return Response.json(

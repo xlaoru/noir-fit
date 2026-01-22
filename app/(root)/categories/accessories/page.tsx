@@ -1,4 +1,4 @@
-import ProductsPage from "@/components/ProductsPage";
+import ProductsPage from "@/components/pages/ProductsPage";
 import { IShortedAccessory } from "@/utils/models";
 import type { Metadata } from "next";
 

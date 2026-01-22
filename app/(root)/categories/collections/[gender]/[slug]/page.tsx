@@ -1,4 +1,4 @@
-import ProductPage from "@/components/ProductPage";
+import ProductPage from "@/components/pages/ProductPage";
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle";
 import { ICloth, IShortedCloth } from "@/utils/models"
 
@@ -28,7 +28,7 @@ export default async function Cloth({ params, }: { params: Promise<{ gender: str
         <ProductPage
             product={cloth}
             recommended={recommended}
-            type={gender}
+            type={gender === "men" ? "men" : "women"}
             backRoute={`/categories/collections/${gender}`}
         />
     )

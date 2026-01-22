@@ -1,18 +1,14 @@
 "use client"
 
+import { useCart } from "@/context/cart-context";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface IProductCardProps {
-    image: string;
-    title: string;
-    price: number
-    category: string;
-    route: string
-}
+import { IProductCardProps } from "@/utils/models";
 
-export default function ProductCard({ image, title, price, category, route }: IProductCardProps) {
+export default function ProductCard({ id, title, price, image, category, gender, slug, type, route }: IProductCardProps) {
+    const { add } = useCart()
     return (
         <Link href={route}>
             <div className="group flex flex-col gap-1 w-[286px]">
@@ -30,6 +26,16 @@ export default function ProductCard({ image, title, price, category, route }: IP
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
+
+                                add({
+                                    id,
+                                    type,
+                                    title,
+                                    price,
+                                    image,
+                                    slug,
+                                    ...(gender && { gender })
+                                })
                             }}
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -56,6 +62,6 @@ export default function ProductCard({ image, title, price, category, route }: IP
                     <p className="font-bold text-sm">${price}</p>
                 </div>
             </div>
-        </Link>
+        </Link >
     )
 }

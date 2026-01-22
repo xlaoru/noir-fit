@@ -4,20 +4,11 @@ import { useRouter, useSearchParams } from "next/navigation"
 
 import { useState, useEffect } from "react"
 
-import { IShortedAccessory, IShortedCloth, IShortedNutrition } from "@/utils/models";
-import Filters from "./Filters";
-import ProductCard from "./ProductCard";
+import { IProductsPageProps } from "@/utils/models";
+import Filters from "../Filters";
+import ProductCard from "../ProductCard";
 
 import { X } from 'lucide-react';
-
-interface IProductsPageProps {
-    title: string;
-    body: string;
-    type: "collections" | "accessories" | "nutrition"
-    gender?: string;
-    initialProducts: (IShortedCloth | IShortedAccessory | IShortedNutrition)[];
-    categories: string[]
-}
 
 export default function ProductsPage({ title, body, type, gender, initialProducts, categories }: IProductsPageProps) {
     const searchParams = useSearchParams()
@@ -83,14 +74,18 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                         <p className="text-sm">{products.length} products</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {products.map((collection) => (
+                        {products.map((product) => (
                             <ProductCard
-                                key={collection.title}
-                                image={collection.image}
-                                title={collection.title}
-                                price={collection.price}
-                                category={collection.category}
-                                route={`/categories/${type}/${"gender" in collection ? `${collection.gender.toLowerCase()}/` : ""}${collection.slug}`}
+                                key={product.title}
+                                id={product.id}
+                                title={product.title}
+                                price={product.price}
+                                image={product.image}
+                                category={product.category}
+                                slug={product.slug}
+                                type={product.type}
+                                route={`/categories/${type}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                                {...("gender" in product ? { gender: product.gender } : {})}
                             />
                         ))}
                     </div>
