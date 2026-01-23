@@ -78,16 +78,6 @@ export interface INutrition {
   type: "nutrition"
 }
 
-export interface ICartContext {
-    items: CartItem[]
-    add: (item: StoreItem) => void
-    remove: (key: string) => void
-    increase: (key: string) => void
-    decrease: (key: string) => void
-    total: number
-    amount: number
-}
-
 export interface StoreItem {
   id: string
   title: string
@@ -101,6 +91,26 @@ export interface StoreItem {
 export interface CartItem extends StoreItem {
   quantity: number
   key: string
+}
+
+export interface ICartContext {
+  items: CartItem[]
+  add: (item: StoreItem) => void
+  remove: (key: string) => void
+  increase: (key: string) => void
+  decrease: (key: string) => void
+  total: number
+  amount: number
+}
+
+export interface WishlistItem extends StoreItem {
+  key: string
+}
+
+export interface IWishlistContext {
+  items: WishlistItem[]
+  toggle: (item: StoreItem) => void
+  has: (key: string) => boolean
 }
 
 export interface IProductCardProps {

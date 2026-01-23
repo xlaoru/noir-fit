@@ -55,7 +55,7 @@ export default function CartPage() {
                                             <h5>Order Summary</h5>
                                             <div className="flex justify-between">
                                                 <p className="text-sm text-zinc-400">Subtotal</p>
-                                                <p className="text-sm text-zinc-100">${total}</p>
+                                                <p className="text-sm text-zinc-100">${total.toFixed(2)}</p>
                                             </div>
                                             {
                                                 total / 10 >= 12

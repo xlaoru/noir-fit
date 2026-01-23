@@ -7,9 +7,24 @@ import ProductCard from "../ProductCard";
 import { ChevronLeft, Heart } from "lucide-react";
 import { IProductPageProps } from "@/utils/models";
 import { useCart } from "@/context/cart-context";
+import { useWishlist } from "@/context/wishlist-context";
+import { getProductKey } from "@/utils/getProductKey";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
     const { add } = useCart()
+
+    const { toggle, has } = useWishlist()
+
+    const key = getProductKey({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.images[0],
+        slug: product.slug,
+        type: type === "men" || type === "women" ? "collections" : type,
+        ...("gender" in product ? { gender: product.gender } : {})
+    })
+
     return (
         <>
             <section>
@@ -58,8 +73,8 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 price: product.price,
                                                 image: product.images[0],
                                                 slug: product.slug,
-                                                ...((type === "men" || type === "women") && { gender: type === "men" ? "MEN" : "WOMEN" }),
-                                                type: (type === "men" || type === "women") ? "collections" : type
+                                                type: (type === "men" || type === "women") ? "collections" : type,
+                                                ...("gender" in product ? { gender: product.gender } : {})
                                             })
                                         }}
                                         className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300"
@@ -73,8 +88,19 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                     </button>
                                     <button
                                         className="p-4 cursor-pointer text-zinc-100 text-sm rounded-md border border-zinc-500 bg-zinc-900 hover:bg-zinc-800"
+                                        onClick={() => {
+                                            toggle({
+                                                id: product.id,
+                                                title: product.title,
+                                                price: product.price,
+                                                image: product.images[0],
+                                                slug: product.slug,
+                                                type: type === "men" || type === "women" ? "collections" : type,
+                                                ...("gender" in product ? { gender: product.gender } : {})
+                                            })
+                                        }}
                                     >
-                                        <Heart />
+                                        {has(key) ? <Heart fill="currentColor" /> : <Heart />}
                                     </button>
                                 </div>
                             </div>
@@ -100,7 +126,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
             <section>
                 <div className="section-container pt-0 flex flex-col gap-10">
                     <h4 className="font-normal">You might also like</h4>

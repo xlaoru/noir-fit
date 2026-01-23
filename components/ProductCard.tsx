@@ -6,9 +6,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { IProductCardProps } from "@/utils/models";
+import { useWishlist } from "@/context/wishlist-context";
+import { getProductKey } from "@/utils/getProductKey";
 
 export default function ProductCard({ id, title, price, image, category, gender, slug, type, route }: IProductCardProps) {
     const { add } = useCart()
+
+    const { toggle, has } = useWishlist()
+
+    const key = getProductKey({
+        id,
+        type,
+        title,
+        price,
+        image,
+        slug,
+        ...(gender && { gender })
+    })
+
     return (
         <Link href={route}>
             <div className="group flex flex-col gap-1 w-[286px]">
@@ -49,9 +64,18 @@ export default function ProductCard({ id, title, price, image, category, gender,
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
+                                toggle({
+                                    id,
+                                    type,
+                                    title,
+                                    price,
+                                    image,
+                                    slug,
+                                    ...(gender && { gender })
+                                })
                             }}
                         >
-                            <Heart />
+                            {has(key) ? <Heart fill="currentColor" /> : <Heart />}
                         </button>
                     </div>
                 </div>
