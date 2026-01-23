@@ -1,3 +1,4 @@
+import WishlistPage from "@/components/pages/WishlistPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,10 +8,6 @@ export const metadata: Metadata = {
 
 export default function Wishlist() {
     return (
-        <section>
-            <div className="section-container">
-                Wishlist
-            </div>
-        </section>
+        <WishlistPage />
     )
 }

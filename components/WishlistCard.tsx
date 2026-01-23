@@ -1,32 +1,14 @@
-"use client"
-
 import { useCart } from "@/context/cart-context";
-import { Heart } from "lucide-react";
+import { useWishlist } from "@/context/wishlist-context";
+import { IWishlistCardProps } from "@/utils/models";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { IProductCardProps } from "@/utils/models";
-import { useWishlist } from "@/context/wishlist-context";
-import { getProductKey } from "@/utils/getProductKey";
-
-export default function ProductCard({ id, title, price, image, category, gender, slug, type, route }: IProductCardProps) {
+export default function WishlistCard({ id, title, price, image, category, gender, slug, type }: IWishlistCardProps) {
     const { add } = useCart()
-
-    const { toggle, has } = useWishlist()
-
-    const key = getProductKey({
-        id,
-        type,
-        title,
-        price,
-        image,
-        category,
-        slug,
-        ...(gender && { gender })
-    })
-
+    const { toggle } = useWishlist()
     return (
-        <Link href={route}>
+        <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
             <div className="group flex flex-col gap-1 w-[286px]">
                 <div className="relative w-[286px] h-[381px] overflow-hidden rounded-xl">
                     <Image
@@ -36,7 +18,26 @@ export default function ProductCard({ id, title, price, image, category, gender,
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
-                    <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                    <button
+                        className="absolute top-2 right-2 p-2 cursor-pointer text-zinc-300 text-sm rounded-md bg-zinc-900 hover:bg-zinc-800 hover:text-red-600"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            toggle({
+                                id,
+                                type,
+                                title,
+                                price,
+                                image,
+                                category,
+                                slug,
+                                ...(gender && { gender })
+                            })
+                        }}
+                    >
+                        <Trash2 width={16} height={16} />
+                    </button>
+                    <div className="absolute bottom-3 left-3 right-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                         <button
                             className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300 transition-colors"
                             onClick={(e) => {
@@ -61,25 +62,6 @@ export default function ProductCard({ id, title, price, image, category, gender,
                             </svg>
                             Add to Cart
                         </button>
-                        <button
-                            className="p-2 cursor-pointer text-zinc-100 text-sm py-2 rounded-md bg-zinc-900 hover:bg-zinc-800"
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                toggle({
-                                    id,
-                                    type,
-                                    title,
-                                    price,
-                                    image,
-                                    category,
-                                    slug,
-                                    ...(gender && { gender })
-                                })
-                            }}
-                        >
-                            {has(key) ? <Heart fill="currentColor" /> : <Heart />}
-                        </button>
                     </div>
                 </div>
                 <div className="mt-3 flex flex-col gap-1.5">
@@ -88,6 +70,6 @@ export default function ProductCard({ id, title, price, image, category, gender,
                     <p className="font-bold text-sm">${price}</p>
                 </div>
             </div>
-        </Link >
+        </Link>
     )
 }

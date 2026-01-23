@@ -1,6 +1,7 @@
 "use client"
 
 import { useCart } from "@/context/cart-context"
+import { useWishlist } from "@/context/wishlist-context"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useRef } from "react"
@@ -9,7 +10,9 @@ export default function Header() {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
 
-    const { amount } = useCart()
+    const { amount: cartAmount } = useCart()
+
+    const { amount: wishlistAmount } = useWishlist()
 
     const closeMenu = () => setOpen(false)
 
@@ -49,12 +52,13 @@ export default function Header() {
                 <div className="flex items-center gap-4">
                     <Link
                         href="/wishlist"
-                        className="flex h-9 w-9 items-center justify-center text-zinc-400 hover:text-zinc-100 transition-colors"
+                        className="relative flex h-9 w-9 items-center justify-center text-zinc-400 hover:text-zinc-100 transition-colors"
                         aria-label="Wishlist"
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                             <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
                         </svg>
+                        <div className={`${wishlistAmount === 0 ? "hidden" : "flex"} absolute top-0 right-0 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{wishlistAmount > 99 ? 99 : wishlistAmount}</div>
                     </Link>
                     <Link
                         href="/cart"
@@ -66,7 +70,7 @@ export default function Header() {
                             <circle cx="20" cy="21" r="1" />
                             <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
                         </svg>
-                        <div className={`${amount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{amount > 99 ? 99 : amount}</div>
+                        <div className={`${cartAmount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{cartAmount > 99 ? 99 : cartAmount}</div>
                     </Link>
                     <Link
                         href="/account"

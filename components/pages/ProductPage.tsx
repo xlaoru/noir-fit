@@ -20,6 +20,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
         title: product.title,
         price: product.price,
         image: product.images[0],
+        category: product.category,
         slug: product.slug,
         type: type === "men" || type === "women" ? "collections" : type,
         ...("gender" in product ? { gender: product.gender } : {})
@@ -72,6 +73,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 title: product.title,
                                                 price: product.price,
                                                 image: product.images[0],
+                                                category: product.category,
                                                 slug: product.slug,
                                                 type: (type === "men" || type === "women") ? "collections" : type,
                                                 ...("gender" in product ? { gender: product.gender } : {})
@@ -94,6 +96,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 title: product.title,
                                                 price: product.price,
                                                 image: product.images[0],
+                                                category: product.category,
                                                 slug: product.slug,
                                                 type: type === "men" || type === "women" ? "collections" : type,
                                                 ...("gender" in product ? { gender: product.gender } : {})

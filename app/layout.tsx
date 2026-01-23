@@ -30,12 +30,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <CartProvider>
-          <Header />
-          <main>
-            <WishlistProvider>
+          <WishlistProvider>
+            <Header />
+            <main>
               {children}
-            </WishlistProvider>
-          </main>
+            </main>
+          </WishlistProvider>
         </CartProvider>
         <Footer />
       </body>

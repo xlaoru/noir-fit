@@ -27,8 +27,10 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         return items.some((item) => item.key === key)
     }
 
+    const amount = items.length
+
     return (
-        <WishlistContext.Provider value={{ items, toggle, has }}>
+        <WishlistContext.Provider value={{ items, toggle, has, amount }}>
             {children}
         </WishlistContext.Provider>
     )

@@ -83,6 +83,7 @@ export interface StoreItem {
   title: string
   price: number
   image: string
+  category: string
   slug: string
   type: "collections" | "accessories" | "nutrition"
   gender?: "MEN" | "WOMEN"
@@ -111,6 +112,7 @@ export interface IWishlistContext {
   items: WishlistItem[]
   toggle: (item: StoreItem) => void
   has: (key: string) => boolean
+  amount: number
 }
 
 export interface IProductCardProps {
@@ -170,4 +172,15 @@ export interface ICardCardProps {
   type: "collections" | "accessories" | "nutrition"
   cartKey: string
   quantity: number
+}
+
+export interface IWishlistCardProps {
+  id: string
+  type: "collections" | "accessories" | "nutrition"
+  title: string
+  price: number
+  image: string
+  category: string
+  slug: string
+  gender?: "MEN" | "WOMEN"
 }
