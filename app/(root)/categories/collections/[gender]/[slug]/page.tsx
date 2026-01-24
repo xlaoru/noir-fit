@@ -1,6 +1,6 @@
 import ProductPage from "@/components/pages/ProductPage";
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle";
-import { ICloth, IShortedCloth } from "@/utils/models"
+import { IFullProduct, IProduct } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -23,13 +23,13 @@ export default async function Cloth({ params, }: { params: Promise<{ gender: str
         throw new Error(message)
     }
 
-    const { cloth, recommended }: { cloth: ICloth, recommended: IShortedCloth[] } = await response.json()
+    const { cloth, recommended }: { cloth: IFullProduct, recommended: IProduct[] } = await response.json()
 
     return (
         <ProductPage
             product={cloth}
             recommended={recommended}
-            type={gender === "men" ? "men" : "women"}
+            type="collections"
             backRoute={`/categories/collections/${gender}`}
         />
     )

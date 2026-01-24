@@ -1,7 +1,7 @@
 import CategoryCard from "@/components/CategoryCard";
 import DescriptionCard from "@/components/DescriptionCard"
 import ProductCard from "@/components/ProductCard";
-import { IShortedAccessory, IShortedCloth, IShortedNutrition } from "@/utils/models";
+import { IProduct } from "@/utils/models";
 import Link from "next/link";
 
 export default async function Home() {
@@ -11,9 +11,7 @@ export default async function Home() {
     return <div>Error!</div>
   }
 
-  const { products }: {
-    products: (IShortedCloth | IShortedAccessory | IShortedNutrition)[]
-  } = await reponse.json()
+  const { products }: { products: IProduct[] } = await reponse.json()
 
   return (
     <>
@@ -100,7 +98,7 @@ export default async function Home() {
                 image={product.image}
                 category={product.category}
                 slug={product.slug}
-                route={`/categories/${product.type.toLowerCase()}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                route={`/categories/${product.type.toLowerCase()}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                 {...("gender" in product ? { gender: product.gender } : {})}
               />
             ))}

@@ -1,5 +1,5 @@
 import ProductsPage from "@/components/pages/ProductsPage";
-import { IShortedAccessory } from "@/utils/models";
+import { IProduct } from "@/utils/models";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default async function Accessories() {
         throw new Error(message)
     }
 
-    const { accessories, categories }: { accessories: IShortedAccessory[], categories: string[] } = await response.json()
+    const { accessories, categories }: { accessories: IProduct[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage

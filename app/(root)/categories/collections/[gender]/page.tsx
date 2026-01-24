@@ -1,5 +1,5 @@
 import ProductsPage from "@/components/pages/ProductsPage"
-import { IShortedCloth } from "@/utils/models"
+import { IProduct } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
@@ -20,7 +20,7 @@ export default async function Collection({ params, }: { params: Promise<{ gender
         throw new Error(message)
     }
 
-    const { collections, categories }: { collections: IShortedCloth[], categories: string[] } = await response.json()
+    const { collections, categories }: { collections: IProduct[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage

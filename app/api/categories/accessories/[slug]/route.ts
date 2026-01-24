@@ -42,7 +42,7 @@ export async function GET(
         }))
 
         return Response.json(
-            { message: "Accessory was fetched successfully.", accessory, recommended }, 
+            { message: "Accessory was fetched successfully.", accessory: {...accessory, type: "accessories"}, recommended }, 
             { status: 200 }
         )
     } catch (e) {

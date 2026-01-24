@@ -1,16 +1,16 @@
 "use client"
 
 import { createContext, useContext, useState } from "react"
-import { CartItem, ICartContext, StoreItem } from "@/utils/models"
+import { ICartItem, ICartContext, IProduct } from "@/utils/models"
 import { getProductKey } from "@/utils/getProductKey"
 
 const CartContext = createContext<ICartContext | null>(null)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-    const [items, setItems] = useState<CartItem[]>([])
+    const [items, setItems] = useState<ICartItem[]>([])
 
-    function add(product: StoreItem) {
-        const key = getProductKey(product)
+    function add(product: IProduct) {
+        const key = getProductKey(product.type, product.id)
 
         setItems((prev) => {
             const existing = prev.find((item) => item.key === key)

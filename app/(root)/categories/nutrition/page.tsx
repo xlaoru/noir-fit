@@ -1,5 +1,5 @@
 import ProductsPage from "@/components/pages/ProductsPage";
-import { IShortedNutrition } from "@/utils/models";
+import { IProduct } from "@/utils/models";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default async function Nutrition() {
         throw new Error(message)
     }
 
-    const { nutrition, categories }: { nutrition: IShortedNutrition[], categories: string[] } = await response.json()
+    const { nutrition, categories }: { nutrition: IProduct[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage

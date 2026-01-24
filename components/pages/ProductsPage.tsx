@@ -76,7 +76,7 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                     {
                         products.length === 0
                             ? (
-                                <h3>Oops! Seems like we have not any <span className="capitalize">{activeCategory?.toLowerCase()}</span> positions for <span>{gender}</span>.</h3>
+                                <h3>Oops! Seems like we have not any <span className="capitalize">{activeCategory?.toLowerCase()}</span> positions<span>{gender ? ` for ${gender}` : ""}</span>.</h3>
                             )
                             : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -90,7 +90,7 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                                             category={product.category}
                                             slug={product.slug}
                                             type={product.type}
-                                            route={`/categories/${type}/${"gender" in product ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                                            route={`/categories/${type}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                                             {...("gender" in product ? { gender: product.gender } : {})}
                                         />
                                     ))}

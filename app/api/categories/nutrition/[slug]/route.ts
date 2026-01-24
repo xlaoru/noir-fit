@@ -42,7 +42,7 @@ export async function GET(
         }))
 
         return Response.json(
-            { message: "Nutrition was fetched successfully.", nutrition, recommended }, 
+            { message: "Nutrition was fetched successfully.", nutrition: {...nutrition, type: "nutrition"}, recommended }, 
             { status: 200 }
         )
     } catch (e) {

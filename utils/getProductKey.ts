@@ -1,5 +1,5 @@
-import { StoreItem } from "./models";
+import { Type } from "./models"
 
-export function getProductKey(p: StoreItem) {
-  return `${p.type}:${p.id}`
+export function getProductKey(type: Type, id: string) {
+  return `${type}:${id}`
 }

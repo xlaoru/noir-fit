@@ -47,7 +47,7 @@ export async function GET(
         }))
 
         return Response.json(
-            { message: `Cloth for ${gender} was fetched successfully.`, cloth, recommended }, 
+            { message: `Cloth for ${gender} was fetched successfully.`, cloth: {...cloth, type: "collections"}, recommended }, 
             { status: 200 }
         )
     } catch (e) {

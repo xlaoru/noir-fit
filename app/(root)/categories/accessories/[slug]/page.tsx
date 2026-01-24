@@ -1,4 +1,4 @@
-import { IAccessory, IShortedAccessory } from "@/utils/models"
+import { IFullProduct, IProduct } from "@/utils/models"
 import ProductPage from "@/components/pages/ProductPage"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
 
@@ -23,7 +23,7 @@ export default async function Accessory({ params, }: { params: Promise<{ slug: s
         throw new Error(message)
     }
 
-    const { accessory, recommended }: { accessory: IAccessory, recommended: IShortedAccessory[] } = await response.json()
+    const { accessory, recommended }: { accessory: IFullProduct, recommended: IProduct[] } = await response.json()
 
     return (
         <ProductPage

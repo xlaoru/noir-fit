@@ -1,10 +1,10 @@
 import { useCart } from "@/context/cart-context";
-import { ICardCardProps } from "@/utils/models";
+import { ICartCardProps } from "@/utils/models";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CartCard({ title, price, image, gender, slug, type, cartKey, quantity }: ICardCardProps) {
+export default function CartCard({ title, price, image, gender, slug, type, cartKey, quantity }: ICartCardProps) {
     const { remove, increase, decrease } = useCart()
     return (
         <div className="flex justify-between bg-zinc-900 border border-zinc-800 rounded-sm p-3">

@@ -4,9 +4,12 @@ import { IWishlistCardProps } from "@/utils/models";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 export default function WishlistCard({ id, title, price, image, category, gender, slug, type }: IWishlistCardProps) {
     const { add } = useCart()
+
     const { toggle } = useWishlist()
+
     return (
         <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
             <div className="group flex flex-col gap-1 w-[286px]">

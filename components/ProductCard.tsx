@@ -14,16 +14,7 @@ export default function ProductCard({ id, title, price, image, category, gender,
 
     const { toggle, has } = useWishlist()
 
-    const key = getProductKey({
-        id,
-        type,
-        title,
-        price,
-        image,
-        category,
-        slug,
-        ...(gender && { gender })
-    })
+    const key = getProductKey(type, id)
 
     return (
         <Link href={route}>

@@ -10,7 +10,7 @@ export default function WishlistPage() {
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                    <h2 className="text-left">Shopping Cart</h2>
+                    <h2 className="text-left">Wishlist</h2>
                     <p className="text-sm">
                         {amount} items
                     </p>

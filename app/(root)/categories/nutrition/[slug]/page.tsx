@@ -1,4 +1,4 @@
-import { INutrition, IShortedNutrition } from "@/utils/models"
+import { IFullProduct, IProduct } from "@/utils/models"
 import ProductPage from "@/components/pages/ProductPage"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
 
@@ -23,7 +23,7 @@ export default async function Nutration({ params, }: { params: Promise<{ slug: s
         throw new Error(message)
     }
 
-    const { nutrition, recommended }: { nutrition: INutrition, recommended: IShortedNutrition[] } = await response.json()
+    const { nutrition, recommended }: { nutrition: IFullProduct, recommended: IProduct[] } = await response.json()
 
     return (
         <ProductPage

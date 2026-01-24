@@ -1,16 +1,16 @@
 "use client"
 
 import { createContext, useContext, useState } from "react"
-import { StoreItem, IWishlistContext, WishlistItem } from "@/utils/models"
+import { IWishlistContext, IWishlistItem, IProduct } from "@/utils/models"
 import { getProductKey } from "@/utils/getProductKey"
 
 const WishlistContext = createContext<IWishlistContext | null>(null)
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
-    const [items, setItems] = useState<WishlistItem[]>([])
+    const [items, setItems] = useState<IWishlistItem[]>([])
 
-    function toggle(product: StoreItem) {
-        const key = getProductKey(product)
+    function toggle(product: IProduct) {
+        const key = getProductKey(product.type, product.id)
 
         setItems((prev) => {
             const exists = prev.find((item) => item.key === key)

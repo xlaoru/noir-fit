@@ -15,22 +15,13 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
 
     const { toggle, has } = useWishlist()
 
-    const key = getProductKey({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.images[0],
-        category: product.category,
-        slug: product.slug,
-        type: type === "men" || type === "women" ? "collections" : type,
-        ...("gender" in product ? { gender: product.gender } : {})
-    })
+    const key = getProductKey(product.type, product.id)
 
     return (
         <>
             <section>
                 <div className="section-container pt-0 pb-25 border-b border-zinc-900">
-                    <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> <span>Back to <span className="lowercase">{type}&apos;s</span> collection</span></p></Link>
+                    <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> Back to {type}</p></Link>
                     <div className="pt-12 grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-16">
                         <Image
                             src={product.images[0]}
@@ -46,24 +37,28 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 <h3>${product.price}</h3>
                                 <p className="text-zinc-400">{product.description}</p>
                                 {
-                                    "gender" in product
-                                        ? (
-                                            <>
-                                                <p className="text-zinc-400">Color</p>
-                                                <div className="flex gap-2">
-                                                    {product.colors.map((color, index) => (
-                                                        <div key={index} className={`w-8 h-8 rounded-full border border-transparent hover:border-zinc-500 cursor-pointer transition-border`} style={{ backgroundColor: color }}></div>
-                                                    ))}
-                                                </div>
-                                                <p className="text-zinc-400">Size</p>
-                                                <div className="flex gap-2">
-                                                    {product.sizes.map((size, index) => (
-                                                        <div key={index} className="flex justify-center items-center w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-500 cursor-pointer hover:bg-zinc-800 transition-colors">{size}</div>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )
-                                        : null
+                                    product.colors && (
+                                        <>
+                                            <p className="text-zinc-400">Color</p>
+                                            <div className="flex gap-2">
+                                                {product.colors.map((color, index) => (
+                                                    <div key={index} className={`w-8 h-8 rounded-full border border-transparent hover:border-zinc-500 cursor-pointer transition-border`} style={{ backgroundColor: color }}></div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )
+                                }
+                                {
+                                    product.sizes && (
+                                        <>
+                                            <p className="text-zinc-400">Size</p>
+                                            <div className="flex gap-2">
+                                                {product.sizes.map((size, index) => (
+                                                    <div key={index} className="flex justify-center items-center w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-500 cursor-pointer hover:bg-zinc-800 transition-colors">{size}</div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )
                                 }
                                 <div className="flex gap-3">
                                     <button
@@ -75,7 +70,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 image: product.images[0],
                                                 category: product.category,
                                                 slug: product.slug,
-                                                type: (type === "men" || type === "women") ? "collections" : type,
+                                                type: product.type,
                                                 ...("gender" in product ? { gender: product.gender } : {})
                                             })
                                         }}
@@ -98,7 +93,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 image: product.images[0],
                                                 category: product.category,
                                                 slug: product.slug,
-                                                type: type === "men" || type === "women" ? "collections" : type,
+                                                type: product.type,
                                                 ...("gender" in product ? { gender: product.gender } : {})
                                             })
                                         }}
@@ -133,11 +128,10 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
             <section>
                 <div className="section-container pt-0 flex flex-col gap-10">
                     <h4 className="font-normal">You might also like</h4>
-
                     {
                         recommended.length === 0
                             ? (
-                                <h3>Oops! Seems like we have not any <span className="capitalize">{product.category.toLowerCase()}</span> positions{"gender" in product ? <span> {product.gender.toLowerCase()}</span> : ""}.</h3>
+                                <h3>Oops! Seems like we have not any <span className="capitalize">{product.category.toLowerCase()}</span> positions{product.gender && <span> for {product.gender.toLowerCase()}</span>}.</h3>
                             )
                             : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -152,7 +146,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 category={recommendedItem.category}
                                                 slug={recommendedItem.slug}
                                                 type={recommendedItem.type}
-                                                route={`/categories/${recommendedItem.type.toLowerCase()}/${"gender" in recommendedItem ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
+                                                route={`/categories/${recommendedItem.type}/${recommendedItem.gender ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
                                                 {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}
                                             />
                                         ))

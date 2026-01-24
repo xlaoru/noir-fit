@@ -1,102 +1,36 @@
-export interface IShortedCloth {
-  id: string
-  image: string;
-  title: string;
-  price: number;
-  category: string;
-  gender: "MEN" | "WOMEN";
-  slug: string;
-  type: "collections" | "accessories" | "nutrition"
-}
+export type Gender = "MEN" | "WOMEN"
+export type Type = "collections" | "accessories" | "nutrition"
 
-export interface ICloth {
-  id: string
-  images: string[]
-  title: string
-  price: number
-  description: string
-  colors: string[]
-  sizes: string[]
-  gender: "MEN" | "WOMEN"
-  category: string
-  material: string
-  fit: string
-  care: string
-  origin: string
-  slug: string
-  type: "collections"
-}
-
-export interface IShortedAccessory {
-  id: string
-  image: string;
-  title: string;
-  price: number;
-  category: string;
-  slug: string;
-  type: "collections" | "accessories" | "nutrition"
-}
-
-export interface IAccessory {
-  id: string
-  images: string[]
-  title: string
-  price: number
-  description: string
-  colors: string[]
-  category: string
-  material: string
-  fit: string
-  care: string
-  origin: string
-  slug: string
-  type: "accessories"
-}
-
-export interface IShortedNutrition {
+export interface IProduct {
   id: string
   image: string
   title: string
   price: number
   category: string
+  gender?: Gender
   slug: string
-  type: "collections" | "accessories" | "nutrition"
+  type: Type
 }
 
-export interface INutrition {
-  id: string
+export interface IFullProduct extends Omit<IProduct, "image"> {
   images: string[]
-  title: string
-  price: number
   description: string
-  category: string
+  colors?: string[]
+  sizes?: string[]
   material: string
   fit: string
   care: string
   origin: string
-  slug: string
-  type: "nutrition"
 }
 
-export interface StoreItem {
-  id: string
-  title: string
-  price: number
-  image: string
-  category: string
-  slug: string
-  type: "collections" | "accessories" | "nutrition"
-  gender?: "MEN" | "WOMEN"
-}
-
-export interface CartItem extends StoreItem {
+export interface ICartItem extends IProduct {
   quantity: number
   key: string
 }
 
 export interface ICartContext {
-  items: CartItem[]
-  add: (item: StoreItem) => void
+  items: ICartItem[]
+  add: (product: IProduct) => void
   remove: (key: string) => void
   increase: (key: string) => void
   decrease: (key: string) => void
@@ -104,27 +38,19 @@ export interface ICartContext {
   amount: number
 }
 
-export interface WishlistItem extends StoreItem {
+export interface IWishlistItem extends IProduct {
   key: string
 }
 
 export interface IWishlistContext {
-  items: WishlistItem[]
-  toggle: (item: StoreItem) => void
+  items: IWishlistItem[]
+  toggle: (product: IProduct) => void
   has: (key: string) => boolean
   amount: number
 }
 
-export interface IProductCardProps {
-  id: string
-  title: string;
-  price: number
-  image: string;
-  category: string;
-  gender?: "MEN" | "WOMEN";
+export interface IProductCardProps extends IProduct {
   route: string
-  slug: string;
-  type: "collections" | "accessories" | "nutrition";
 }
 
 export interface IFiltersProps {
@@ -150,37 +76,21 @@ export interface ICategoryCardProps {
 export interface IProductsPageProps {
   title: string;
   body: string;
-  type: "collections" | "accessories" | "nutrition"
+  type: Type;
   gender?: string;
-  initialProducts: (IShortedCloth | IShortedAccessory | IShortedNutrition)[];
+  initialProducts: IProduct[];
   categories: string[]
 }
 
 export interface IProductPageProps {
-  product: ICloth | IAccessory | INutrition
-  recommended: IShortedCloth[] | IShortedAccessory[] | IShortedNutrition[]
-  type: ("men" | "women") | "accessories" | "nutrition"
+  product: IFullProduct
+  recommended: IProduct[]
+  type: Type;
   backRoute: string
 }
 
-export interface ICardCardProps {
-  title: string
-  price: number
-  image: string
-  gender?: "MEN" | "WOMEN"
-  slug: string
-  type: "collections" | "accessories" | "nutrition"
+export interface ICartCardProps extends Omit<ICartItem, "key" | "id" | "category"> {
   cartKey: string
-  quantity: number
 }
 
-export interface IWishlistCardProps {
-  id: string
-  type: "collections" | "accessories" | "nutrition"
-  title: string
-  price: number
-  image: string
-  category: string
-  slug: string
-  gender?: "MEN" | "WOMEN"
-}
+export type IWishlistCardProps = Omit<IWishlistItem, "key">
