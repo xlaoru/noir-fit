@@ -1,9 +1,9 @@
 export type Gender = "MEN" | "WOMEN"
-export type Type = "collections" | "accessories" | "nutrition"
+export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
 
 export interface IProduct {
   id: string
-  image: string
+  images: string
   title: string
   price: number
   category: string
@@ -12,8 +12,7 @@ export interface IProduct {
   type: Type
 }
 
-export interface IFullProduct extends Omit<IProduct, "image"> {
-  images: string[]
+export interface IFullProduct extends IProduct {
   description: string
   colors?: string[]
   sizes?: string[]

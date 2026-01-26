@@ -13,24 +13,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 }
 
-export default async function Cloth({ params, }: { params: Promise<{ gender: string, slug: string }> }) {
+export default async function Apparel({ params, }: { params: Promise<{ gender: string, slug: string }> }) {
     const { gender, slug } = await params
 
-    const response = await fetch(`${process.env.URL}/api/categories/collections/${gender}/${slug}`)
+    const response = await fetch(`${process.env.URL}/api/products/apparel/${gender}/${slug}`)
 
     if (!response.ok) {
         const { message }: { message: string } = await response.json()
         throw new Error(message)
     }
 
-    const { cloth, recommended }: { cloth: IFullProduct, recommended: IProduct[] } = await response.json()
+    const { apparel, recommended }: { apparel: IFullProduct, recommended: IProduct[] } = await response.json()
 
     return (
         <ProductPage
-            product={cloth}
+            product={apparel}
             recommended={recommended}
-            type="collections"
-            backRoute={`/categories/collections/${gender}`}
+            type="APPAREL"
+            backRoute={`/categories/apparel/${gender}`}
         />
     )
 }

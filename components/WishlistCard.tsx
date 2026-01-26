@@ -1,21 +1,15 @@
-import { useCart } from "@/context/cart-context";
-import { useWishlist } from "@/context/wishlist-context";
 import { IWishlistCardProps } from "@/utils/models";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function WishlistCard({ id, title, price, image, category, gender, slug, type }: IWishlistCardProps) {
-    const { add } = useCart()
-
-    const { toggle } = useWishlist()
-
+export default function WishlistCard({ id, title, price, images, category, gender, slug, type }: IWishlistCardProps) {
     return (
         <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
             <div className="group flex flex-col gap-1 w-[286px]">
                 <div className="relative w-[286px] h-[381px] overflow-hidden rounded-xl">
                     <Image
-                        src={image}
+                        src={images[0]}
                         alt={title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -26,16 +20,6 @@ export default function WishlistCard({ id, title, price, image, category, gender
                         onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            toggle({
-                                id,
-                                type,
-                                title,
-                                price,
-                                image,
-                                category,
-                                slug,
-                                ...(gender && { gender })
-                            })
                         }}
                     >
                         <Trash2 width={16} height={16} />
@@ -46,16 +30,6 @@ export default function WishlistCard({ id, title, price, image, category, gender
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                add({
-                                    id,
-                                    type,
-                                    title,
-                                    price,
-                                    image,
-                                    category,
-                                    slug,
-                                    ...(gender && { gender })
-                                })
                             }}
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">

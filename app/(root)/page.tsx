@@ -5,13 +5,14 @@ import { IProduct } from "@/utils/models";
 import Link from "next/link";
 
 export default async function Home() {
-  const reponse = await fetch(`${process.env.URL}/api/categories`)
+  const response = await fetch(`${process.env.URL}/api/products`)
 
-  if (!reponse.ok) {
-    return <div>Error!</div>
+  if (!response.ok) {
+    const { message }: { message: string } = await response.json()
+    throw new Error(message)
   }
 
-  const { products }: { products: IProduct[] } = await reponse.json()
+  const { products }: { products: IProduct[] } = await response.json()
 
   return (
     <>
@@ -90,13 +91,13 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <ProductCard
-                key={product.title}
                 id={product.id}
-                type={product.type}
+                images={product.images}
+                key={product.title}
                 title={product.title}
                 price={product.price}
-                image={product.image}
                 category={product.category}
+                type={product.type}
                 slug={product.slug}
                 route={`/categories/${product.type.toLowerCase()}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                 {...("gender" in product ? { gender: product.gender } : {})}

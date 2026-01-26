@@ -1,23 +1,21 @@
 "use client"
 
-import { useCart } from "@/context/cart-context"
 import CartCard from "../CartCard"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 export default function CartPage() {
-    const { items, total, amount } = useCart()
     return (
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                     <h2 className="text-left">Shopping Cart</h2>
                     <p className="text-sm">
-                        {amount} items
+                        {0} items
                     </p>
                 </div>
                 {
-                    items.length === 0
+                    0 === 0
                         ? (
                             <div className="flex flex-col justify-center items-center gap-5">
                                 <div className="bg-zinc-900 text-zinc-600 border border-zinc-800 p-6 rounded-full">
@@ -35,19 +33,19 @@ export default function CartPage() {
                         : (
                             <div className="flex flex-col lg:flex-row gap-8">
                                 <div className="flex-[0_0_60%] w-full flex flex-col gap-4">
-                                    {items.map((item) => (
+                                    {/* {[].map((item) => (
                                         <CartCard
                                             key={item.key}
                                             title={item.title}
                                             price={item.price}
-                                            image={item.image}
+                                            images={item.images}
                                             slug={item.slug}
                                             type={item.type}
                                             cartKey={item.key}
                                             quantity={item.quantity}
                                             {...("gender" in item ? { gender: item.gender } : {})}
                                         />
-                                    ))}
+                                    ))} */}
                                 </div>
                                 <div className="flex-[0_0_40%] w-full">
                                     <div className="sticky top-24 p-6 rounded-sm bg-zinc-900 border border-white/5 shadow-xl flex flex-col gap-5">
@@ -55,10 +53,10 @@ export default function CartPage() {
                                             <h5>Order Summary</h5>
                                             <div className="flex justify-between">
                                                 <p className="text-sm text-zinc-400">Subtotal</p>
-                                                <p className="text-sm text-zinc-100">${total.toFixed(2)}</p>
+                                                <p className="text-sm text-zinc-100">${0.00.toFixed(2)}</p>
                                             </div>
                                             {
-                                                total / 10 >= 12
+                                                0 / 10 >= 12
                                                     ? (
                                                         <div className="flex justify-between">
                                                             <p className="text-sm text-zinc-400">Shipping</p>
@@ -69,7 +67,7 @@ export default function CartPage() {
                                                         <div>
                                                             <div className="flex justify-between">
                                                                 <p className="text-sm text-zinc-400">Shipping</p>
-                                                                <p className="text-sm text-zinc-100">${(total / 10).toFixed(2)}</p>
+                                                                <p className="text-sm text-zinc-100">${(0 / 10).toFixed(2)}</p>
                                                             </div>
                                                             <p></p>
                                                         </div>
@@ -79,7 +77,7 @@ export default function CartPage() {
                                         <div className="flex flex-col gap-5">
                                             <div className="flex justify-between">
                                                 <h6>Total</h6>
-                                                <h6>${(total + (total / 10)).toFixed(2)}</h6>
+                                                <h6>${(0 + (0 / 10)).toFixed(2)}</h6>
                                             </div>
                                             <Link href="/" className="block w-full"><button className="w-full flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors">Checkout <ArrowRight width={18} height={18} /></button></Link>
                                             <p className="text-center">Secure checkout powered by Stripe</p>

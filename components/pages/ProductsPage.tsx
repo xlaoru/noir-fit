@@ -33,9 +33,11 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
             params.set("sort", sort)
         }
 
-        fetch(`http://localhost:3000/api/categories/${type}/${gender ? gender : ""}?${params.toString()}`)
+        fetch(`http://localhost:3000/api/products/${type.toLowerCase()}/${gender ? gender : ""}?${params.toString()}`)
             .then(response => response.json())
-            .then(data => setProducts(data[type]))
+            .then(data => {
+                setProducts(data[type.toLowerCase()])
+            })
             .catch((e) => {
                 console.error("Something went wrong:", e);
             })
@@ -86,11 +88,11 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                                             id={product.id}
                                             title={product.title}
                                             price={product.price}
-                                            image={product.image}
+                                            images={product.images}
                                             category={product.category}
                                             slug={product.slug}
                                             type={product.type}
-                                            route={`/categories/${type}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
+                                            route={`/categories/${type.toLowerCase()}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                                             {...("gender" in product ? { gender: product.gender } : {})}
                                         />
                                     ))}

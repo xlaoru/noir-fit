@@ -1,22 +1,20 @@
 "use client"
 
-import { useWishlist } from "@/context/wishlist-context"
 import Link from "next/link"
 import WishlistCard from "../WishlistCard"
 
 export default function WishlistPage() {
-    const { items, amount } = useWishlist()
     return (
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                     <h2 className="text-left">Wishlist</h2>
                     <p className="text-sm">
-                        {amount} items
+                        {0} items
                     </p>
                 </div>
                 {
-                    items.length === 0
+                    0 === 0
                         ? (
                             <div className="flex flex-col justify-center items-center gap-5">
                                 <div className="bg-zinc-900 text-zinc-600 border border-zinc-800 p-6 rounded-full">
@@ -31,19 +29,19 @@ export default function WishlistPage() {
                         )
                         : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                                {items.map((item) => (
+                                {/* {[].map((item) => (
                                     <WishlistCard
                                         key={item.key}
                                         id={item.id}
                                         title={item.title}
                                         price={item.price}
-                                        image={item.image}
+                                        images={item.images}
                                         category={item.category}
                                         slug={item.slug}
                                         type={item.type}
                                         {...("gender" in item) ? { gender: item.gender } : {}}
                                     />
-                                ))}
+                                ))} */}
                             </div>
                         )
                 }

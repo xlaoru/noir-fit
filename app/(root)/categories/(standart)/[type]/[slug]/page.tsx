@@ -1,6 +1,6 @@
-import { IFullProduct, IProduct } from "@/utils/models"
 import ProductPage from "@/components/pages/ProductPage"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
+import { IFullProduct, IProduct, Type } from "@/utils/models"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -13,24 +13,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 }
 
-export default async function Accessory({ params, }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params
+export default async function Product({ params, }: { params: Promise<{ type: Type, slug: string }> }) {
+    const { type, slug } = await params
 
-    const response = await fetch(`${process.env.URL}/api/categories/accessories/${slug}`)
+    const response = await fetch(`${process.env.URL}/api/products/${type}/${slug}`)
 
     if (!response.ok) {
         const { message }: { message: string } = await response.json()
         throw new Error(message)
     }
 
-    const { accessory, recommended }: { accessory: IFullProduct, recommended: IProduct[] } = await response.json()
+    const data = await response.json()
+
+
+    const product: IFullProduct = data[type.toLowerCase()]
+    const recommended: IProduct[] = data.recommended
 
     return (
         <ProductPage
-            product={accessory}
+            product={product}
             recommended={recommended}
-            type="accessories"
-            backRoute="/categories/accessories"
+            type={type}
+            backRoute={`/categories/${type.toLowerCase()}`}
         />
     )
 }

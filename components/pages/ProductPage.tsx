@@ -6,22 +6,13 @@ import Image from "next/image";
 import ProductCard from "../ProductCard";
 import { ChevronLeft, Heart } from "lucide-react";
 import { IProductPageProps } from "@/utils/models";
-import { useCart } from "@/context/cart-context";
-import { useWishlist } from "@/context/wishlist-context";
-import { getProductKey } from "@/utils/getProductKey";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
-    const { add } = useCart()
-
-    const { toggle, has } = useWishlist()
-
-    const key = getProductKey(product.type, product.id)
-
     return (
         <>
             <section>
                 <div className="section-container pt-0 pb-25 border-b border-zinc-900">
-                    <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> Back to {type}</p></Link>
+                    <Link href={backRoute}><p className="flex items-center gap-3 hover:text-zinc-100 transition-colors"><ChevronLeft width={14} height={14} /> Back to {type.toLowerCase()}</p></Link>
                     <div className="pt-12 grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-16">
                         <Image
                             src={product.images[0]}
@@ -62,18 +53,6 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 }
                                 <div className="flex gap-3">
                                     <button
-                                        onClick={() => {
-                                            add({
-                                                id: product.id,
-                                                title: product.title,
-                                                price: product.price,
-                                                image: product.images[0],
-                                                category: product.category,
-                                                slug: product.slug,
-                                                type: product.type,
-                                                ...("gender" in product ? { gender: product.gender } : {})
-                                            })
-                                        }}
                                         className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300"
                                     >
                                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -86,19 +65,9 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                     <button
                                         className="p-4 cursor-pointer text-zinc-100 text-sm rounded-md border border-zinc-500 bg-zinc-900 hover:bg-zinc-800"
                                         onClick={() => {
-                                            toggle({
-                                                id: product.id,
-                                                title: product.title,
-                                                price: product.price,
-                                                image: product.images[0],
-                                                category: product.category,
-                                                slug: product.slug,
-                                                type: product.type,
-                                                ...("gender" in product ? { gender: product.gender } : {})
-                                            })
                                         }}
                                     >
-                                        {has(key) ? <Heart fill="currentColor" /> : <Heart />}
+                                        {false ? <Heart fill="currentColor" /> : <Heart />}
                                     </button>
                                 </div>
                             </div>
@@ -142,11 +111,11 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 id={recommendedItem.id}
                                                 title={recommendedItem.title}
                                                 price={recommendedItem.price}
-                                                image={recommendedItem.image}
+                                                images={recommendedItem.images}
                                                 category={recommendedItem.category}
                                                 slug={recommendedItem.slug}
                                                 type={recommendedItem.type}
-                                                route={`/categories/${recommendedItem.type}/${recommendedItem.gender ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
+                                                route={`/categories/${recommendedItem.type.toLowerCase()}/${recommendedItem.gender ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
                                                 {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}
                                             />
                                         ))

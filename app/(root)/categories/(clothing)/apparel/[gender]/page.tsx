@@ -10,25 +10,25 @@ export async function generateMetadata({ params }: { params: Promise<{ gender: s
     }
 }
 
-export default async function Collection({ params, }: { params: Promise<{ gender: string }> }) {
+export default async function Apparel({ params }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
 
-    const response = await fetch(`${process.env.URL}/api/categories/collections/${gender}`)
+    const response = await fetch(`${process.env.URL}/api/products/apparel/${gender}`)
 
     if (!response.ok) {
         const { message }: { message: string } = await response.json()
         throw new Error(message)
     }
 
-    const { collections, categories }: { collections: IProduct[], categories: string[] } = await response.json()
+    const { apparel, categories }: { apparel: IProduct[], categories: string[] } = await response.json()
 
     return (
         <ProductsPage
             title={`${gender.toLowerCase()}'s Collection`}
             body="Training apparel and running gear engineered for peak performance."
-            type="collections"
+            type="APPAREL"
             gender={gender}
-            initialProducts={collections}
+            initialProducts={apparel}
             categories={categories}
         />
     )
