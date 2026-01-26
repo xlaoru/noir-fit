@@ -7,22 +7,29 @@ datasource db {
   provider = "postgresql"
 }
 
-model Collection {
-  id             String   @id @default(cuid())
-  images         String[]
-  title          String
-  price          Float
-  description    String
-  colors         String[]
-  sizes          String[]
-  slug           String   @unique
-  gender         Gender
-  category       CollectionCategories
-  material       String
-  fit            String
-  care           String
-  origin         String
-  createdAt      DateTime @default(now())
+model Product {
+  id String @id @default(cuid())
+  type Type
+  images String[]
+  title String
+  price Float
+  description String
+  colors String[]
+  sizes String[]
+  slug String @unique
+  gender Gender?
+  category Category
+  material String
+  fit String
+  care String
+  origin String
+  createdAt DateTime @default(now())
+}
+
+enum Type {
+  APPAREL
+  ACCESSORIES
+  NUTRITION
 }
 
 enum Gender {
@@ -30,7 +37,7 @@ enum Gender {
   WOMEN
 }
 
-enum CollectionCategories {
+enum Category {
   TSHIRT
   TANK
   HOODIE
@@ -52,25 +59,6 @@ enum CollectionCategories {
   HIGHWAIST
   GYM_SET
   YOGA
-}
-
-model Accessory {
-  id             String   @id @default(cuid())
-  images         String[]
-  title          String
-  price          Float
-  description    String
-  colors         String[]
-  slug           String   @unique
-  category       AccessoryCategories
-  material       String
-  fit            String
-  care           String
-  origin         String
-  createdAt      DateTime @default(now())
-}
-
-enum AccessoryCategories {
   BAG
   GLOVES
   STRAPS
@@ -87,24 +75,6 @@ enum AccessoryCategories {
   WRIST_SLEEVES
   BACKPACK
   ESSENTIAL
-}
-
-model Nutrition {
-  id             String   @id @default(cuid())
-  images         String[]
-  title          String
-  price          Float
-  description    String
-  slug           String   @unique
-  category       NutritionCategories
-  material       String
-  fit            String
-  care           String
-  origin         String
-  createdAt      DateTime @default(now())
-}
-
-enum NutritionCategories {
   PROTEIN
   WHEY
   ISOLATE
@@ -117,7 +87,6 @@ enum NutritionCategories {
   TESTOSTERONE
   CREATINE
   ENERGY
-  RECOVERY
   WEIGHT_GAINER
   SHRED
   HEALTH
