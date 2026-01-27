@@ -2,14 +2,41 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useState, useRef } from "react"
+import { usePathname } from "next/navigation"
+import { useState, useRef, useMemo } from "react"
 
 export default function Header() {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
     const closeMenu = () => setOpen(false)
 
-    const [activePage, setActivePage] = useState<string>("")
+    const pathname = usePathname()
+
+    const activeSection = useMemo(() => {
+        const path = pathname.split("/").filter(Boolean)
+        const i = path.indexOf("categories")
+        if (i === -1) return null
+
+        const type = path[i + 1]
+        const sub = path[i + 2]
+
+        if (type === "apparel" && (sub === "men" || sub === "women")) {
+            return sub
+        }
+
+        return type
+    }, [pathname])
+
+    const activePage = useMemo(() => {
+        const path = pathname.split("/").filter(Boolean)
+
+        if (["cart", "wishlist", "account"].includes(path[0])) {
+            return path[0]
+        }
+
+        return null
+    }, [pathname])
+
 
     return (
         <header className="z-1000 fixed top-0 left-0 w-full bg-zinc-950 border-b border-zinc-900">
@@ -17,7 +44,6 @@ export default function Header() {
                 <Link
                     href="/"
                     className="flex items-center gap-1 text-zinc-100 font-semibold tracking-wide"
-                    onClick={() => setActivePage("")}
                 >
                     <Image
                         src="/logo.png"
@@ -38,8 +64,7 @@ export default function Header() {
                         <li key={item.name}>
                             <Link
                                 href={item.href}
-                                className={`${item.name.toLowerCase() === activePage ? "text-zinc-100" : "text-zinc-400"} transition-colors duration-200 hover:text-zinc-300`}
-                                onClick={() => setActivePage(item.name.toLowerCase())}
+                                className={`${item.name.toLowerCase() === activeSection ? "text-zinc-100" : "text-zinc-400"} transition-colors duration-200 hover:text-zinc-300`}
                             >
                                 {item.name}
                             </Link>
@@ -49,9 +74,8 @@ export default function Header() {
                 <div className="flex items-center gap-4">
                     <Link
                         href="/wishlist"
-                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "Wishlist" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
+                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "wishlist" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Wishlist"
-                        onClick={() => setActivePage("wishlist")}
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                             <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
@@ -60,9 +84,8 @@ export default function Header() {
                     </Link>
                     <Link
                         href="/cart"
-                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "Cart" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
+                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "cart" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Cart"
-                        onClick={() => setActivePage("cart")}
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                             <circle cx="9" cy="21" r="1" />
@@ -73,9 +96,8 @@ export default function Header() {
                     </Link>
                     <Link
                         href="/account"
-                        className={`flex h-9 w-9 items-center justify-center ${activePage === "Account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
+                        className={`flex h-9 w-9 items-center justify-center ${activePage === "account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Account"
-                        onClick={() => setActivePage("account")}
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                             <circle cx="12" cy="8" r="4" />
@@ -97,10 +119,10 @@ export default function Header() {
                 open && (
                     <div ref={menuRef} className="md:hidden absolute top-16 left-0 w-full bg-zinc-950 border border-zinc-900">
                         <div className="flex flex-col gap-6 p-6 text-zinc-100">
-                            <Link href="/categories/apparel/men" onClick={() => { setActivePage("men"); closeMenu() }}>Men</Link>
-                            <Link href="/categories/apparel/women" onClick={() => { setActivePage("women"); closeMenu() }}>Women</Link>
-                            <Link href="/categories/accessories" onClick={() => { setActivePage("accessories"); closeMenu() }}>Accessories</Link>
-                            <Link href="/categories/nutrition" onClick={() => { setActivePage("nutrition"); closeMenu() }}>Nutrition</Link>
+                            <Link href="/categories/apparel/men" onClick={() => { closeMenu() }}>Men</Link>
+                            <Link href="/categories/apparel/women" onClick={() => { closeMenu() }}>Women</Link>
+                            <Link href="/categories/accessories" onClick={() => { closeMenu() }}>Accessories</Link>
+                            <Link href="/categories/nutrition" onClick={() => { closeMenu() }}>Nutrition</Link>
                         </div>
                     </div>
                 )
