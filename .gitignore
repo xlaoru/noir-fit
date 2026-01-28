@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+blog-x-d5983-firebase-adminsdk-m6w87-eaff861af3.json
