@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
     const address = formData.get("address") as string
     const paymentMethod = formData.get("paymentMethod") as string
 
+    const slug = `${firstName.toLowerCase()}-${lastName.toLowerCase()}`
+
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
@@ -67,6 +69,7 @@ export async function POST(request: NextRequest) {
         lastName,
         address,
         paymentMethod,
+        slug,
       },
     })
 

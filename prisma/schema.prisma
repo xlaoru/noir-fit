@@ -9,28 +9,28 @@ datasource db {
 
 model Product {
   id String @id @default(cuid())
-  
+
   type Type
-  
-  images String[]
-  title String
-  price Float
+
+  images      String[]
+  title       String
+  price       Float
   description String
-  colors String[]
-  sizes String[]
-  
+  colors      String[]
+  sizes       String[]
+
   slug String @unique
-  
-  gender Gender?
+
+  gender   Gender?
   category Category
-  
+
   material String
-  fit String
-  care String
-  origin String
-  
+  fit      String
+  care     String
+  origin   String
+
   createdAt DateTime @default(now())
-  
+
   wishlists Wishlist[]
 }
 
@@ -104,20 +104,22 @@ enum Category {
 model User {
   id String @id @default(cuid())
 
-  email String @unique
+  email    String @unique
   password String
-  role Role
+  role     Role
 
-  avatar String
+  avatar    String
   firstName String
-  lastName String
+  lastName  String
 
   address String?
 
   paymentMethod String?
 
+  slug String @unique
+
   wishlist Wishlist[]
-  orders Order[]
+  orders   Order[]
 }
 
 enum Role {
@@ -128,12 +130,12 @@ enum Role {
 model Wishlist {
   id String @id @default(cuid())
 
-  userId String
+  userId    String
   productId String
 
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
@@ -141,14 +143,14 @@ model Wishlist {
 
 model Order {
   id String @id @default(cuid())
-  
+
   userId String
-  
+
   status OrderStatus @default(PENDING)
-  total Float
+  total  Float
 
   createdAt DateTime @default(now())
-  
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   items OrderItem[]
@@ -157,7 +159,7 @@ model Order {
 model OrderItem {
   id String @id @default(cuid())
 
-  orderId  String
+  orderId   String
   productId String
 
   quantity Int
