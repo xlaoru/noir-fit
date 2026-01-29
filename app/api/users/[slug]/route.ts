@@ -3,21 +3,21 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(
   requst: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { slug: string } },
 ) {
   try {
-    const { id } = await params
+    const { slug } = await params
 
-    if (!id) {
+    if (!slug) {
       return NextResponse.json(
-        { message: "User ID not found." },
+        { message: "User slug not found." },
         { status: 400 },
       )
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        id,
+        slug,
       },
       include: {
         wishlist: true,
@@ -27,7 +27,7 @@ export async function GET(
 
     if (!user) {
       return NextResponse.json(
-        { messaging: `User with id: ${id} not found.` },
+        { messaging: `User with slug: ${slug} not found.` },
         { status: 404 },
       )
     }

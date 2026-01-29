@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     const address = formData.get("address") as string
     const paymentMethod = formData.get("paymentMethod") as string
 
-    const slug = `${firstName.toLowerCase()}-${lastName.toLowerCase()}`
+    const slug = `${firstName.toLowerCase().replace(/\s+/g, "-")}-${lastName.toLowerCase().replace(/\s+/g, "-")}`
 
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
