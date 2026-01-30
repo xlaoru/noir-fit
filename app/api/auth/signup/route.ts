@@ -2,11 +2,27 @@ import { adminStorage } from "@/lib/firebase-admin"
 import prisma from "@/lib/seed"
 import { NextRequest, NextResponse } from "next/server"
 
+import bcrypt from "bcryptjs"
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
 
     const email = formData.get("email") as string
+
+    const isSignedUp = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+    })
+
+    if (isSignedUp) {
+      return NextResponse.json(
+        { message: "User was already singed up." },
+        { status: 404 },
+      )
+    }
+
     const password = formData.get("password") as string
     const role = formData.get("role") as "USER" | "ADMIN"
     const file = formData.get("avatar") as File
@@ -38,12 +54,14 @@ export async function POST(request: NextRequest) {
       expires: "03-09-2491",
     })
 
+    const hashedPassword = await bcrypt.hash(password, 7)
+
     const user = await prisma.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,
         role,
-        avatar: imageUrl as string,
+        avatar: imageUrl,
         firstName,
         lastName,
         address,
