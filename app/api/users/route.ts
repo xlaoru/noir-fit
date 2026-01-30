@@ -1,8 +1,11 @@
+import { requireUser } from "@/lib/actions/requireUser.action"
 import prisma from "@/lib/seed"
 import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
+    await requireUser()
+
     const users = await prisma.user.findMany()
 
     if (users.length === 0) {
