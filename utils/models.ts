@@ -61,35 +61,42 @@ export interface IFiltersProps {
 }
 
 export interface IDescriptionCardProps {
-  svgIcon: React.ReactNode;
-  title: string;
+  svgIcon: React.ReactNode
+  title: string
   body: string
 }
 
 export interface ICategoryCardProps {
-  backgroundImageUrl: string;
-  title: string;
+  backgroundImageUrl: string
+  title: string
   slug: string
 }
 
 export interface IProductsPageProps {
-  title: string;
-  body: string;
-  type: Type;
-  gender?: string;
-  initialProducts: IProduct[];
+  title: string
+  body: string
+  type: Type
+  gender?: string
+  initialProducts: IProduct[]
   categories: string[]
 }
 
 export interface IProductPageProps {
   product: IFullProduct
   recommended: IProduct[]
-  type: Type;
+  type: Type
   backRoute: string
 }
 
-export interface ICartCardProps extends Omit<ICartItem, "key" | "id" | "category"> {
+export interface ICartCardProps extends Omit<
+  ICartItem,
+  "key" | "id" | "category"
+> {
   cartKey: string
 }
 
 export type IWishlistCardProps = Omit<IWishlistItem, "key">
+
+export interface ITokenPayload {
+  id: string
+}

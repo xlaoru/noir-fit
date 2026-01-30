@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { message: "User logged in successfully." },
-      { status: 201 },
+      { status: 200 },
     )
   } catch (e) {
     console.log(e)
