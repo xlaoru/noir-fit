@@ -1,8 +1,6 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
-
-import { useState, useEffect } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { IProductsPageProps } from "@/utils/models";
 import Filters from "../Filters";
@@ -10,40 +8,12 @@ import ProductCard from "../ProductCard";
 
 import { X } from 'lucide-react';
 
-export default function ProductsPage({ title, body, type, gender, initialProducts, categories }: IProductsPageProps) {
+export default function ProductsPage({ title, body, type, gender, products, categories }: IProductsPageProps) {
+    const pathname = usePathname()
+    const router = useRouter()
     const searchParams = useSearchParams()
 
-    const initialCategory = searchParams.get("category")
-    const initialSort = searchParams.get("sort") ?? "newest"
-
-    const [products, setProducts] = useState(initialProducts)
-    const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory)
-    const [sort, setSort] = useState<string>(initialSort)
-
-    const router = useRouter()
-
-    useEffect(() => {
-        const params = new URLSearchParams()
-
-        if (activeCategory) {
-            params.set("category", activeCategory)
-        }
-
-        if (sort) {
-            params.set("sort", sort)
-        }
-
-        fetch(`http://localhost:3000/api/products/${type.toLowerCase()}/${gender ? gender : ""}?${params.toString()}`)
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data[type.toLowerCase()])
-            })
-            .catch((e) => {
-                console.error("Something went wrong:", e);
-            })
-
-        router.push(`?${params.toString()}`, { scroll: false })
-    }, [type, gender, activeCategory, sort])
+    const activeCategory = searchParams.get("category")
 
     return (
         <>
@@ -57,17 +27,18 @@ export default function ProductsPage({ title, body, type, gender, initialProduct
                 <div className="section-container py-0 flex flex-col gap-6">
                     <Filters
                         categories={categories}
-                        activeCategory={activeCategory}
-                        setActiveCategory={setActiveCategory}
-                        sort={sort}
-                        setSort={setSort}
                     />
                     {
                         activeCategory !== null
                             ? (
                                 <div className="flex gap-3 items-center">
                                     <p>Filtered by:</p>
-                                    <button onClick={() => setActiveCategory(null)} className="flex items-center text-xs px-2 py-1 gap-1.5 capitalize rounded-sm bg-zinc-800 text-zinc-300 cursor-pointer">{activeCategory?.toLowerCase()} <X width={12} height={12} /></button>
+                                    <button onClick={() => {
+                                        const params = new URLSearchParams(searchParams.toString())
+                                        params.delete("category")
+
+                                        router.push(`${pathname}?${params.toString()}`, { scroll: false })
+                                    }} className="flex items-center text-xs px-2 py-1 gap-1.5 capitalize rounded-sm bg-zinc-800 text-zinc-300 cursor-pointer">{activeCategory?.toLowerCase()} <X width={12} height={12} /></button>
                                 </div>
                             )
                             : null

@@ -3,7 +3,7 @@ export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
 
 export interface IProduct {
   id: string
-  images: string
+  images: string[]
   title: string
   price: number
   category: string
@@ -54,41 +54,40 @@ export interface IProductCardProps extends IProduct {
 
 export interface IFiltersProps {
   categories: string[]
-  activeCategory: string | null
-  setActiveCategory: (activeCategory: string | null) => void
-  sort: string
-  setSort: (sort: string) => void
 }
 
 export interface IDescriptionCardProps {
-  svgIcon: React.ReactNode;
-  title: string;
+  svgIcon: React.ReactNode
+  title: string
   body: string
 }
 
 export interface ICategoryCardProps {
-  backgroundImageUrl: string;
-  title: string;
+  backgroundImageUrl: string
+  title: string
   slug: string
 }
 
 export interface IProductsPageProps {
-  title: string;
-  body: string;
-  type: Type;
-  gender?: string;
-  initialProducts: IProduct[];
+  title: string
+  body: string
+  type: Type
+  gender?: string
+  products: IProduct[]
   categories: string[]
 }
 
 export interface IProductPageProps {
   product: IFullProduct
   recommended: IProduct[]
-  type: Type;
+  type: Type
   backRoute: string
 }
 
-export interface ICartCardProps extends Omit<ICartItem, "key" | "id" | "category"> {
+export interface ICartCardProps extends Omit<
+  ICartItem,
+  "key" | "id" | "category"
+> {
   cartKey: string
 }
 

@@ -1,4 +1,5 @@
 import ProductPage from "@/components/pages/ProductPage"
+import { getCurrentProduct } from "@/lib/services/get-products.service"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
 import { IFullProduct, IProduct, Type } from "@/utils/models"
 
@@ -16,18 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Product({ params, }: { params: Promise<{ type: Type, slug: string }> }) {
     const { type, slug } = await params
 
-    const response = await fetch(`${process.env.URL}/api/products/${type}/${slug}`)
-
-    if (!response.ok) {
-        const { message }: { message: string } = await response.json()
-        throw new Error(message)
-    }
-
-    const data = await response.json()
-
-
-    const product: IFullProduct = data[type.toLowerCase()]
-    const recommended: IProduct[] = data.recommended
+    const { product, recommended } = await getCurrentProduct(slug)
 
     return (
         <ProductPage

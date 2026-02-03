@@ -1,18 +1,11 @@
 import CategoryCard from "@/components/CategoryCard";
 import DescriptionCard from "@/components/DescriptionCard"
 import ProductCard from "@/components/ProductCard";
-import { IProduct } from "@/utils/models";
+import { getRecentProducts } from "@/lib/services/get-products.service";
 import Link from "next/link";
 
 export default async function Home() {
-  const response = await fetch(`${process.env.URL}/api/products`)
-
-  if (!response.ok) {
-    const { message }: { message: string } = await response.json()
-    throw new Error(message)
-  }
-
-  const { products }: { products: IProduct[] } = await response.json()
+  const { products } = await getRecentProducts()
 
   return (
     <>

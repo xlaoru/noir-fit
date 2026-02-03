@@ -1,11 +1,32 @@
 import { IFiltersProps } from "@/utils/models"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 
-export default function Filters({ categories, activeCategory, setActiveCategory, sort, setSort }: IFiltersProps) {
+
+export default function Filters({ categories }: IFiltersProps) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+
+    const activeCategory = searchParams.get("category")
+    const sort = searchParams.get("sort") ?? "newest"
+
+    function updateFilters(nextCategory: string | null, nextSort: string) {
+        const params = new URLSearchParams(searchParams.toString())
+
+        if (nextCategory) params.set("category", nextCategory)
+        else params.delete("category")
+
+        if (nextSort) params.set("sort", nextSort)
+        else params.delete("sort")
+
+        router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    }
+
     return (
         <div className="flex items-center justify-between">
             <div className="flex gap-2">
                 <button
-                    onClick={() => setActiveCategory(null)}
+                    onClick={() => updateFilters(null, sort)}
                     className={`flex justify-center items-center py-2 px-5 rounded-sm border border-zinc-800 cursor-pointer transition-colors ${activeCategory === null ? "bg-zinc-100 text-zinc-900" : "bg-zinc-900 text-zinc-300 hover:bg-zinc-800"}`}
                 >
                     All
@@ -14,9 +35,7 @@ export default function Filters({ categories, activeCategory, setActiveCategory,
                     <button
                         key={category}
                         className={`capitalize flex justify-center items-center py-2 px-5 rounded-sm ${category === activeCategory ? "bg-zinc-100 hover:bg-zinc-400 text-zinc-900" : "bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100"} border border-zinc-800 cursor-pointer transition-colors`}
-                        onClick={() => {
-                            setActiveCategory(category)
-                        }}
+                        onClick={() => updateFilters(category, sort)}
                     >
                         {category.toLowerCase()}
                     </button>
@@ -25,7 +44,7 @@ export default function Filters({ categories, activeCategory, setActiveCategory,
             <div className="relative w-56">
                 <select
                     value={sort}
-                    onChange={(e) => setSort(e.currentTarget.value)}
+                    onChange={(e) => updateFilters(activeCategory, e.target.value)}
                     className="w-full appearance-none bg-zinc-900 text-zinc-300 border border-zinc-700 rounded-md px-4 py-2 pr-10 text-sm cursor-pointer focus:outline-none"
                 >
                     <option value="newest">Newest</option>

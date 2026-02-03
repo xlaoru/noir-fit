@@ -1,5 +1,5 @@
 import ProductsPage from "@/components/pages/ProductsPage"
-import { IProduct } from "@/utils/models"
+import { getAllApparel } from "@/lib/services/get-apparel.sevice"
 
 export async function generateMetadata({ params }: { params: Promise<{ gender: string }> }) {
     const { gender } = await params
@@ -10,17 +10,21 @@ export async function generateMetadata({ params }: { params: Promise<{ gender: s
     }
 }
 
-export default async function Apparel({ params }: { params: Promise<{ gender: string }> }) {
+export default async function Apparel({
+    params,
+    searchParams,
+}: {
+    params: { gender: string }
+    searchParams: { category?: string; sort?: string }
+}) {
     const { gender } = await params
+    const { category, sort } = await searchParams
 
-    const response = await fetch(`${process.env.URL}/api/products/apparel/${gender}`)
-
-    if (!response.ok) {
-        const { message }: { message: string } = await response.json()
-        throw new Error(message)
-    }
-
-    const { apparel, categories }: { apparel: IProduct[], categories: string[] } = await response.json()
+    const { apparel, categories } = await getAllApparel(
+        gender,
+        category,
+        sort,
+    )
 
     return (
         <ProductsPage
@@ -28,7 +32,7 @@ export default async function Apparel({ params }: { params: Promise<{ gender: st
             body="Training apparel and running gear engineered for peak performance."
             type="APPAREL"
             gender={gender}
-            initialProducts={apparel}
+            products={apparel}
             categories={categories}
         />
     )

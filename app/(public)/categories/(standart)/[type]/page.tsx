@@ -1,5 +1,6 @@
 import ProductsPage from "@/components/pages/ProductsPage";
-import { Type, IProduct } from "@/utils/models";
+import { getAllProducts } from "@/lib/services/get-products.service";
+import { Type } from "@/utils/models";
 
 export async function generateMetadata({ params }: { params: Promise<{ type: Type }> }) {
     const { type } = await params
@@ -10,27 +11,24 @@ export async function generateMetadata({ params }: { params: Promise<{ type: Typ
     }
 }
 
-export default async function Products({ params }: { params: Promise<{ type: Type }> }) {
+export default async function Products({
+    params,
+    searchParams,
+}: {
+    params: { type: string }
+    searchParams: { category?: string; sort?: string }
+}) {
     const { type } = await params
+    const { category, sort } = await searchParams
 
-    const response = await fetch(`${process.env.URL}/api/products/${type}`)
-
-    if (!response.ok) {
-        const { message }: { message: string } = await response.json()
-        throw new Error(message)
-    }
-
-    const data = await response.json()
-
-    const products: IProduct[] = data[type]
-    const categories: string[] = data.categories
+    const { products, categories } = await getAllProducts(type, category, sort)
 
     return (
         <ProductsPage
             title={`${type.charAt(0).toUpperCase() + type.slice(1)} Collection`}
             body="Performance-driven essentials designed to support your training, recovery, and everyday movement."
-            type={type}
-            initialProducts={products}
+            type={type.toUpperCase() as Type}
+            products={products}
             categories={categories}
         />
     )
