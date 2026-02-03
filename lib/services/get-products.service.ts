@@ -1,5 +1,5 @@
 import { Category, Type } from "@/app/generated/prisma"
-import prisma from "../seed"
+import prisma from "../prisma"
 import { IFullProduct, IProduct } from "@/utils/models"
 
 export async function getAllProducts(

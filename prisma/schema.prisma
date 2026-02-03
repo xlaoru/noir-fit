@@ -9,20 +9,24 @@ datasource db {
 
 model Product {
   id String @id @default(cuid())
+
   type Type
-  images String[]
-  title String
-  price Float
+
+  images      String[]
+  title       String
+  price       Float
   description String
-  colors String[]
-  sizes String[]
+  colors      String[]
+  sizes       String[]
+  gender      Gender?
+  category    Category
+  material    String
+  fit         String
+  care        String
+  origin      String
+
   slug String @unique
-  gender Gender?
-  category Category
-  material String
-  fit String
-  care String
-  origin String
+
   createdAt DateTime @default(now())
 }
 
@@ -91,4 +95,27 @@ enum Category {
   SHRED
   HEALTH
   SUPPLEMENT
+}
+
+model User {
+  id String @id @default(cuid())
+
+  email    String @unique
+  password String
+  role     Role   @default(USER)
+
+  avatar    String
+  firstName String
+  lastName  String
+
+  address String?
+
+  paymentMethod String?
+
+  slug String @unique
+}
+
+enum Role {
+  USER
+  ADMIN
 }
