@@ -1,6 +1,5 @@
 import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Account",
@@ -9,7 +8,6 @@ export const metadata: Metadata = {
 
 export default async function Account() {
     const user = await requireUser()
-
 
     return (
         <section>

@@ -13,8 +13,6 @@ export async function requireUser() {
 
   const userId = await redis.get(`session:${sessionId}`)
 
-  console.log(userId)
-
   if (!userId) {
     throw new Error("Session was expired.")
   }
