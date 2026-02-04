@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 import { randomUUID } from "crypto"
 import redis from "../redis"
 
-const TTL = 10
+export const TTL = 10
 
 export async function createSession(userId: string) {
   const sessionId = randomUUID()
