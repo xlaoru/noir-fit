@@ -10,7 +10,7 @@ export async function logInEmail(formData: FormData) {
   const user = await login(email, password)
 
   if (!user) {
-    throw new Error("Invalid credentials.")
+    throw new Error("Incorrect email or password.")
   }
 
   redirect("/account")
