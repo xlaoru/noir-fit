@@ -2,12 +2,12 @@ import { cookies } from "next/headers"
 import { randomUUID } from "crypto"
 import redis from "../redis"
 
-export const TTL = 7 * 24 * 60 * 60
+export const SESSION_TTL = 10
 
 export async function createSession(userId: string) {
   const sessionId = randomUUID()
 
-  await redis.set(`session:${sessionId}`, userId, "EX", TTL)
+  await redis.set(`session:${sessionId}`, userId, "EX", SESSION_TTL)
 
   const cookieStore = await cookies()
 
@@ -18,7 +18,6 @@ export async function createSession(userId: string) {
     secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: TTL,
   })
 }
 

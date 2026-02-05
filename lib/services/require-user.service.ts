@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
-import prisma from "../prisma"
+import { SESSION_TTL } from "./session.service"
 import redis from "../redis"
+import prisma from "../prisma"
 
 export async function requireUser() {
   const cookieStore = await cookies()
@@ -8,23 +9,25 @@ export async function requireUser() {
   const sessionId = cookieStore.get("session")?.value
 
   if (!sessionId) {
-    throw new Error("Session id was not defined.")
+    return null
   }
 
-  const userId = await redis.get(`session:${sessionId}`)
+  const key = `session:${sessionId}`
+
+  const userId = await redis.get(key)
 
   if (!userId) {
-    throw new Error("Session was expired.")
+    return null
   }
 
+  await redis.expire(key, SESSION_TTL)
+
   const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
+    where: { id: userId },
   })
 
   if (!user) {
-    throw new Error("User was not defined.")
+    return null
   }
 
   return user

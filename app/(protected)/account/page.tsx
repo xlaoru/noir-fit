@@ -1,4 +1,3 @@
-import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,12 +6,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Account() {
-    const user = await requireUser()
-
     return (
         <section>
             <div className="section-container">
-                Account: {user?.email}
+                Account
             </div>
         </section>
     )
