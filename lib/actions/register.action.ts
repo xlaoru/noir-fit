@@ -9,7 +9,7 @@ export async function registerEmail(formData: FormData) {
   const firstName = formData.get("firstName") as string
   const lastName = formData.get("lastName") as string
 
-  await register(email, password, "", firstName, lastName)
+  await register(email, password, firstName, lastName)
 
   redirect("/account")
 }

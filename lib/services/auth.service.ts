@@ -27,7 +27,6 @@ export async function login(email: string, password: string) {
 export async function register(
   email: string,
   password: string,
-  avatar: string = "",
   firstName: string,
   lastName: string,
 ) {
@@ -55,7 +54,6 @@ export async function register(
     data: {
       email,
       password: passwordHash,
-      avatar,
       firstName,
       lastName,
       slug,
