@@ -9,7 +9,7 @@ export default async function ProtectedLayout({
     const user = await requireUser()
 
     if (!user) {
-        redirect("/api/auth/logout")
+        redirect("/api/auth/refresh")
     }
 
     return (
