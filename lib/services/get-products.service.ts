@@ -3,11 +3,12 @@ import prisma from "../prisma"
 import { IFullProduct, IProduct } from "@/utils/models"
 
 export async function getAllProducts(
+  userId: string,
   type: string,
   category?: string,
   sort?: string,
 ) {
-  const products = (await prisma.product.findMany({
+  const rawProducts = (await prisma.product.findMany({
     where: {
       type: type.toUpperCase() as Type,
       ...(category ? { category: category.toUpperCase() as Category } : {}),
@@ -30,6 +31,22 @@ export async function getAllProducts(
     },
   })) as IProduct[]
 
+  const wishlist = await prisma.wishlist.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      productId: true,
+    },
+  })
+
+  const wishlistSet = new Set(wishlist.map((item) => item.productId))
+
+  const products = rawProducts.map((product) => ({
+    ...product,
+    isSaved: wishlistSet.has(product.id),
+  }))
+
   const rawCategories = await prisma.product.findMany({
     where: {
       type: type.toUpperCase() as Type,
@@ -45,14 +62,30 @@ export async function getAllProducts(
   return { products, categories }
 }
 
-export async function getCurrentProduct(slug: string) {
-  const product = (await prisma.product.findUnique({
+export async function getCurrentProduct(userId: string, slug: string) {
+  const rawProduct = (await prisma.product.findUnique({
     where: {
       slug,
     },
   })) as IFullProduct
 
-  const recommended = (await prisma.product.findMany({
+  const wishlist = await prisma.wishlist.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      productId: true,
+    },
+  })
+
+  const wishlistSet = new Set(wishlist.map((item) => item.productId))
+
+  const product = {
+    isSaved: wishlistSet.has(rawProduct.id),
+    ...rawProduct,
+  }
+
+  const rawRecommended = (await prisma.product.findMany({
     where: {
       id: {
         not: product?.id,
@@ -71,11 +104,16 @@ export async function getCurrentProduct(slug: string) {
     take: 4,
   })) as IProduct[]
 
+  const recommended = rawRecommended.map((product) => ({
+    ...product,
+    isSaved: wishlistSet.has(product.id),
+  }))
+
   return { product, recommended }
 }
 
-export async function getRecentProducts() {
-  const products = (await prisma.product.findMany({
+export async function getRecentProducts(userId: string) {
+  const rawProducts = (await prisma.product.findMany({
     select: {
       id: true,
       images: true,
@@ -88,6 +126,22 @@ export async function getRecentProducts() {
     },
     take: 8,
   })) as IProduct[]
+
+  const wishlist = await prisma.wishlist.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      productId: true,
+    },
+  })
+
+  const wishlistSet = new Set(wishlist.map((item) => item.productId))
+
+  const products = rawProducts.map((product) => ({
+    ...product,
+    isSaved: wishlistSet.has(product.id),
+  }))
 
   return { products }
 }

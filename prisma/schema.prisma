@@ -27,7 +27,8 @@ model Product {
 
   slug String @unique
 
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
+  wishlists Wishlist[]
 }
 
 enum Type {
@@ -113,9 +114,64 @@ model User {
   paymentMethod String?
 
   slug String @unique
+
+  wishlist Wishlist[]
+  orders   Order[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Wishlist {
+  id String @id @default(cuid())
+
+  userId    String
+  productId String
+
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  userId String
+
+  status OrderStatus @default(PENDING)
+  total  Float
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  orderId   String
+  productId String
+
+  quantity Int
+
+  title String
+  price Float
+  image String
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }

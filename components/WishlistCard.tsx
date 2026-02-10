@@ -3,7 +3,7 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function WishlistCard({ id, title, price, images, category, gender, slug, type }: IWishlistCardProps) {
+export default function WishlistCard({ id, title, price, images, category, gender, slug, type, onRemove }: IWishlistCardProps) {
     return (
         <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
             <div className="group flex flex-col gap-1 w-[286px]">
@@ -20,6 +20,8 @@ export default function WishlistCard({ id, title, price, images, category, gende
                         onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
+
+                            onRemove(id)
                         }}
                     >
                         <Trash2 width={16} height={16} />

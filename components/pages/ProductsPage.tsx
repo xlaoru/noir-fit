@@ -62,6 +62,7 @@ export default function ProductsPage({ title, body, type, gender, products, cate
                                             images={product.images}
                                             category={product.category}
                                             slug={product.slug}
+                                            isSaved={product.isSaved}
                                             type={product.type}
                                             route={`/categories/${type.toLowerCase()}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                                             {...("gender" in product ? { gender: product.gender } : {})}

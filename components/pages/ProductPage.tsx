@@ -6,8 +6,11 @@ import Image from "next/image";
 import ProductCard from "../ProductCard";
 import { ChevronLeft, Heart } from "lucide-react";
 import { IProductPageProps } from "@/utils/models";
+import { useState } from "react";
+import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
+    const [hasSaved, setSaved] = useState(product.isSaved)
     return (
         <>
             <section>
@@ -65,9 +68,10 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                     <button
                                         className="p-4 cursor-pointer text-zinc-100 text-sm rounded-md border border-zinc-500 bg-zinc-900 hover:bg-zinc-800"
                                         onClick={() => {
+                                            toggleWishlistAction(product.id).then(() => setSaved((prev) => (!prev)))
                                         }}
                                     >
-                                        {false ? <Heart fill="currentColor" /> : <Heart />}
+                                        {hasSaved ? <Heart fill="currentColor" /> : <Heart />}
                                     </button>
                                 </div>
                             </div>
@@ -114,6 +118,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                                 images={recommendedItem.images}
                                                 category={recommendedItem.category}
                                                 slug={recommendedItem.slug}
+                                                isSaved={recommendedItem.isSaved}
                                                 type={recommendedItem.type}
                                                 route={`/categories/${recommendedItem.type.toLowerCase()}/${recommendedItem.gender ? `${recommendedItem.gender.toLowerCase()}/` : ""}${recommendedItem.slug}`}
                                                 {...("gender" in recommendedItem) ? { gender: recommendedItem.gender } : {}}

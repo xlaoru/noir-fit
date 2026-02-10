@@ -1,6 +1,8 @@
 import ProductsPage from "@/components/pages/ProductsPage";
 import { getAllProducts } from "@/lib/services/get-products.service";
+import { requireUser } from "@/lib/services/require-user.service";
 import { Type } from "@/utils/models";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: Promise<{ type: Type }> }) {
     const { type } = await params
@@ -18,10 +20,16 @@ export default async function Products({
     params: { type: string }
     searchParams: { category?: string; sort?: string }
 }) {
+    const user = await requireUser()
+
+    if (!user) {
+        redirect("/api/auth/refresh")
+    }
+
     const { type } = await params
     const { category, sort } = await searchParams
 
-    const { products, categories } = await getAllProducts(type, category, sort)
+    const { products, categories } = await getAllProducts(user.id, type, category, sort)
 
     return (
         <ProductsPage

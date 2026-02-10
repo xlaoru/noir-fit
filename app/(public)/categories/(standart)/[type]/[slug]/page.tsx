@@ -1,7 +1,9 @@
 import ProductPage from "@/components/pages/ProductPage"
 import { getCurrentProduct } from "@/lib/services/get-products.service"
+import { requireUser } from "@/lib/services/require-user.service"
 import { formatSlugToTitle } from "@/utils/formatSlugToTitle"
-import { IFullProduct, IProduct, Type } from "@/utils/models"
+import { Type } from "@/utils/models"
+import { redirect } from "next/navigation"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -15,9 +17,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function Product({ params, }: { params: Promise<{ type: Type, slug: string }> }) {
+    const user = await requireUser()
+
+    if (!user) {
+        redirect("/api/auth/refresh")
+    }
+
     const { type, slug } = await params
 
-    const { product, recommended } = await getCurrentProduct(slug)
+    const { product, recommended } = await getCurrentProduct(user.id, slug)
 
     return (
         <ProductPage

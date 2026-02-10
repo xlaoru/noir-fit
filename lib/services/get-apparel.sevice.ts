@@ -3,11 +3,12 @@ import prisma from "../prisma"
 import { IFullProduct, IProduct } from "@/utils/models"
 
 export async function getAllApparel(
+  userId: string,
   gender: string,
   category?: string,
   sort?: string,
 ) {
-  const apparel = (await prisma.product.findMany({
+  const rawApparel = (await prisma.product.findMany({
     where: {
       type: "APPAREL",
       gender: gender.toUpperCase() as Gender,
@@ -31,6 +32,22 @@ export async function getAllApparel(
     },
   })) as IProduct[]
 
+  const wishlist = await prisma.wishlist.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      productId: true,
+    },
+  })
+
+  const wishlistSet = new Set(wishlist.map((item) => item.productId))
+
+  const apparel = rawApparel.map((product) => ({
+    ...product,
+    isSaved: wishlistSet.has(product.id),
+  }))
+
   const rawCategories = await prisma.product.findMany({
     where: {
       type: "APPAREL",
@@ -46,14 +63,34 @@ export async function getAllApparel(
   return { apparel, categories }
 }
 
-export async function getCurrentApparel(gender: string, slug: string) {
-  const apparel = (await prisma.product.findUnique({
+export async function getCurrentApparel(
+  userId: string,
+  gender: string,
+  slug: string,
+) {
+  const rawApparel = (await prisma.product.findUnique({
     where: {
       slug,
     },
   })) as IFullProduct
 
-  const recommended = (await prisma.product.findMany({
+  const wishlist = await prisma.wishlist.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      productId: true,
+    },
+  })
+
+  const wishlistSet = new Set(wishlist.map((item) => item.productId))
+
+  const apparel = {
+    isSaved: wishlistSet.has(rawApparel.id),
+    ...rawApparel,
+  }
+
+  const rawRecommended = (await prisma.product.findMany({
     where: {
       id: {
         not: apparel?.id,
@@ -73,6 +110,11 @@ export async function getCurrentApparel(gender: string, slug: string) {
     },
     take: 4,
   })) as IProduct[]
+
+  const recommended = rawRecommended.map((product) => ({
+    ...product,
+    isSaved: wishlistSet.has(product.id),
+  }))
 
   return { apparel, recommended }
 }

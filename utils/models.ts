@@ -49,6 +49,7 @@ export interface IWishlistContext {
 }
 
 export interface IProductCardProps extends IProduct {
+  isSaved: boolean
   route: string
 }
 
@@ -73,13 +74,13 @@ export interface IProductsPageProps {
   body: string
   type: Type
   gender?: string
-  products: IProduct[]
+  products: (IProduct & { isSaved: boolean })[]
   categories: string[]
 }
 
 export interface IProductPageProps {
-  product: IFullProduct
-  recommended: IProduct[]
+  product: IFullProduct & { isSaved: boolean }
+  recommended: (IProduct & { isSaved: boolean })[]
   type: Type
   backRoute: string
 }
@@ -91,4 +92,10 @@ export interface ICartCardProps extends Omit<
   cartKey: string
 }
 
-export type IWishlistCardProps = Omit<IWishlistItem, "key">
+export type IWishlistCardProps = Omit<IWishlistItem, "key"> & {
+  onRemove: (id: string) => void
+}
+
+export interface IWishlistPageProps {
+  products: (IProduct & { isSaved: boolean })[]
+}
