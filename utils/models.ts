@@ -24,27 +24,15 @@ export interface IFullProduct extends IProduct {
 
 export interface ICartItem extends IProduct {
   quantity: number
-  key: string
 }
 
 export interface ICartContext {
   items: ICartItem[]
   add: (product: IProduct) => void
-  remove: (key: string) => void
-  increase: (key: string) => void
-  decrease: (key: string) => void
+  remove: (id: string) => void
+  increase: (id: string) => void
+  decrease: (id: string) => void
   total: number
-  amount: number
-}
-
-export interface IWishlistItem extends IProduct {
-  key: string
-}
-
-export interface IWishlistContext {
-  items: IWishlistItem[]
-  toggle: (product: IProduct) => void
-  has: (key: string) => boolean
   amount: number
 }
 
@@ -85,14 +73,9 @@ export interface IProductPageProps {
   backRoute: string
 }
 
-export interface ICartCardProps extends Omit<
-  ICartItem,
-  "key" | "id" | "category"
-> {
-  cartKey: string
-}
+export interface ICartCardProps extends Omit<ICartItem, "category"> {}
 
-export type IWishlistCardProps = Omit<IWishlistItem, "key"> & {
+export type IWishlistCardProps = IProduct & {
   onRemove: (id: string) => void
 }
 

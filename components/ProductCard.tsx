@@ -7,9 +7,12 @@ import Link from "next/link";
 import { IProductCardProps } from "@/utils/models";
 import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
 import { useState } from "react";
+import { useCart } from "@/context/cart-context";
 
 export default function ProductCard({ id, title, price, images, category, gender, slug, isSaved, type, route }: IProductCardProps) {
     const [hasSaved, setSaved] = useState(isSaved)
+
+    const { add } = useCart()
 
     return (
         <Link href={route}>
@@ -28,6 +31,17 @@ export default function ProductCard({ id, title, price, images, category, gender
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
+
+                                add({
+                                    id,
+                                    type,
+                                    title,
+                                    price,
+                                    images,
+                                    category,
+                                    slug,
+                                    ...(gender && { gender })
+                                })
                             }}
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">

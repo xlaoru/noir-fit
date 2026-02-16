@@ -1,11 +1,13 @@
+import { useCart } from "@/context/cart-context";
 import { IWishlistCardProps } from "@/utils/models";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function WishlistCard({ id, title, price, images, category, gender, slug, type, onRemove }: IWishlistCardProps) {
+    const { add } = useCart()
     return (
-        <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
+        <Link href={`/categories/${type.toLowerCase()}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
             <div className="group flex flex-col gap-1 w-[286px]">
                 <div className="relative w-[286px] h-[381px] overflow-hidden rounded-xl">
                     <Image
@@ -32,6 +34,17 @@ export default function WishlistCard({ id, title, price, images, category, gende
                             onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
+
+                                add({
+                                    id,
+                                    type,
+                                    title,
+                                    price,
+                                    images,
+                                    category,
+                                    slug,
+                                    ...(gender && { gender })
+                                })
                             }}
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">

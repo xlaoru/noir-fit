@@ -8,9 +8,13 @@ import { ChevronLeft, Heart } from "lucide-react";
 import { IProductPageProps } from "@/utils/models";
 import { useState } from "react";
 import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
+import { useCart } from "@/context/cart-context";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
     const [hasSaved, setSaved] = useState(product.isSaved)
+
+    const { add } = useCart()
+
     return (
         <>
             <section>
@@ -56,6 +60,18 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 }
                                 <div className="flex gap-3">
                                     <button
+                                        onClick={() => {
+                                            add({
+                                                id: product.id,
+                                                images: product.images,
+                                                title: product.title,
+                                                price: product.price,
+                                                category: product.category,
+                                                slug: product.slug,
+                                                type: product.type,
+                                                ...(product.gender && { gender: product.gender })
+                                            })
+                                        }}
                                         className="w-full flex justify-center items-center gap-3 cursor-pointer text-black text-sm font-semibold py-2 rounded-md bg-zinc-100 hover:bg-zinc-300"
                                     >
                                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
