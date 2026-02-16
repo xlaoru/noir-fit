@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 
 export default function CartPage() {
-    const { items, total, amount } = useCart()
+    const { items, subtotal, shipping, total, amount } = useCart()
     return (
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
@@ -55,31 +55,17 @@ export default function CartPage() {
                                             <h5>Order Summary</h5>
                                             <div className="flex justify-between">
                                                 <p className="text-sm text-zinc-400">Subtotal</p>
-                                                <p className="text-sm text-zinc-100">${total.toFixed(2)}</p>
+                                                <p className="text-sm text-zinc-100">${subtotal.toFixed(2)}</p>
                                             </div>
-                                            {
-                                                total / 10 >= 12
-                                                    ? (
-                                                        <div className="flex justify-between">
-                                                            <p className="text-sm text-zinc-400">Shipping</p>
-                                                            <p className="text-sm text-zinc-100">Free</p>
-                                                        </div>
-                                                    )
-                                                    : (
-                                                        <div>
-                                                            <div className="flex justify-between">
-                                                                <p className="text-sm text-zinc-400">Shipping</p>
-                                                                <p className="text-sm text-zinc-100">${(total / 10).toFixed(2)}</p>
-                                                            </div>
-                                                            <p></p>
-                                                        </div>
-                                                    )
-                                            }
+                                            <div className="flex justify-between">
+                                                <p className="text-sm text-zinc-400">Shipping</p>
+                                                <p className="text-sm text-zinc-100">{shipping > 0 ? `$${shipping.toFixed(2)}` : "Free"}</p>
+                                            </div>
                                         </div>
                                         <div className="flex flex-col gap-5">
                                             <div className="flex justify-between">
                                                 <h6>Total</h6>
-                                                <h6>${total / 10 >= 12 ? total.toFixed(2) : (total + (total / 10)).toFixed(2)}</h6>
+                                                <h6>${total.toFixed(2)}</h6>
                                             </div>
                                             <Link href="/" className="block w-full"><button className="w-full flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors">Checkout <ArrowRight width={18} height={18} /></button></Link>
                                             <p className="text-center">Secure checkout powered by Stripe</p>

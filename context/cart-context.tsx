@@ -50,12 +50,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         )
     }
 
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const shipping = subtotal / 10 >= 12 ? 0 : subtotal / 10
+    const total = subtotal + shipping
 
     const amount = items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
-        <CartContext.Provider value={{ items, add, remove, increase, decrease, total, amount }}>
+        <CartContext.Provider value={{ items, add, remove, increase, decrease, subtotal, shipping, total, amount }}>
             {children}
         </CartContext.Provider>
     )

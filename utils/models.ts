@@ -32,6 +32,8 @@ export interface ICartContext {
   remove: (id: string) => void
   increase: (id: string) => void
   decrease: (id: string) => void
+  subtotal: number
+  shipping: number
   total: number
   amount: number
 }
