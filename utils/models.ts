@@ -32,6 +32,7 @@ export interface ICartContext {
   remove: (id: string) => void
   increase: (id: string) => void
   decrease: (id: string) => void
+  clear: () => void
   subtotal: number
   shipping: number
   total: number
@@ -83,4 +84,22 @@ export type IWishlistCardProps = IProduct & {
 
 export interface IWishlistPageProps {
   products: (IProduct & { isSaved: boolean })[]
+}
+
+export interface ICheckoutPageProps {
+  email: string
+  phoneNumber: string
+  firstName: string
+  lastName: string
+  address: string
+  city: string
+  country: string
+  zipCode: string
+}
+
+export interface ICheckoutCardProps {
+  image: string
+  title: string
+  price: number
+  quantity: number
 }

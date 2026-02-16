@@ -67,8 +67,7 @@ export default function CartPage() {
                                                 <h6>Total</h6>
                                                 <h6>${total.toFixed(2)}</h6>
                                             </div>
-                                            <Link href="/" className="block w-full"><button className="w-full flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors">Checkout <ArrowRight width={18} height={18} /></button></Link>
-                                            <p className="text-center">Secure checkout powered by Stripe</p>
+                                            <Link href="/checkout" className="block w-full"><button className="w-full flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors">Checkout <ArrowRight width={18} height={18} /></button></Link>
                                         </div>
                                     </div>
                                 </div>
