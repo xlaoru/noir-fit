@@ -6,7 +6,7 @@ import React from "react";
 
 export const metadata: Metadata = {
     title: "Checkout",
-    description: "...",
+    description: "Complete your purchase by providing shipping information and reviewing your order. Fast, secure, and simple checkout process."
 };
 
 export default async function Checkout() {
@@ -16,14 +16,16 @@ export default async function Checkout() {
         redirect("/api/auth/refresh")
     }
 
-    return <CheckoutPage
-        email={user.email}
-        phoneNumber={user.phoneNumber ?? ""}
-        firstName={user.firstName ?? ""}
-        lastName={user.lastName ?? ""}
-        address={user.address ?? ""}
-        city={user.city ?? ""}
-        country={user.country ?? ""}
-        zipCode={user.zipCode ?? ""}
-    />
+    return (
+        <CheckoutPage
+            email={user.email}
+            phoneNumber={user.phoneNumber ?? ""}
+            firstName={user.firstName ?? ""}
+            lastName={user.lastName ?? ""}
+            address={user.address ?? ""}
+            city={user.city ?? ""}
+            country={user.country ?? ""}
+            zipCode={user.zipCode ?? ""}
+        />
+    )
 }

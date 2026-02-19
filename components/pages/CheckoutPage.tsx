@@ -4,11 +4,17 @@ import { useCart } from "@/context/cart-context";
 import { ICheckoutPageProps } from "@/utils/models";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import CartCard from "../CartCard";
 import CheckoutCard from "../CheckoutCard";
+import { checkoutUser } from "@/lib/actions/checkout-user.action";
+import { redirect } from "next/navigation";
 
 export default function CheckoutPage({ email, phoneNumber, firstName, lastName, address, city, country, zipCode }: ICheckoutPageProps) {
     const { items, subtotal, shipping, total } = useCart()
+
+    if (items.length <= 0) {
+        redirect("/cart")
+    }
+
     return (
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
@@ -19,7 +25,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                     <div>
                         <div className="flex flex-col lg:flex-row gap-8">
                             <div className="flex-[0_0_55%] w-full flex flex-col gap-4">
-                                <form className="flex flex-col gap-2">
+                                <form className="flex flex-col gap-2" action={checkoutUser}>
                                     <h5>Contact Information</h5>
                                     <label
                                         htmlFor="email"
@@ -31,8 +37,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                         id="email"
                                         name="email"
                                         type="email"
-                                        value={email}
-                                        onChange={() => { }}
+                                        defaultValue={email}
                                         required
                                         placeholder="example@mail.com"
                                         className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -49,8 +54,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                         id="phoneNumber"
                                         name="phoneNumber"
                                         type="phoneNumber"
-                                        value={phoneNumber}
-                                        onChange={() => { }}
+                                        defaultValue={phoneNumber}
                                         required
                                         placeholder="+38 (123) 456 7890"
                                         className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -71,8 +75,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                                 id="firstName"
                                                 name="firstName"
                                                 type="firstName"
-                                                value={firstName}
-                                                onChange={() => { }}
+                                                defaultValue={firstName}
                                                 required
                                                 placeholder="John"
                                                 className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -91,8 +94,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                                 id="lastName"
                                                 name="lastName"
                                                 type="lastName"
-                                                value={lastName}
-                                                onChange={() => { }}
+                                                defaultValue={lastName}
                                                 required
                                                 placeholder="Doe"
                                                 className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -111,8 +113,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                         id="address"
                                         name="address"
                                         type="address"
-                                        value={address}
-                                        onChange={() => { }}
+                                        defaultValue={address}
                                         required
                                         placeholder="742 Evergreen Terrace"
                                         className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -129,10 +130,9 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                             </label>
                                             <input
                                                 id="city"
-                                                name="City"
+                                                name="city"
                                                 type="city"
-                                                value={city}
-                                                onChange={() => { }}
+                                                defaultValue={city}
                                                 required
                                                 placeholder="New York"
                                                 className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -151,8 +151,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                                 id="country"
                                                 name="country"
                                                 type="country"
-                                                value={country}
-                                                onChange={() => { }}
+                                                defaultValue={country}
                                                 required
                                                 placeholder="United States"
                                                 className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -171,8 +170,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                                 id="zipCode"
                                                 name="zipCode"
                                                 type="zipCode"
-                                                value={zipCode}
-                                                onChange={() => { }}
+                                                defaultValue={zipCode}
                                                 required
                                                 placeholder="10001"
                                                 className="h-9 px-2 bg-zinc-900 border border-zinc-800 rounded-sm text-zinc-100
@@ -181,7 +179,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                             />
                                         </div>
                                     </div>
-                                    <Link href="/payment" className="self-end"><button className="mt-3 w-fit flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors" type="button">Continue to Payment <ArrowRight width={18} height={18} /></button></Link>
+                                    <button className="self-end mt-3 w-fit flex items-center justify-center gap-2 px-6 py-3 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors" type="submit">Continue to Payment <ArrowRight width={18} height={18} /></button>
                                 </form>
                             </div>
                             <div className="flex-[0_0_45%] w-full">
@@ -201,7 +199,7 @@ export default function CheckoutPage({ email, phoneNumber, firstName, lastName, 
                                     <hr className="border border-zinc-700" />
                                     <div className="flex justify-between">
                                         <p className="text-sm text-zinc-400">Subtotal</p>
-                                        <p className="text-sm text-zinc-100">${subtotal}</p>
+                                        <p className="text-sm text-zinc-100">${subtotal.toFixed(2)}</p>
                                     </div>
                                     <div className="flex justify-between">
                                         <p className="text-sm text-zinc-400">Shipping</p>

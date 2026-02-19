@@ -154,6 +154,13 @@ model Order {
   status OrderStatus @default(PENDING)
   total  Float
 
+  firstName String
+  lastName  String
+  address   String
+  city      String
+  country   String
+  zipCode   String
+
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

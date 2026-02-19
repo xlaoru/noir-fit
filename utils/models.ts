@@ -103,3 +103,14 @@ export interface ICheckoutCardProps {
   price: number
   quantity: number
 }
+
+export interface IPaymentPageProps {
+  cardNumber: string
+  expireDate: string
+  cvv: string
+  nameOfCard: string
+}
+
+export interface ISuccessPageProps {
+  orderId: string
+}
