@@ -1,3 +1,5 @@
+import { Order } from "@/app/generated/prisma"
+
 export type Gender = "MEN" | "WOMEN"
 export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
 
@@ -114,3 +116,29 @@ export interface IPaymentPageProps {
 export interface ISuccessPageProps {
   orderId: string
 }
+
+export interface IUserPageProps extends ICheckoutPageProps {
+  cardNumber: string
+  expireDate: string
+  cvv: string
+  nameOfCard: string
+  orders: Order[]
+}
+
+export interface IUserInfoTabProps {
+  tabs: string[]
+  currentTab: string
+  setCurrentTab: (tab: string) => void
+}
+
+export interface ITabIconProps {
+  tabName: string
+}
+
+export interface IProfileProps extends Omit<IUserPageProps, "orders"> {}
+
+export interface IOrdersProps {}
+
+export interface ISettingsProps {}
+
+export interface ISignOutProps {}

@@ -11,5 +11,5 @@ export async function registerEmail(formData: FormData) {
 
   await register(email, password, firstName, lastName)
 
-  redirect("/account")
+  redirect("/")
 }
