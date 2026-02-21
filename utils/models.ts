@@ -142,3 +142,20 @@ export interface IOrdersProps {}
 export interface ISettingsProps {}
 
 export interface ISignOutProps {}
+
+export interface IShippingFormProps {
+  phoneNumber: string
+  address: string
+  city: string
+  country: string
+  zipCode: string
+  setEditingShipping: (isEditing: boolean) => void
+}
+
+export interface IPaymentFormProps {
+  cardNumber: string
+  expireDate: string
+  cvv: string
+  nameOfCard: string
+  setEditingPayment: (isEditing: boolean) => void
+}
