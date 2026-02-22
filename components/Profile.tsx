@@ -6,6 +6,7 @@ import { CreditCard, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ShippingForm from "./ShippingForm";
 import PaymentForm from "./PaymentForm";
+import { editUserFullNameAndEmail } from "@/lib/actions/edit-user-full-name-and-email.action";
 
 export default function Profile({
     email,
@@ -58,66 +59,71 @@ export default function Profile({
                     </div >
                     <div className="flex flex-col gap-3">
                         <div className="flex justify-between gap-3">
-                            <form className="flex flex-col gap-2 flex-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="text-sm text-zinc-400"
-                                >
-                                    Firts Name
-                                </label>
-                                <input
-                                    id="firstName"
-                                    name="firstName"
-                                    type="firstName"
-                                    required
-                                    defaultValue={firstName}
-                                    placeholder="John"
-                                    className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
-                               placeholder:text-zinc-500
-                               focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
-                                />
-                            </form>
-                            <div className="flex flex-col gap-2 flex-1">
-                                <label
-                                    htmlFor="lastName"
-                                    className="text-sm text-zinc-400"
-                                >
-                                    Last Name
-                                </label>
-                                <input
-                                    id="lastName"
-                                    name="lastName"
-                                    type="lastName"
-                                    required
-                                    defaultValue={lastName}
-                                    placeholder="Doe"
-                                    className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
-                               placeholder:text-zinc-500
-                               focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label
-                                htmlFor="email"
-                                className="text-sm text-zinc-400"
+                            <form
+                                className="flex flex-col gap-2 flex-1"
+                                action={editUserFullNameAndEmail}
                             >
-                                Email
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                required
-                                defaultValue={email}
-                                placeholder="example@mail.com"
-                                className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
+                                <div className="flex gap-2">
+                                    <div className="flex flex-col gap-2 flex-1">
+                                        <label
+                                            htmlFor="firstName"
+                                            className="text-sm text-zinc-400"
+                                        >
+                                            Firts Name
+                                        </label>
+                                        <input
+                                            id="firstName"
+                                            name="firstName"
+                                            type="firstName"
+                                            required
+                                            defaultValue={firstName}
+                                            placeholder="John"
+                                            className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
                                placeholder:text-zinc-500
                                focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
-                            />
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-2 flex-1">
+                                        <label
+                                            htmlFor="lastName"
+                                            className="text-sm text-zinc-400"
+                                        >
+                                            Last Name
+                                        </label>
+                                        <input
+                                            id="lastName"
+                                            name="lastName"
+                                            type="lastName"
+                                            required
+                                            defaultValue={lastName}
+                                            placeholder="Doe"
+                                            className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
+                               placeholder:text-zinc-500
+                               focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
+                                        />
+                                    </div>
+                                </div>
+                                <label
+                                    htmlFor="email"
+                                    className="text-sm text-zinc-400"
+                                >
+                                    Email
+                                </label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                    defaultValue={email}
+                                    placeholder="example@mail.com"
+                                    className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100
+                               placeholder:text-zinc-500
+                               focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
+                                />
+                                <button type="submit" className="w-fit mt-2 bg-zinc-100 text-zinc-950 rounded px-4 py-2 cursor-pointer hover:bg-zinc-300 transition-colors">Save Changes</button>
+                            </form>
                         </div>
                     </div>
-                    <button type="submit" className="w-fit bg-zinc-100 text-zinc-950 rounded px-4 py-2 cursor-pointer hover:bg-zinc-300 transition-colors">Save Changes</button>
                 </div >
                 <div className="flex flex-col gap-6 p-6 bg-zinc-900 border border-zinc-800 rounded-sm">
                     <div className="flex justify-between">

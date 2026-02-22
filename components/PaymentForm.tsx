@@ -1,5 +1,6 @@
 "use client"
 
+import { editPaymentInfo } from "@/lib/actions/edit-payment-info.action";
 import { IPaymentFormProps } from "@/utils/models";
 import { X } from "lucide-react";
 
@@ -13,7 +14,12 @@ export default function PaymentForm({
     return (
         <form
             className="z-1000 p-6 rounded-sm w-[30%] flex flex-col gap-2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-zinc-950"
-            action={() => setEditingPayment(false)}
+            action={
+                async (formData: FormData) => {
+                    await editPaymentInfo(formData)
+                    setEditingPayment(false)
+                }
+            }
         >
             <div className="flex items-center justify-between mb-2">
                 <h5>Payment Method Editing</h5>
