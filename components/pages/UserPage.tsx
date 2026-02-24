@@ -53,7 +53,7 @@ export default function UserPage({
                 )
             case "Orders":
                 return (
-                    <Orders />
+                    <Orders orders={orders} />
                 )
             case "Settings":
                 return (
@@ -68,13 +68,15 @@ export default function UserPage({
 
     return (
         <section>
-            <div className="section-container">
+            <div className="section-container py-0">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    <div className="flex-[0_0_20%] w-full flex flex-col gap-4">
-                        <h2 className="text-left">Account</h2>
-                        <UserInfoTab tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                    <div className="flex-[0_0_20%] w-full">
+                        <div className="sticky top-24 flex flex-col gap-4">
+                            <h2 className="text-left">Account</h2>
+                            <UserInfoTab tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                        </div>
                     </div>
-                    <div className="flex-[0_0_80%] w-full flex flex-col gap-4">
+                    <div className="flex-[0_0_80%] w-full flex flex-col gap-4 pt-20">
                         {renderSelectedSection()}
                     </div>
                 </div>

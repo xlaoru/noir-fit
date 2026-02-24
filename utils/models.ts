@@ -1,4 +1,4 @@
-import { Order } from "@/app/generated/prisma"
+import { Order, OrderItem } from "@/app/generated/prisma"
 
 export type Gender = "MEN" | "WOMEN"
 export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
@@ -117,12 +117,16 @@ export interface ISuccessPageProps {
   orderId: string
 }
 
+type OrderWithItems = Order & {
+  items: OrderItem[]
+}
+
 export interface IUserPageProps extends ICheckoutPageProps {
   cardNumber: string
   expireDate: string
   cvv: string
   nameOfCard: string
-  orders: Order[]
+  orders: OrderWithItems[]
 }
 
 export interface IUserInfoTabProps {
@@ -137,7 +141,9 @@ export interface ITabIconProps {
 
 export interface IProfileProps extends Omit<IUserPageProps, "orders"> {}
 
-export interface IOrdersProps {}
+export interface IOrdersProps {
+  orders: Omit<OrderWithItems, "userId">[]
+}
 
 export interface ISettingsProps {}
 
@@ -159,3 +165,5 @@ export interface IPaymentFormProps {
   nameOfCard: string
   setEditingPayment: (isEditing: boolean) => void
 }
+
+export interface IOrderItemProps extends Omit<OrderWithItems, "userId"> {}

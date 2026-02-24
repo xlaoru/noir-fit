@@ -5,6 +5,9 @@ export async function getUserOrders(userId: string) {
     where: {
       userId,
     },
+    include: {
+      items: true,
+    },
   })
 
   return orders
