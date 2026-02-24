@@ -35,5 +35,5 @@ export async function editShippingInfo(formData: FormData) {
     },
   })
 
-  revalidatePath("/account")
+  revalidatePath(`/account/${user.slug}`)
 }

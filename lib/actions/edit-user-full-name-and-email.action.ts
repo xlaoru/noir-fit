@@ -31,5 +31,5 @@ export async function editUserFullNameAndEmail(formData: FormData) {
     },
   })
 
-  revalidatePath("/account")
+  revalidatePath(`/account/${user.slug}`)
 }

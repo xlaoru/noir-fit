@@ -33,5 +33,5 @@ export async function editPaymentInfo(formData: FormData) {
     },
   })
 
-  revalidatePath("/account")
+  revalidatePath(`/account/${user.slug}`)
 }

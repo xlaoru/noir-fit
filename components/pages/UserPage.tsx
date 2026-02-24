@@ -28,7 +28,8 @@ export default function UserPage({
     expireDate,
     cvv,
     nameOfCard,
-    orders
+    orders,
+    slug
 }: IUserPageProps) {
     const [currentTab, setCurrentTab] = useState(tabs[0])
 
@@ -53,7 +54,7 @@ export default function UserPage({
                 )
             case "Orders":
                 return (
-                    <Orders orders={orders} />
+                    <Orders orders={orders} slug={slug} />
                 )
             case "Settings":
                 return (

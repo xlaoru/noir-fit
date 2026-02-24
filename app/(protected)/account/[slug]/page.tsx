@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "Manage your profile, orders, and preferences in one place.",
 };
 
-export default async function Account() {
+export default async function Account({ params }: { params: Promise<{ slug: string }> }) {
     const user = await requireUser()
 
     if (!user) {
@@ -17,6 +17,8 @@ export default async function Account() {
     }
 
     const orders = await getUserOrders(user.id)
+
+    const { slug } = await params
 
     return (
         <UserPage
@@ -33,6 +35,7 @@ export default async function Account() {
             cvv={user.cvv ?? ""}
             nameOfCard={user.nameOfCard ?? ""}
             orders={orders}
+            slug={slug}
         />
     )
 }

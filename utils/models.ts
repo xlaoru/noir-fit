@@ -41,6 +41,10 @@ export interface ICartContext {
   amount: number
 }
 
+export interface IHeaderProps {
+  slug: string
+}
+
 export interface IProductCardProps extends IProduct {
   isSaved: boolean
   route: string
@@ -127,6 +131,7 @@ export interface IUserPageProps extends ICheckoutPageProps {
   cvv: string
   nameOfCard: string
   orders: OrderWithItems[]
+  slug: string
 }
 
 export interface IUserInfoTabProps {
@@ -139,10 +144,14 @@ export interface ITabIconProps {
   tabName: string
 }
 
-export interface IProfileProps extends Omit<IUserPageProps, "orders"> {}
+export interface IProfileProps extends Omit<
+  IUserPageProps,
+  "orders" | "slug"
+> {}
 
 export interface IOrdersProps {
   orders: Omit<OrderWithItems, "userId">[]
+  slug: string
 }
 
 export interface ISettingsProps {}
@@ -166,4 +175,6 @@ export interface IPaymentFormProps {
   setEditingPayment: (isEditing: boolean) => void
 }
 
-export interface IOrderItemProps extends Omit<OrderWithItems, "userId"> {}
+export interface IOrderItemProps extends Omit<OrderWithItems, "userId"> {
+  slug: string
+}

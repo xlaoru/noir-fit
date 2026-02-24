@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/context/cart-context";
+import { requireUser } from "@/lib/services/require-user.service";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,17 +22,18 @@ export const metadata: Metadata = {
   description: "Where discipline meets design.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await requireUser()
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <main>
           <CartProvider>
-            <Header />
+            <Header slug={user?.slug ?? ""} />
             {children}
           </CartProvider>
         </main>
