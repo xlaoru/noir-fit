@@ -34,7 +34,9 @@ export default function UserPage({
 }: IUserPageProps) {
     const pathname = usePathname()
 
-    const currentTab = pathname.split("/").slice(-1)[0]
+    const currentTab = decodeURIComponent(pathname.split("/").slice(-1)[0] ?? "")
+        .toLowerCase()
+        .replace(/\s+/g, "")
 
     function renderSelectedSection() {
         switch (currentTab) {

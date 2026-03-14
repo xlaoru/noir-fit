@@ -8,9 +8,9 @@ export default function UserInfoTab({ slug, tabs, currentTab }: IUserInfoTabProp
             className="mt-6 flex flex-col gap-1"
         >
             {tabs.map((tab) => (
-                <Link href={`/account/${slug}/${tab.toLowerCase()}`} key={tab}>
+                <Link href={`/account/${slug}/${tab.toLowerCase().replace(/\s+/g, "")}`} key={tab}>
                     <li
-                        className={`flex items-center gap-3 p-2 rounded-sm cursor-pointer ${currentTab === tab.toLowerCase() ? "bg-zinc-800 text-zinc-100" : "bg-zinc-950 text-zinc-300 hover:bg-zinc-900"}`}
+                        className={`flex items-center gap-3 p-2 rounded-sm cursor-pointer ${currentTab === tab.toLowerCase().replace(/\s+/g, "") ? "bg-zinc-800 text-zinc-100" : "bg-zinc-950 text-zinc-300 hover:bg-zinc-900"}`}
                     >
                         <TabIcon tabName={tab} />
                         {tab}

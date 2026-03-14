@@ -1,6 +1,5 @@
 import { OrderStatus } from "@/app/generated/prisma";
 import UserPage from "@/components/pages/UserPage";
-import prisma from "@/lib/prisma";
 import { getUserOrders } from "@/lib/services/get-user-orders.service";
 import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
