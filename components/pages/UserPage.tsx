@@ -29,7 +29,8 @@ export default function UserPage({
     cvv,
     nameOfCard,
     orders,
-    slug
+    slug,
+    statuses
 }: IUserPageProps) {
     const [currentTab, setCurrentTab] = useState(tabs[0])
 
@@ -54,7 +55,7 @@ export default function UserPage({
                 )
             case "Orders":
                 return (
-                    <Orders orders={orders} slug={slug} />
+                    <Orders orders={orders} slug={slug} statuses={statuses} />
                 )
             case "Settings":
                 return (
@@ -74,7 +75,7 @@ export default function UserPage({
                     <div className="flex-[0_0_20%] w-full">
                         <div className="sticky top-24 flex flex-col gap-4">
                             <h2 className="text-left">Account</h2>
-                            <UserInfoTab tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                            <UserInfoTab slug={slug} tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                         </div>
                     </div>
                     <div className="flex-[0_0_80%] w-full flex flex-col gap-4 pt-20">

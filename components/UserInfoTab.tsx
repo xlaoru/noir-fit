@@ -1,7 +1,8 @@
 import { ITabIconProps, IUserInfoTabProps } from "@/utils/models";
 import { LogOut, Settings, ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
 
-export default function UserInfoTab({ tabs, currentTab, setCurrentTab }: IUserInfoTabProps) {
+export default function UserInfoTab({ slug, tabs, currentTab, setCurrentTab }: IUserInfoTabProps) {
     return (
         <ul
             className="mt-6 flex flex-col gap-1"

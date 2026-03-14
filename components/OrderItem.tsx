@@ -1,41 +1,55 @@
+
 import { OrderStatus } from "@/app/generated/prisma";
+import { accentBackgroudColor, statusIcon } from "@/utils/colorStatus";
 import { IOrderItemProps } from "@/utils/models";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 export default function OrderItem({ id, firstName, lastName, address, city, country, zipCode, createdAt, status, total, items, slug }: IOrderItemProps) {
     const totalItemsQuanity = items.reduce((sum, item) => (sum + item.quantity), 0)
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+    }).format(createdAt)
 
-    function accentBackgroudColor(status: OrderStatus) {
-        switch (status) {
-            case "PENDING":
-                return "bg-yellow-500"
-            case "PAID":
-                return "bg-emerald-700"
-            case "SHIPPED":
-                return "bg-sky-700"
-            case "DELIVERED":
-                return "bg-lime-700"
-            case "CANCELLED":
-                return "bg-rose-700"
-        }
+    const formattedTotal = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    }).format(total)
+
+    function statusLabel(status: OrderStatus) {
+        return status[0] + status.slice(1).toLowerCase()
     }
 
     return (
-        <Link href={`/account/${slug}/${id}`}>
-            <li className="flex justify-between p-6 bg-zinc-900 border border-zinc-800 rounded-sm hover:border-zinc-600">
-                <div className="flex flex-col gap-1 justify-between">
-                    <h6>{id}</h6>
-                    <p>{createdAt.getDate()}.{createdAt.getMonth()}.{createdAt.getFullYear()} • {totalItemsQuanity} items</p>
+        <div className="grid grid-cols-2 items-center gap-x-4 gap-y-3 bg-zinc-900 border border-zinc-800 rounded-sm hover:border-zinc-600 px-4 py-3 transition-colors hover:border-zinc-700 sm:grid-cols-[1.8fr_1fr_0.9fr_1fr_auto]">
+            <div>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-zinc-500">Order ID</p>
+                <h5 className="truncate text-sm font-semibold text-zinc-100">{id}</h5>
+            </div>
+            <div>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-zinc-500">Date</p>
+                <h5 className="text-sm font-semibold text-zinc-100">{formattedDate}</h5>
+            </div>
+            <div>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-zinc-500">Total</p>
+                <h5 className="text-sm font-semibold text-zinc-100">{formattedTotal}</h5>
+            </div>
+            <div>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-zinc-500">Status</p>
+                <h5 className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-semibold ${accentBackgroudColor(status)}`}>
+                    {statusIcon(status)}
+                    <span>{statusLabel(status)}</span>
+                </h5>
+            </div>
+            <div className="col-span-2 flex items-center justify-end gap-3 sm:col-span-1">
+                <div className="hidden items-center gap-2 sm:flex">
+                    <span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-0.5 text-[10px] font-semibold text-zinc-300">
+                        {totalItemsQuanity} items
+                    </span>
                 </div>
-                <div className="flex items-center gap-5">
-                    <div className="flex flex-col gap-1 items-end justify-between">
-                        <span className={`capitalize text-xs px-2 py-[2px] ${accentBackgroudColor(status)} text-zinc-100 font-bold rounded-sm w-fit`}>{status.toLowerCase()}</span>
-                        <h6>${total}</h6>
-                    </div>
-                    <ChevronRight className="text-zinc-600" />
-                </div>
-            </li>
-        </Link>
+                <ChevronDown className="h-4 w-4 text-zinc-400" />
+            </div>
+        </div>
     )
 }

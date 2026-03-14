@@ -1,4 +1,6 @@
+import { OrderStatus } from "@/app/generated/prisma";
 import UserPage from "@/components/pages/UserPage";
+import prisma from "@/lib/prisma";
 import { getUserOrders } from "@/lib/services/get-user-orders.service";
 import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
@@ -9,16 +11,24 @@ export const metadata: Metadata = {
     description: "Manage your profile, orders, and preferences in one place.",
 };
 
-export default async function Account({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Account({ 
+    params, 
+    searchParams, 
+}: { params: Promise<{ slug: string }>, searchParams: { status?: OrderStatus | "All" } }) {
     const user = await requireUser()
 
     if (!user) {
         redirect("/api/auth/refresh")
     }
 
-    const orders = await getUserOrders(user.id)
-
     const { slug } = await params
+
+    const { status } = await searchParams
+
+    const normalizedStatus = status === "All" ? "all" : status;
+    const orders = await getUserOrders(user.id, normalizedStatus)
+
+    const statuses = Object.keys(OrderStatus) as OrderStatus[]
 
     return (
         <UserPage
@@ -36,6 +46,7 @@ export default async function Account({ params }: { params: Promise<{ slug: stri
             nameOfCard={user.nameOfCard ?? ""}
             orders={orders}
             slug={slug}
+            statuses={statuses}
         />
     )
 }

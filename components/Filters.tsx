@@ -1,7 +1,6 @@
 import { IFiltersProps } from "@/utils/models"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 
-
 export default function Filters({ categories }: IFiltersProps) {
     const router = useRouter()
     const pathname = usePathname()

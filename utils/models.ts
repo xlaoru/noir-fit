@@ -1,4 +1,4 @@
-import { Order, OrderItem } from "@/app/generated/prisma"
+import { Order, OrderItem, OrderStatus } from "@/app/generated/prisma"
 
 export type Gender = "MEN" | "WOMEN"
 export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
@@ -132,9 +132,11 @@ export interface IUserPageProps extends ICheckoutPageProps {
   nameOfCard: string
   orders: OrderWithItems[]
   slug: string
+  statuses: OrderStatus[]
 }
 
 export interface IUserInfoTabProps {
+  slug: string
   tabs: string[]
   currentTab: string
   setCurrentTab: (tab: string) => void
@@ -146,12 +148,13 @@ export interface ITabIconProps {
 
 export interface IProfileProps extends Omit<
   IUserPageProps,
-  "orders" | "slug"
+  "orders" | "slug" | "statuses"
 > {}
 
 export interface IOrdersProps {
   orders: Omit<OrderWithItems, "userId">[]
   slug: string
+  statuses: OrderStatus[]
 }
 
 export interface ISettingsProps {}
