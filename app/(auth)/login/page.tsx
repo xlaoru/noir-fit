@@ -1,7 +1,17 @@
+"use client"
+
+import { useCart } from "@/context/cart-context";
 import { logInEmail } from "@/lib/actions/log-in.action";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function LogIn() {
+    const { clear } = useCart()
+
+    useEffect(() => {
+        clear()
+    }, [])
+
     return (
         <section className="min-h-[70vh] flex items-center justify-center">
             <div className="w-full max-w-[420px]">

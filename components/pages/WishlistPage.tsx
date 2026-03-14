@@ -2,19 +2,32 @@
 
 import Link from "next/link"
 import WishlistCard from "../WishlistCard"
+import { IWishlistPageProps } from "@/utils/models"
+import { useState } from "react"
+import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action"
 
-export default function WishlistPage() {
+export default function WishlistPage({ products: initialProducts }: IWishlistPageProps) {
+    const [products, setProducts] = useState(initialProducts)
+
+    async function handleRemove(id: string) {
+        await toggleWishlistAction(id)
+
+        setProducts(prev =>
+            prev.filter(p => p.id !== id)
+        )
+    }
+
     return (
         <section>
             <div className="section-container pt-0 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                     <h2 className="text-left">Wishlist</h2>
                     <p className="text-sm">
-                        {0} items
+                        {products.length} items
                     </p>
                 </div>
                 {
-                    0 === 0
+                    products.length === 0
                         ? (
                             <div className="flex flex-col justify-center items-center gap-5">
                                 <div className="bg-zinc-900 text-zinc-600 border border-zinc-800 p-6 rounded-full">
@@ -29,9 +42,9 @@ export default function WishlistPage() {
                         )
                         : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                                {/* {[].map((item) => (
+                                {products.map((item) => (
                                     <WishlistCard
-                                        key={item.key}
+                                        key={item.id}
                                         id={item.id}
                                         title={item.title}
                                         price={item.price}
@@ -40,8 +53,9 @@ export default function WishlistPage() {
                                         slug={item.slug}
                                         type={item.type}
                                         {...("gender" in item) ? { gender: item.gender } : {}}
+                                        onRemove={handleRemove}
                                     />
-                                ))} */}
+                                ))}
                             </div>
                         )
                 }

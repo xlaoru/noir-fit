@@ -1,11 +1,13 @@
 "use client"
 
+import { useCart } from "@/context/cart-context"
+import { IHeaderProps } from "@/utils/models"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useRef, useMemo } from "react"
 
-export default function Header() {
+export default function Header({ slug }: IHeaderProps) {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
     const closeMenu = () => setOpen(false)
@@ -37,6 +39,7 @@ export default function Header() {
         return null
     }, [pathname])
 
+    const { amount } = useCart()
 
     return (
         <header className="z-1000 fixed top-0 left-0 w-full bg-zinc-950 border-b border-zinc-900">
@@ -92,10 +95,10 @@ export default function Header() {
                             <circle cx="20" cy="21" r="1" />
                             <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
                         </svg>
-                        <div className={`${0 === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{0 > 99 ? 99 : 0}</div>
+                        <div className={`${amount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{amount > 99 ? 99 : amount}</div>
                     </Link>
                     <Link
-                        href="/account"
+                        href={`/account/${slug}/profile`}
                         className={`flex h-9 w-9 items-center justify-center ${activePage === "account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Account"
                     >

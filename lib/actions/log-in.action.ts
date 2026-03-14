@@ -13,5 +13,5 @@ export async function logInEmail(formData: FormData) {
     throw new Error("Incorrect email or password.")
   }
 
-  redirect("/account")
+  redirect("/")
 }

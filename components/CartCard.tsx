@@ -1,13 +1,15 @@
+import { useCart } from "@/context/cart-context";
 import { ICartCardProps } from "@/utils/models";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CartCard({ title, price, images, gender, slug, type, cartKey, quantity }: ICartCardProps) {
+export default function CartCard({ id, title, price, images, gender, slug, type, quantity }: ICartCardProps) {
+    const { remove, increase, decrease } = useCart()
     return (
         <div className="flex justify-between bg-zinc-900 border border-zinc-800 rounded-sm p-3">
             <div className="flex gap-3">
-                <Link href={`/categories/${type}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
+                <Link href={`/categories/${type.toLowerCase()}/${gender ? `${gender.toLowerCase()}/` : ""}${slug}`}>
                     <div className="relative w-[96px] h-[96px] rounded-sm overflow-hidden bg-zinc-800">
                         <Image
                             src={images[0]}
@@ -21,12 +23,14 @@ export default function CartCard({ title, price, images, gender, slug, type, car
                     <h6>{title}</h6>
                     <div className="flex items-center gap-3">
                         <button
+                            onClick={() => decrease(id)}
                             className="p-1 bg-zinc-800 cursor-pointer text-zinc-500 rounded-sm hover:bg-zinc-700 hover:text-zinc-400 transition-colors"
                         >
                             <Minus className="w-5 h-5" />
                         </button>
                         <h6 className="font-normal">{quantity}</h6>
                         <button
+                            onClick={() => increase(id)}
                             className="p-1 bg-zinc-800 cursor-pointer text-zinc-500 rounded-sm hover:bg-zinc-700 hover:text-zinc-400 transition-colors"
                         >
                             <Plus className="w-5 h-5" />
@@ -37,6 +41,7 @@ export default function CartCard({ title, price, images, gender, slug, type, car
             <div className="grid h-full grid-rows-[1fr_auto_1fr] place-items-end">
                 <h6 className="self-start">${price}</h6>
                 <button
+                    onClick={() => remove(id)}
                     className="cursor-pointer"
                 >
                     <Trash2 className="text-zinc-300 w-5 h-5 hover:text-red-600 transition-colors" />

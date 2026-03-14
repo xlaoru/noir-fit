@@ -2,10 +2,18 @@ import CategoryCard from "@/components/CategoryCard";
 import DescriptionCard from "@/components/DescriptionCard"
 import ProductCard from "@/components/ProductCard";
 import { getRecentProducts } from "@/lib/services/get-products.service";
+import { requireUser } from "@/lib/services/require-user.service";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const { products } = await getRecentProducts()
+  const user = await requireUser()
+
+  if (!user) {
+    redirect("/api/auth/refresh")
+  }
+
+  const { products } = await getRecentProducts(user.id)
 
   return (
     <>
@@ -55,12 +63,12 @@ export default async function Home() {
             <CategoryCard
               backgroundImageUrl="bg-men-collection.png"
               title="Men"
-              slug="/categories/collections/men"
+              slug="/categories/apparel/men"
             />
             <CategoryCard
               backgroundImageUrl="bg-women-collection.png"
               title="Women"
-              slug="/categories/collections/women"
+              slug="/categories/apparel/women"
             />
             <CategoryCard
               backgroundImageUrl="bg-accessories.png"
@@ -92,6 +100,7 @@ export default async function Home() {
                 category={product.category}
                 type={product.type}
                 slug={product.slug}
+                isSaved={product.isSaved}
                 route={`/categories/${product.type.toLowerCase()}/${product.gender ? `${product.gender.toLowerCase()}/` : ""}${product.slug}`}
                 {...("gender" in product ? { gender: product.gender } : {})}
               />

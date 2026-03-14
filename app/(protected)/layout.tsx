@@ -15,12 +15,6 @@ export default async function ProtectedLayout({
 
     return (
         <>
-            <h2>{user.email}</h2>
-            <form action={logOut}>
-                <button
-                    type="submit"
-                    className="bg-zinc-100 text-zinc-950 px-5 py-3 font-bold rounded-sm cursor-pointer hover:bg-zinc-300">Log Out</button>
-            </form>
             {children}
         </>
     )

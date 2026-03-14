@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState } from "react"
 import { ICartItem, ICartContext, IProduct } from "@/utils/models"
-import { getProductKey } from "@/utils/getProductKey"
 
 const CartContext = createContext<ICartContext | null>(null)
 
@@ -10,40 +9,40 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const [items, setItems] = useState<ICartItem[]>([])
 
     function add(product: IProduct) {
-        const key = getProductKey(product.type, product.id)
+        const id = product.id
 
         setItems((prev) => {
-            const existing = prev.find((item) => item.key === key)
+            const existing = prev.find((item) => item.id === id)
 
             if (existing) {
                 return prev.map((item) =>
-                    item.key === key
+                    item.id === id
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 )
             }
 
-            return [...prev, { ...product, key, quantity: 1 }]
+            return [...prev, { ...product, quantity: 1 }]
         })
     }
 
-    function remove(key: string) {
-        setItems((prev) => prev.filter((item) => item.key !== key))
+    function remove(id: string) {
+        setItems((prev) => prev.filter((item) => item.id !== id))
     }
 
-    function increase(key: string) {
+    function increase(id: string) {
         setItems((prev) => prev.map((item) =>
-            item.key === key
+            item.id === id
                 ? { ...item, quantity: item.quantity + 1 }
                 : item
         ))
     }
 
-    function decrease(key: string) {
+    function decrease(id: string) {
         setItems(prev =>
             prev
                 .map((item) =>
-                    item.key === key
+                    item.id === id
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
                 )
@@ -51,12 +50,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         )
     }
 
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    function clear() {
+        setItems([])
+    }
+
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const shipping = subtotal / 10 >= 12 ? 0 : subtotal / 10
+    const total = subtotal + shipping
 
     const amount = items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
-        <CartContext.Provider value={{ items, add, remove, increase, decrease, total, amount }}>
+        <CartContext.Provider value={{ items, add, remove, increase, decrease, clear, subtotal, shipping, total, amount }}>
             {children}
         </CartContext.Provider>
     )
