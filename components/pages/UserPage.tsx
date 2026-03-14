@@ -1,12 +1,12 @@
 "use client"
 
 import { IUserPageProps } from "@/utils/models";
-import { useState } from "react";
 import UserInfoTab from "../UserInfoTab";
 import Profile from "../Profile";
 import Orders from "../Orders";
 import SignOut from "../SignOut";
 import Settings from "../Settings";
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 
 const tabs = [
     "Profile",
@@ -32,11 +32,13 @@ export default function UserPage({
     slug,
     statuses
 }: IUserPageProps) {
-    const [currentTab, setCurrentTab] = useState(tabs[0])
+    const pathname = usePathname()
+
+    const currentTab = pathname.split("/").slice(-1)[0]
 
     function renderSelectedSection() {
         switch (currentTab) {
-            case "Profile":
+            case "profile":
                 return (
                     <Profile
                         email={email}
@@ -53,15 +55,15 @@ export default function UserPage({
                         nameOfCard={nameOfCard}
                     />
                 )
-            case "Orders":
+            case "orders":
                 return (
                     <Orders orders={orders} slug={slug} statuses={statuses} />
                 )
-            case "Settings":
+            case "settings":
                 return (
                     <Settings />
                 )
-            case "Sign Out":
+            case "signout":
                 return (
                     <SignOut />
                 )
@@ -75,7 +77,7 @@ export default function UserPage({
                     <div className="flex-[0_0_20%] w-full">
                         <div className="sticky top-24 flex flex-col gap-4">
                             <h2 className="text-left">Account</h2>
-                            <UserInfoTab slug={slug} tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                            <UserInfoTab slug={slug} tabs={tabs} currentTab={currentTab} />
                         </div>
                     </div>
                     <div className="flex-[0_0_80%] w-full flex flex-col gap-4 pt-20">

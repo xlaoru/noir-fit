@@ -2,20 +2,20 @@ import { ITabIconProps, IUserInfoTabProps } from "@/utils/models";
 import { LogOut, Settings, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 
-export default function UserInfoTab({ slug, tabs, currentTab, setCurrentTab }: IUserInfoTabProps) {
+export default function UserInfoTab({ slug, tabs, currentTab }: IUserInfoTabProps) {
     return (
         <ul
             className="mt-6 flex flex-col gap-1"
         >
             {tabs.map((tab) => (
-                <li
-                    key={tab}
-                    className={`flex items-center gap-3 p-2 rounded-sm cursor-pointer hover:bg-zinc-900 ${currentTab === tab ? "bg-zinc-800 text-zinc-100" : "bg-zinc-950 text-zinc-300"}`}
-                    onClick={() => setCurrentTab(tab)}
-                >
-                    <TabIcon tabName={tab} />
-                    {tab}
-                </li>
+                <Link href={`/account/${slug}/${tab.toLowerCase()}`} key={tab}>
+                    <li
+                        className={`flex items-center gap-3 p-2 rounded-sm cursor-pointer ${currentTab === tab.toLowerCase() ? "bg-zinc-800 text-zinc-100" : "bg-zinc-950 text-zinc-300 hover:bg-zinc-900"}`}
+                    >
+                        <TabIcon tabName={tab} />
+                        {tab}
+                    </li>
+                </Link>
             ))}
         </ul>
     )

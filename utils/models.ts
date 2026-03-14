@@ -139,7 +139,6 @@ export interface IUserInfoTabProps {
   slug: string
   tabs: string[]
   currentTab: string
-  setCurrentTab: (tab: string) => void
 }
 
 export interface ITabIconProps {

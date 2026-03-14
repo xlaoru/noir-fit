@@ -98,7 +98,7 @@ export default function Header({ slug }: IHeaderProps) {
                         <div className={`${amount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{amount > 99 ? 99 : amount}</div>
                     </Link>
                     <Link
-                        href={`/account/${slug}`}
+                        href={`/account/${slug}/profile`}
                         className={`flex h-9 w-9 items-center justify-center ${activePage === "account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Account"
                     >
