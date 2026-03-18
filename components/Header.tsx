@@ -2,12 +2,13 @@
 
 import { useCart } from "@/context/cart-context"
 import { IHeaderProps } from "@/utils/models"
+import { CirclePlus } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useRef, useMemo } from "react"
 
-export default function Header({ slug }: IHeaderProps) {
+export default function Header({ slug, userRole }: IHeaderProps) {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
     const closeMenu = () => setOpen(false)
@@ -32,7 +33,7 @@ export default function Header({ slug }: IHeaderProps) {
     const activePage = useMemo(() => {
         const path = pathname.split("/").filter(Boolean)
 
-        if (["cart", "wishlist", "account"].includes(path[0])) {
+        if (["cart", "wishlist", "account", "admin"].includes(path[0])) {
             return path[0]
         }
 
@@ -97,6 +98,14 @@ export default function Header({ slug }: IHeaderProps) {
                         </svg>
                         <div className={`${amount === 0 ? "hidden" : "flex"} absolute top-0 -right-1 min-w-[15px] h-[15px] px-[2.5px] flex items-center justify-center rounded-full bg-zinc-100 text-zinc-950 text-[11px] font-semibold leading-none shadow-md`}>{amount > 99 ? 99 : amount}</div>
                     </Link>
+                    {userRole === "ADMIN" && (
+                        <Link
+                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "admin" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
+                        href="/admin"
+                    >
+                        <CirclePlus className="h-5 w-5" />
+                    </Link>
+                    )}
                     <Link
                         href={`/account/${slug}/profile`}
                         className={`flex h-9 w-9 items-center justify-center ${activePage === "account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}

@@ -1,4 +1,4 @@
-import { Order, OrderItem, OrderStatus } from "@/app/generated/prisma"
+import { Order, OrderItem, OrderStatus, Role } from "@/app/generated/prisma"
 
 export type Gender = "MEN" | "WOMEN"
 export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
@@ -43,6 +43,7 @@ export interface ICartContext {
 
 export interface IHeaderProps {
   slug: string
+  userRole: Role
 }
 
 export interface IProductCardProps extends IProduct {
