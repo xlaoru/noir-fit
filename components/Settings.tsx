@@ -16,6 +16,7 @@ export default function Settings({ }: ISettingsProps) {
                         id="currentPassword"
                         name="currentPassword"
                         type="password"
+                        placeholder="12345678"
                         className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
                     />
                     <label htmlFor="newPassword">New Password</label>
@@ -23,6 +24,7 @@ export default function Settings({ }: ISettingsProps) {
                         id="newPassword"
                         name="newPassword"
                         type="password"
+                        placeholder="12345678"
                         className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
                     />
                     <label htmlFor="confirmPassword">Confirm Password</label>
@@ -30,6 +32,7 @@ export default function Settings({ }: ISettingsProps) {
                         id="confirmPassword"
                         name="confirmPassword"
                         type="password"
+                        placeholder="12345678"
                         className="h-11 px-3 bg-zinc-800 border border-zinc-700 rounded-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
                     />
                     <button
