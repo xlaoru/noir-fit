@@ -42,8 +42,16 @@ export default function SuccessPage({ orderId }: ISuccessPageProps) {
                     </div>
                 </div>
                 <div className="flex gap-4">
-                    <Link href="/"><button className="px-4 py-3 flex items-center gap-2 text-xl font-bold bg-zinc-100 text-zinc-950 rounded cursor-pointer hover:bg-zinc-300">Return Home <ArrowRight width={20} hanging={20} /></button></Link>
-                    <Link href="/categories/apparel/men"><button className="px-4 py-3 flex items-center gap-2 text-xl text-zinc-400 font-bold bg-zinc-950 border border-zinc-800 rounded cursor-pointer hover:bg-zinc-900"><ShoppingCart /> Continue Shopping</button></Link>
+                    <Link href="/">
+                        <button className="px-6 py-3 flex items-center gap-2 cursor-pointer text-black font-semibold rounded-sm bg-zinc-100 hover:bg-zinc-300 transition-colors">
+                            Return Home <ArrowRight width={18} height={18} />
+                        </button>
+                    </Link>
+                    <Link href="/categories/apparel/men">
+                        <button className="px-6 py-3 flex items-center gap-2 cursor-pointer text-zinc-300 font-semibold rounded-sm bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100 transition-colors">
+                            <ShoppingCart width={18} height={18} /> Continue Shopping
+                        </button>
+                    </Link>
                 </div>
             </div>
         </section>
