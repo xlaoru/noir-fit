@@ -33,7 +33,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <main>
           <CartProvider>
-            <Header slug={user?.slug ?? ""} />
+            <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} />
             {children}
           </CartProvider>
         </main>

@@ -127,7 +127,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                     {
                                         recommended.map((recommendedItem) => (
                                             <ProductCard
-                                                key={recommendedItem.title}
+                                                key={recommendedItem.id}
                                                 id={recommendedItem.id}
                                                 title={recommendedItem.title}
                                                 price={recommendedItem.price}
