@@ -1,4 +1,4 @@
-import { Order, OrderItem, OrderStatus, Role } from "@/app/generated/prisma"
+import { Category, Order, OrderItem, OrderStatus, Role } from "@/app/generated/prisma"
 
 export type Gender = "MEN" | "WOMEN"
 export type Type = "APPAREL" | "ACCESSORIES" | "NUTRITION"
@@ -180,4 +180,13 @@ export interface IPaymentFormProps {
 
 export interface IOrderItemProps extends Omit<OrderWithItems, "userId"> {
   slug: string
+}
+
+interface subCategories {
+  [type: string]: string[]
+}
+
+export interface IAdminPageProps {
+  categories: string[]
+  subCategories: subCategories
 }
