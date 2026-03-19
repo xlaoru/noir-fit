@@ -55,7 +55,7 @@ export default function ProductsPage({ title, body, type, gender, products, cate
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                     {products.map((product) => (
                                         <ProductCard
-                                            key={product.title}
+                                            key={product.id}
                                             id={product.id}
                                             title={product.title}
                                             price={product.price}

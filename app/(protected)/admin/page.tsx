@@ -55,9 +55,9 @@ export default async function AdminDashboard() {
     })
     
     const categories = {
-        apparel: rawApparelCategories.map((item) => item.category.toLowerCase()),
-        nutrition: rawNutritionCategories.map((item) => item.category.toLowerCase()),
-        accessories: rawAccessoriesCategories.map((item) => item.category.toLowerCase()),
+        apparel: rawApparelCategories.map((item) => item.category),
+        nutrition: rawNutritionCategories.map((item) => item.category),
+        accessories: rawAccessoriesCategories.map((item) => item.category),
     }
 
     return (

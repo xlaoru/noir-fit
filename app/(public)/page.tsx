@@ -94,7 +94,7 @@ export default async function Home() {
               <ProductCard
                 id={product.id}
                 images={product.images}
-                key={product.title}
+                key={product.id}
                 title={product.title}
                 price={product.price}
                 category={product.category}
