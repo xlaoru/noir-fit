@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     description: "Manage your profile, orders, and preferences in one place.",
 };
 
-export default async function Account({ 
-    params, 
-    searchParams, 
+export default async function Account({
+    params,
+    searchParams,
 }: { params: Promise<{ slug: string }>, searchParams: { status?: OrderStatus | "All" } }) {
     const user = await requireUser()
 
@@ -46,6 +46,7 @@ export default async function Account({
             orders={orders}
             slug={slug}
             statuses={statuses}
+            avatar={user.avatar}
         />
     )
 }

@@ -1,11 +1,10 @@
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { CartProvider } from "@/context/cart-context";
+import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { CartProvider } from "@/context/cart-context";
-import { requireUser } from "@/lib/services/require-user.service";
-import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +32,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <main>
           <CartProvider>
-            <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} />
+            <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} avatar={user?.avatar ?? ""} />
             {children}
           </CartProvider>
         </main>

@@ -1,12 +1,13 @@
 "use client"
 
+import { editUserProfileData } from "@/lib/actions/edit-user-profile-data.action";
 import { maskCardNumber } from "@/utils/maskCardNumber";
 import { IProfileProps } from "@/utils/models";
 import { CreditCard, MapPin } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import ShippingForm from "./ShippingForm";
 import PaymentForm from "./PaymentForm";
-import { editUserFullNameAndEmail } from "@/lib/actions/edit-user-full-name-and-email.action";
+import ShippingForm from "./ShippingForm";
 
 export default function Profile({
     email,
@@ -20,10 +21,14 @@ export default function Profile({
     cardNumber,
     expireDate,
     cvv,
-    nameOfCard
+    nameOfCard,
+    avatar
 }: IProfileProps) {
     const [isEditingShipping, setEditingShipping] = useState(false)
     const [isEditingPayment, setEditingPayment] = useState(false)
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
     const formRef = useRef<HTMLDivElement | null>(null)
 
@@ -36,6 +41,12 @@ export default function Profile({
         }
     }, [isEditingShipping, isEditingPayment])
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] ?? null
+        setSelectedFile(file)
+        setPreviewUrl(file ? URL.createObjectURL(file) : null)
+    }
+
     return (
         <div>
             {isEditingShipping && <div ref={formRef}><ShippingForm phoneNumber={phoneNumber} address={address} city={city} country={country} zipCode={zipCode} setEditingShipping={setEditingShipping} /></div>}
@@ -43,26 +54,64 @@ export default function Profile({
             {(isEditingShipping || isEditingPayment) && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
             )}
-            <div className="flex flex-col gap-6 z-1">
-                <div className="flex flex-col gap-6 p-6 bg-zinc-900 border border-zinc-800 rounded-sm">
-                    <div className="flex items-center gap-6">
-                        <div className="w-fit bg-zinc-800 text-zinc-100 border border-zinc-700 p-6 rounded-full">
-                            <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-                                <circle cx="12" cy="8" r="4" />
-                                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-                            </svg >
-                        </div >
-                        <div className="flex flex-col gap-1">
-                            <h5>{firstName} {lastName}</h5>
-                            <p>{email}</p>
-                        </div>
-                    </div >
-                    <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-6 z-1">
+                    <div className="flex flex-col gap-6 p-6 bg-zinc-900 border border-zinc-800 rounded-sm">
                         <div className="flex justify-between gap-3">
                             <form
-                                className="flex flex-col gap-2 flex-1"
-                                action={editUserFullNameAndEmail}
+                                className="flex flex-col gap-3 flex-1"
+                                action={editUserProfileData}
                             >
+                                <div className="flex items-center gap-6">
+                                    <div className="relative">
+                                        <input
+                                            id="avatar"
+                                            type="file"
+                                            name="avatar"
+                                            accept="image/*"
+                                            required
+                                            className="peer sr-only"
+                                            onChange={handleFileChange}
+                                        />
+                                        <label
+                                            htmlFor="avatar"
+                                        >
+                                            {previewUrl && selectedFile ? (
+                                                <Image
+                                                    src={previewUrl}
+                                                    alt="preview"
+                                                    width={8}
+                                                    height={8}
+                                                    className="size-20 rounded-full object-cover border border-zinc-700"
+                                                />
+                                            ) : avatar
+                                                ? (
+                                                    <Image
+                                                        src={avatar}
+                                                        alt="avatar"
+                                                        width={8}
+                                                        height={8}
+                                                        className="size-20 rounded-full object-cover border border-zinc-700"
+                                                    />
+                                                )
+                                                : (
+                                                    (
+                                                        <div className="w-fit bg-zinc-800 text-zinc-100 border border-zinc-700 p-6 rounded-full">
+                                                            <svg className="size-7" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                                                                <circle cx="12" cy="8" r="4" />
+                                                                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+                                                            </svg>
+                                                        </div>
+                                                    )
+                                                )
+                                            }
+                                        </label>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <h5>{firstName} {lastName}</h5>
+                                        <p>{email}</p>
+                                    </div>
+                                </div>
                                 <div className="flex gap-2">
                                     <div className="flex flex-col gap-2 flex-1">
                                         <label
@@ -155,8 +204,7 @@ export default function Profile({
                         <li className="text-zinc-400">{maskCardNumber(cardNumber)}</li>
                     </ul>
                 </div>
-            </div>
-
-        </div>
+            </div >
+        </div >
     )
 }

@@ -6,9 +6,9 @@ import { CirclePlus } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, useRef, useMemo } from "react"
+import { useMemo, useRef, useState } from "react"
 
-export default function Header({ slug, userRole }: IHeaderProps) {
+export default function Header({ slug, userRole, avatar }: IHeaderProps) {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
     const closeMenu = () => setOpen(false)
@@ -100,21 +100,35 @@ export default function Header({ slug, userRole }: IHeaderProps) {
                     </Link>
                     {userRole === "ADMIN" && (
                         <Link
-                        className={`relative flex h-9 w-9 items-center justify-center ${activePage === "admin" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
-                        href="/admin"
-                    >
-                        <CirclePlus className="h-5 w-5" />
-                    </Link>
+                            className={`relative flex h-9 w-9 items-center justify-center ${activePage === "admin" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
+                            href="/admin"
+                        >
+                            <CirclePlus className="h-5 w-5" />
+                        </Link>
                     )}
                     <Link
                         href={`/account/${slug}/profile`}
                         className={`flex h-9 w-9 items-center justify-center ${activePage === "account" ? "text-zinc-100" : "text-zinc-400"} hover:text-zinc-300 transition-colors`}
                         aria-label="Account"
                     >
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-                        </svg>
+                        {
+                            avatar
+                                ? (
+                                    <Image
+                                        src={avatar}
+                                        alt="User Page"
+                                        width={20}
+                                        height={20}
+                                        className="size-5 rounded-full"
+                                    />
+                                )
+                                : (
+                                    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="8" r="4" />
+                                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+                                    </svg>
+                                )
+                        }
                     </Link>
                     <button
                         onClick={() => setOpen(prev => !prev)}

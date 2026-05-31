@@ -1,12 +1,12 @@
 "use client"
 
 import { IUserPageProps } from "@/utils/models";
-import UserInfoTab from "../UserInfoTab";
-import Profile from "../Profile";
+import { usePathname } from "next/navigation";
 import Orders from "../Orders";
-import SignOut from "../SignOut";
+import Profile from "../Profile";
 import Settings from "../Settings";
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
+import SignOut from "../SignOut";
+import UserInfoTab from "../UserInfoTab";
 
 const tabs = [
     "Profile",
@@ -30,7 +30,8 @@ export default function UserPage({
     nameOfCard,
     orders,
     slug,
-    statuses
+    statuses,
+    avatar
 }: IUserPageProps) {
     const pathname = usePathname()
 
@@ -55,6 +56,7 @@ export default function UserPage({
                         expireDate={expireDate}
                         cvv={cvv}
                         nameOfCard={nameOfCard}
+                        avatar={avatar}
                     />
                 )
             case "orders":
