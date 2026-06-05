@@ -1,4 +1,3 @@
-import { logOut } from "@/lib/actions/log-out.action"
 import { requireUser } from "@/lib/services/require-user.service"
 import { redirect } from "next/navigation"
 

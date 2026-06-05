@@ -4,15 +4,17 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { IProductCardProps } from "@/utils/models";
-import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
-import { useState } from "react";
 import { useCart } from "@/context/cart-context";
+import { useWishlist } from "@/context/wishlist-context";
+import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
+import { IProductCardProps } from "@/utils/models";
+import { useState } from "react";
 
 export default function ProductCard({ id, title, price, images, category, gender, slug, isSaved, type, route }: IProductCardProps) {
     const [hasSaved, setSaved] = useState(isSaved)
 
-    const { add } = useCart()
+    const { add: addToCart } = useCart()
+    const { add: addToWishlist, remove: removeFromWishlist } = useWishlist()
 
     return (
         <Link href={route}>
@@ -32,7 +34,7 @@ export default function ProductCard({ id, title, price, images, category, gender
                                 e.preventDefault()
                                 e.stopPropagation()
 
-                                add({
+                                addToCart({
                                     id,
                                     type,
                                     title,
@@ -57,7 +59,14 @@ export default function ProductCard({ id, title, price, images, category, gender
                                 e.preventDefault()
                                 e.stopPropagation()
 
-                                toggleWishlistAction(id).then(() => setSaved((prev) => (!prev)))
+                                toggleWishlistAction(id).then(() => {
+                                    setSaved((prev) => (!prev))
+                                    if (hasSaved) {
+                                        removeFromWishlist()
+                                    } else {
+                                        addToWishlist()
+                                    }
+                                })
                             }}
                         >
                             {hasSaved ? <Heart fill="currentColor" /> : <Heart />}

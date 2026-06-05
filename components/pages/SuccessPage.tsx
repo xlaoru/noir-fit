@@ -6,7 +6,7 @@ import { ArrowRight, CircleCheck, Package, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
-export default function SuccessPage({ orderId }: ISuccessPageProps) {
+export default function SuccessPage({ orderId, slug }: ISuccessPageProps) {
     const { clear } = useCart()
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function SuccessPage({ orderId }: ISuccessPageProps) {
                     <div className="flex flex-col gap-2">
                         <h5>Track your shipment</h5>
                         <p className="text-sm">We&apos;ve sent a confirmation email to your inbox with a tracking link. You can also view your order <br /> history in your account.</p>
-                        <Link href="/account" className="w-fit"><button className="rounded-sm bg-zinc-950 border border-zinc-800 py-2 px-3 text-sm text-zinc-300 font-bold cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 hover:text-zinc-100">View Account</button></Link>
+                        <Link href={`/account/${slug}/orders?status=paid`} className="w-fit"><button className="rounded-sm bg-zinc-950 border border-zinc-800 py-2 px-3 text-sm text-zinc-300 font-bold cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 hover:text-zinc-100">View Account</button></Link>
                     </div>
                 </div>
                 <div className="flex gap-4">

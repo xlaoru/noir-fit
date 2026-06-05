@@ -1,4 +1,4 @@
-import SuccessPage from "@/components/pages/SuccessPage"
+import SuccessPage from "@/components/pages/SuccessPage";
 import { compareIdOfUserAndOrderOwner } from "@/lib/services/compare-id-of-user-and-order-owner.service";
 import { requireUser } from "@/lib/services/require-user.service";
 import { Metadata } from "next";
@@ -31,6 +31,6 @@ export default async function Success({
     await compareIdOfUserAndOrderOwner(user.id, orderId)
 
     return (
-        <SuccessPage orderId={orderId} />
+        <SuccessPage orderId={orderId} slug={user.slug ?? ""} />
     )
 }

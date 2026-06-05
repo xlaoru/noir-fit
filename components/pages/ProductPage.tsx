@@ -1,19 +1,21 @@
 "use client"
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-import ProductCard from "../ProductCard";
-import { ChevronLeft, Heart } from "lucide-react";
-import { IProductPageProps } from "@/utils/models";
-import { useState } from "react";
-import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
 import { useCart } from "@/context/cart-context";
+import { useWishlist } from "@/context/wishlist-context";
+import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action";
+import { IProductPageProps } from "@/utils/models";
+import { ChevronLeft, Heart } from "lucide-react";
+import { useState } from "react";
+import ProductCard from "../ProductCard";
 
 export default function ProductPage({ product, recommended, type, backRoute }: IProductPageProps) {
     const [hasSaved, setSaved] = useState(product.isSaved)
 
-    const { add } = useCart()
+    const { add: addToCart } = useCart()
+    const { add: addToWishlist, remove: removeFromWishlist } = useWishlist()
 
     return (
         <>
@@ -61,7 +63,7 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                 <div className="flex gap-3">
                                     <button
                                         onClick={() => {
-                                            add({
+                                            addToCart({
                                                 id: product.id,
                                                 images: product.images,
                                                 title: product.title,
@@ -84,7 +86,14 @@ export default function ProductPage({ product, recommended, type, backRoute }: I
                                     <button
                                         className="p-4 cursor-pointer text-zinc-100 text-sm rounded-md border border-zinc-500 bg-zinc-900 hover:bg-zinc-800"
                                         onClick={() => {
-                                            toggleWishlistAction(product.id).then(() => setSaved((prev) => (!prev)))
+                                            toggleWishlistAction(product.id).then(() => {
+                                                setSaved((prev) => (!prev))
+                                                if (hasSaved) {
+                                                    removeFromWishlist()
+                                                } else {
+                                                    addToWishlist()
+                                                }
+                                            })
                                         }}
                                     >
                                         {hasSaved ? <Heart fill="currentColor" /> : <Heart />}

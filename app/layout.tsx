@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { CartProvider } from "@/context/cart-context";
+import { WishlistProvider } from "@/context/wishlist-context";
+import { getUserWishlistItemsQuantity } from "@/lib/services/get-user-wishlist-items-quantity.action";
 import { requireUser } from "@/lib/services/require-user.service";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -27,13 +29,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await requireUser()
+  const { quantity } = await getUserWishlistItemsQuantity(user?.id ?? "")
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <main>
           <CartProvider>
-            <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} avatar={user?.avatar ?? ""} />
-            {children}
+            <WishlistProvider wishlistItemsQuantity={quantity ?? 0}>
+              <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} avatar={user?.avatar ?? ""} />
+              {children}
+            </WishlistProvider>
           </CartProvider>
         </main>
         <Footer />

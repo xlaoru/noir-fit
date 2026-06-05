@@ -41,6 +41,14 @@ export interface ICartContext {
   amount: number
 }
 
+export interface IWishlistContext {
+  quantity: number
+  add: () => void
+  remove: () => void
+  clear: () => void
+  amount: number
+}
+
 export interface IHeaderProps {
   slug: string
   userRole: Role
@@ -121,6 +129,7 @@ export interface IPaymentPageProps {
 
 export interface ISuccessPageProps {
   orderId: string
+  slug: string
 }
 
 type OrderWithItems = Order & {

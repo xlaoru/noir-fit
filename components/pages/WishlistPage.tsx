@@ -1,16 +1,19 @@
 "use client"
 
-import Link from "next/link"
-import WishlistCard from "../WishlistCard"
-import { IWishlistPageProps } from "@/utils/models"
-import { useState } from "react"
+import { useWishlist } from "@/context/wishlist-context"
 import { toggleWishlistAction } from "@/lib/actions/toggle-wishlist.action"
+import { IWishlistPageProps } from "@/utils/models"
+import Link from "next/link"
+import { useState } from "react"
+import WishlistCard from "../WishlistCard"
 
 export default function WishlistPage({ products: initialProducts }: IWishlistPageProps) {
     const [products, setProducts] = useState(initialProducts)
 
+    const { remove } = useWishlist()
+
     async function handleRemove(id: string) {
-        await toggleWishlistAction(id)
+        await toggleWishlistAction(id).then(() => remove())
 
         setProducts(prev =>
             prev.filter(p => p.id !== id)
