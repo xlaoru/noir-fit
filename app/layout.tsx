@@ -35,7 +35,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <main>
           <CartProvider>
-            <WishlistProvider wishlistItemsQuantity={quantity ?? 0}>
+            <WishlistProvider key={user?.id ?? ""} wishlistItemsQuantity={quantity ?? 0}>
               <Header slug={user?.slug ?? ""} userRole={user?.role ?? "USER"} avatar={user?.avatar ?? ""} />
               {children}
             </WishlistProvider>

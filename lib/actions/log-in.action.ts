@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { login } from "../services/auth.service"
 
@@ -13,5 +14,6 @@ export async function logInEmail(formData: FormData) {
     throw new Error("Incorrect email or password.")
   }
 
+  revalidatePath("/", "layout")
   redirect("/")
 }

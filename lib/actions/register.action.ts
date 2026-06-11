@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { register } from "../services/auth.service"
 
@@ -11,5 +12,6 @@ export async function registerEmail(formData: FormData) {
 
   await register(email, password, firstName, lastName)
 
+  revalidatePath("/", "layout")
   redirect("/")
 }
